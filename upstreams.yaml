@@ -1,0 +1,649 @@
+projects:
+  prometheus:
+    display_name: Prometheus
+    upstream:
+      vcs: github
+      repo: prometheus/prometheus
+      project_url: https://prometheus.io/
+    releases:
+      type: github-releases
+      asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: a09972ced892cd298e353eb9559f1a90f499da3fb4ff0845be352fc138780ee7
+        linux-arm64: 8d95804e692bba65a48d32ecdfb3d4acd8e1560d440c8cc08f48167cb838ec4b
+    packaging:
+      rpm_name: prometheus
+      architectures:
+      - amd64
+      - arm64
+  node_exporter:
+    display_name: Prometheus Node Exporter
+    upstream:
+      vcs: github
+      repo: prometheus/node_exporter
+      project_url: https://prometheus.io/
+    releases:
+      type: github-releases
+      asset_pattern: ^node_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: c46e5b6f53948477ff3a19d97c58307394a29fe64a01905646f026ddc32cb65b
+        linux-arm64: de69ec8341c8068b7c8e4cfe3eb85065d24d984a3b33007f575d307d13eb89a6
+    packaging:
+      rpm_name: node_exporter
+      architectures:
+      - amd64
+      - arm64
+  thanos:
+    display_name: Thanos
+    upstream:
+      vcs: github
+      repo: thanos-io/thanos
+      project_url: https://thanos.io/
+    releases:
+      type: github-releases
+      asset_pattern: ^thanos-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 5493dcb06f93fa72245eb5af283ce05ff40acb6c6e2071bac37532d26e9b83ee
+        linux-arm64: d76ece2b856e5da76f0ef8dceb92b2157286d0ffd26f4851e147b89ba2f0c643
+    packaging:
+      rpm_name: thanos
+      architectures:
+      - amd64
+      - arm64
+  alertmanager:
+    display_name: Prometheus Alertmanager
+    upstream:
+      vcs: github
+      repo: prometheus/alertmanager
+      project_url: https://prometheus.io/docs/alerting/latest/alertmanager/
+    releases:
+      type: github-releases
+      asset_pattern: ^alertmanager-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 86fd95034e3e17094d6951118c54b396200be22a1c16af787e1f7129ebce8f1f
+        linux-arm64: 061a5ab3998fb8af75192980a559c7bfa3892da55098da839d7a79d94abe0b61
+    packaging:
+      rpm_name: alertmanager
+      architectures:
+      - amd64
+      - arm64
+  mysqld_exporter:
+    display_name: Prometheus MySQLd Exporter
+    upstream:
+      vcs: github
+      repo: prometheus/mysqld_exporter
+      project_url: https://github.com/prometheus/mysqld_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^mysqld_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 46e8f45654352bdd42d162b2b4a68f00055d45acc168f9c068235b9e3acc39c1
+        linux-arm64: abdb452600ca086b68244aadf8045fbf0b6a48dcb76eed5576995806c176f6ce
+    packaging:
+      rpm_name: mysqld_exporter
+      architectures:
+      - amd64
+      - arm64
+  nginx_exporter:
+    display_name: NGINX Exporter
+    upstream:
+      vcs: github
+      repo: nginxinc/nginx-prometheus-exporter
+      project_url: https://github.com/nginxinc/nginx-prometheus-exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^nginx-prometheus-exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux_amd64: 42ddc7ac31c70021d2a5c10414d473526490769632c1ef430b95d76dd1e3c187
+        linux_arm64: 8bea88fe912c63791de1fd35c8829f89c2e18b87fdb001c9b65fc371b2ebef3c
+    packaging:
+      rpm_name: nginx_exporter
+      architectures:
+      - amd64
+      - arm64
+  apache_exporter:
+    display_name: Apache Exporter
+    upstream:
+      vcs: github
+      repo: Lusitaniae/apache_exporter
+      project_url: https://github.com/Lusitaniae/apache_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^apache_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 565993bd506d3342c51d3868a0c5bf200766c569b8ed86816b8ae5ac4245c026
+        linux-arm64: bf7eaebb4ba2c251fa4b6f8661e3204a11df8933415c4c1307010ff976be42b8
+    packaging:
+      rpm_name: apache_exporter
+      architectures:
+      - amd64
+      - arm64
+  phpfpm_exporter:
+    display_name: PHP-FPM Exporter
+    upstream:
+      vcs: github
+      repo: hipages/php-fpm_exporter
+      project_url: https://github.com/hipages/php-fpm_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^php-fpm_exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux_amd64: b1c207fcd89f9be20104fd90bc76b3c584987ea5a769c99d5759f79af8322449
+        linux_arm64: 75454955ecff4200aefc00dc26032c841ff7c1f24c0cb35813da4538d43879b4
+    packaging:
+      rpm_name: phpfpm_exporter
+      architectures:
+      - amd64
+      - arm64
+  statsd_exporter:
+    display_name: Prometheus StatsD Exporter
+    upstream:
+      vcs: github
+      repo: prometheus/statsd_exporter
+      project_url: https://github.com/prometheus/statsd_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^statsd_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 6951081e3115669e4353975f897dda1cefddef5a5d16addc908485d9be16b72b
+        linux-arm64: 7d361ebbd77b8cd51d03ad2e1c6fab727b9ae1b8322a5a855c1072dfd4491088
+    packaging:
+      rpm_name: statsd_exporter
+      architectures:
+      - amd64
+      - arm64
+  graphite_exporter:
+    display_name: Prometheus Graphite Exporter
+    upstream:
+      vcs: github
+      repo: prometheus/graphite_exporter
+      project_url: https://github.com/prometheus/graphite_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^graphite_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 129acf14bb62dc32596ff8aed40a526a66260b2736801bc546be407436dd32d8
+        linux-arm64: bcdd1eb0ff0b974c93bc4d5c6b2c92140f63215c98aafb0379dff9bf82c776db
+    packaging:
+      rpm_name: graphite_exporter
+      architectures:
+      - amd64
+      - arm64
+  pushgateway:
+    display_name: Prometheus Pushgateway
+    upstream:
+      vcs: github
+      repo: prometheus/pushgateway
+      project_url: https://github.com/prometheus/pushgateway
+    releases:
+      type: github-releases
+      asset_pattern: ^pushgateway-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 5888b0c36d1b8e85950b6eb81ad168ff485a139807896a8727f877813690170c
+        linux-arm64: 4d6faa82083513d60d7450e6867cc6f4f78a892e7f698500ea97772677690b55
+    packaging:
+      rpm_name: pushgateway
+      architectures:
+      - amd64
+      - arm64
+  memcached_exporter:
+    display_name: Prometheus Memcached Exporter
+    upstream:
+      vcs: github
+      repo: prometheus/memcached_exporter
+      project_url: https://github.com/prometheus/memcached_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^memcached_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: d628bd8119b8e69696f61bdf6736490962d5abd52d35207b58a547447aa4e74f
+        linux-arm64: 1ec401184ed207c40e8ab8323f46d116f6ff7654ea4040fe0d786af237c5df8d
+    packaging:
+      rpm_name: memcached_exporter
+      architectures:
+      - amd64
+      - arm64
+  consul_exporter:
+    display_name: Prometheus Consul Exporter
+    upstream:
+      vcs: github
+      repo: prometheus/consul_exporter
+      project_url: https://github.com/prometheus/consul_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^consul_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 2a8da4147330c6e19c9665deca1c419d507e100de6c8b7c58c0715ff25453773
+        linux-arm64: a5ecc969647cc67f171eff13468e25fe713f95a8af4135e1c0cf716a64c5474f
+    packaging:
+      rpm_name: consul_exporter
+      architectures:
+      - amd64
+      - arm64
+  blackbox_exporter:
+    display_name: Prometheus Blackbox Exporter
+    upstream:
+      vcs: github
+      repo: prometheus/blackbox_exporter
+      project_url: https://github.com/prometheus/blackbox_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^blackbox_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 4b1bb299c685ecff75d41e55e90aae8e02a658395fb14092c7f9c5c9d75016c7
+        linux-arm64: afb5581b1d4ea45078eebc96e4f989f912d1144d2cc131db8a6c0963bcc6a654
+    packaging:
+      rpm_name: blackbox_exporter
+      architectures:
+      - amd64
+      - arm64
+  squid_exporter:
+    display_name: Prometheus Squid Exporter
+    upstream:
+      vcs: github
+      repo: boynux/squid-exporter
+      project_url: https://github.com/boynux/squid-exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^squid-exporter-linux-(amd64|arm64)$
+      version_from: tag
+      checksums:
+        linux-amd64: 35a8902fdd81f47e88701e8528e84b017c61a8bb03792094455388240772cf90
+        linux-arm64: 3f8b9be5d4b16d7973e9219997425995e9299e524ec80d89e20863af06f8962c
+    packaging:
+      rpm_name: squid_exporter
+      architectures:
+      - amd64
+      - arm64
+  postgres_exporter:
+    display_name: Prometheus Postgres Exporter
+    upstream:
+      vcs: github
+      repo: prometheus-community/postgres_exporter
+      project_url: https://github.com/prometheus-community/postgres_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^postgres_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 1630965540d49a4907ad181cef5696306d7a481f87f43978538997e85d357272
+        linux-arm64: 81c22dc2b6dcc58e9e2b5c0e557301dbf0ca0812ee3113d31984c1a37811d1cc
+    packaging:
+      rpm_name: postgres_exporter
+      architectures:
+      - amd64
+      - arm64
+  redis_exporter:
+    display_name: Prometheus Redis Exporter
+    upstream:
+      vcs: github
+      repo: oliver006/redis_exporter
+      project_url: https://github.com/oliver006/redis_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^redis_exporter-v(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 1818cc2cbd3bac62a6f43054a2cc1596fc5f6148ce80112a6308bc3cad6d81fa
+        linux-arm64: a807907d413edb1c0aa88513e7c1570c302873bd1cfcbf36fb53a14629177882
+    packaging:
+      rpm_name: redis_exporter
+      architectures:
+      - amd64
+      - arm64
+  snmp_exporter:
+    display_name: Prometheus SNMP Exporter
+    upstream:
+      vcs: github
+      repo: prometheus/snmp_exporter
+      project_url: https://github.com/prometheus/snmp_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^snmp_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: fd7ded886180063a8f77e1ca18cc648e44b318b9c92bcb3867b817d93a5232d6
+        linux-arm64: e590870ad2fcd39ea9c7d722d6e85aa6f1cc9e8671ff3f17feba12a6b5a3b47a
+    packaging:
+      rpm_name: snmp_exporter
+      architectures:
+      - amd64
+      - arm64
+  elasticsearch_exporter:
+    display_name: Prometheus Elasticsearch Exporter
+    upstream:
+      vcs: github
+      repo: prometheus-community/elasticsearch_exporter
+      project_url: https://github.com/prometheus-community/elasticsearch_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^elasticsearch_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 1dcf288082a25b2741e98da6c9fc012b6c821696a26c6ac57c20042f24714a74
+        linux-arm64: 0ff4753a975eb5611c03123d565e8aaa84e4c05f698ce0a2d6c0f437a14bfe34
+    packaging:
+      rpm_name: elasticsearch_exporter
+      architectures:
+      - amd64
+      - arm64
+  kafka_exporter:
+    display_name: Prometheus Kafka Exporter
+    upstream:
+      vcs: github
+      repo: danielqsj/kafka_exporter
+      project_url: https://github.com/danielqsj/kafka_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^kafka_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: c722518ad71c53b3988ea26ae2bd387bb596ce7a98fc639d08bf639a537699a1
+        linux-arm64: b6991fcb50d2dc87fde02e003dc8c1b742022ab3becf30e4bb9979b22c1d37d8
+    packaging:
+      rpm_name: kafka_exporter
+      architectures:
+      - amd64
+      - arm64
+  mongodb_exporter:
+    display_name: Percona MongoDB Exporter
+    upstream:
+      vcs: github
+      repo: percona/mongodb_exporter
+      project_url: https://github.com/percona/mongodb_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^mongodb_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: e523bf5abe0c07367cead661f57a6555ea6a8d090c272f0f7da51b67f611c050
+        linux-arm64: dee8c5a5024703645311a3551cbb0bf57436d6204ed673c2d98703969006d07d
+    packaging:
+      rpm_name: mongodb_exporter
+      architectures:
+      - amd64
+      - arm64
+  haproxy_exporter:
+    display_name: Prometheus HAProxy Exporter
+    upstream:
+      vcs: github
+      repo: prometheus/haproxy_exporter
+      project_url: https://github.com/prometheus/haproxy_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^haproxy_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: ac200872b734e2f9c0211997f7f9c0ca5ad6522996c37aed39a732d5f3c0de16
+        linux-arm64: 58dfc17236c8a6f74ccdc290de976a0aa79d50e47a8d1b35bde038190391ce5d
+    packaging:
+      rpm_name: haproxy_exporter
+      architectures:
+      - amd64
+      - arm64
+  process_exporter:
+    display_name: Prometheus Process Exporter
+    upstream:
+      vcs: github
+      repo: ncabatoff/process-exporter
+      project_url: https://github.com/ncabatoff/process-exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^process-exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 6d274cca5e94c6a25e55ec05762a472561859ce0a05b984aaedb67dd857ceee2
+        linux-arm64: 4a2502f290323e57eeeb070fc10e64047ad0cd838ae5a1b347868f75667b5ab0
+    packaging:
+      rpm_name: process_exporter
+      architectures:
+      - amd64
+      - arm64
+  ssl_exporter:
+    display_name: Prometheus SSL Exporter
+    upstream:
+      vcs: github
+      repo: ribbybibby/ssl_exporter
+      project_url: https://github.com/ribbybibby/ssl_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^ssl_exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 98cacfc66a87069b451fb4cda303fcd151cbcd0a9f2fca600432950bf4fb286f
+        linux-arm64: 20d0108fd23735725c5cad29a7b782e873edda56e77a8bcb5f8cd799109b6d5c
+    packaging:
+      rpm_name: ssl_exporter
+      architectures:
+      - amd64
+      - arm64
+  json_exporter:
+    display_name: Prometheus JSON Exporter
+    upstream:
+      vcs: github
+      repo: prometheus-community/json_exporter
+      project_url: https://github.com/prometheus-community/json_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^json_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 1a3caf1152825e54d7db557a97968d6eab8cf0c8a0995a5a20ed4c6bce64fb95
+        linux-arm64: 29128316acb0c2c5c4dba1b7cd72087116628d8b8e092f59444365219b65e1f8
+    packaging:
+      rpm_name: json_exporter
+      architectures:
+      - amd64
+      - arm64
+  systemd_exporter:
+    display_name: Prometheus Systemd Exporter
+    upstream:
+      vcs: github
+      repo: prometheus-community/systemd_exporter
+      project_url: https://github.com/prometheus-community/systemd_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^systemd_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 2d995ca20249aeeac8f507173176ce5d162f17470a98ca66e289c85b388480c3
+        linux-arm64: 7b80b5d3a29ca8658ed4ef4c05ead29fcc7dc03349cac72376178f9a94299918
+    packaging:
+      rpm_name: systemd_exporter
+      architectures:
+      - amd64
+      - arm64
+  smokeping_prober:
+    display_name: Prometheus Smokeping Prober
+    upstream:
+      vcs: github
+      repo: SuperQ/smokeping_prober
+      project_url: https://github.com/SuperQ/smokeping_prober
+    releases:
+      type: github-releases
+      asset_pattern: ^smokeping_prober-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: d17b0ed4a0e75a957ef96aeb085da8df6db5209d3b8aaca1f56ad3d571dfc22b
+        linux-arm64: 7c0e7311206a578327f00428c9dd917ec85b40dbf04f1917b9efed5a76b13524
+    packaging:
+      rpm_name: smokeping_prober
+      architectures:
+      - amd64
+      - arm64
+  influxdb_exporter:
+    display_name: Prometheus InfluxDB Exporter
+    upstream:
+      vcs: github
+      repo: prometheus/influxdb_exporter
+      project_url: https://github.com/prometheus/influxdb_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^influxdb_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 1b00556c5aebcf70654ef96a0e0fe301dd7867a1864004986188d966a27f4fa1
+        linux-arm64: c85982b1bc8443249de5ca44a900cd23a6ffa392cc4acd70b4b6ac58647de5b6
+    packaging:
+      rpm_name: influxdb_exporter
+      architectures:
+      - amd64
+      - arm64
+  promlens:
+    display_name: Promlens
+    upstream:
+      vcs: github
+      repo: prometheus/promlens
+      project_url: https://github.com/prometheus/promlens
+    releases:
+      type: github-releases
+      asset_pattern: ^promlens-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 8fdcc621cf559b7e55c0e3cf334b8662ae8f53cf999cdf5d7d303d2841f62ef0
+        linux-arm64: 7a23434c73b22fb2ca5a9564d3014795a57182c6880a79c9a666504e2a8a3c67
+    packaging:
+      rpm_name: promlens
+      architectures:
+      - amd64
+      - arm64
+  keepalived_exporter:
+    display_name: Keepalived Exporter
+    upstream:
+      vcs: github
+      repo: mehdy/keepalived-exporter
+      project_url: https://github.com/mehdy/keepalived-exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^keepalived-exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 4e0045670392ffea9b324d935a62bbd7bc1537362ae1e8e71e3973611b7a5d9c
+        linux-arm64: 0c97ff5753f9172bbd6d28109114c75c1812c3fe6ef31bcf264c00216c1c0673
+    packaging:
+      rpm_name: keepalived_exporter
+      architectures:
+      - amd64
+      - arm64
+  iperf3_exporter:
+    display_name: Prometheus iPerf3 Exporter
+    upstream:
+      vcs: github
+      repo: edgard/iperf3_exporter
+      project_url: https://github.com/edgard/iperf3_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^iperf3_exporter-(?P<version>[^/]+)-linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 6da99e95f93fa02809a24be748f2acced54462f1ec84f3659728b3094d77acb0
+        linux-arm64: 1bc60ba3de68ed86e0d072ec769e02a7e171f7fea3cc77597fbfcf8c068395c1
+    packaging:
+      rpm_name: iperf3_exporter
+      architectures:
+      - amd64
+      - arm64
+  sql_exporter:
+    display_name: SQL Exporter
+    upstream:
+      vcs: github
+      repo: burningalchemist/sql_exporter
+      project_url: https://github.com/burningalchemist/sql_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^sql_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: be086d7066bdc470a76c0ee1be91b81b9be89e5863c50fd3e39c7c54c2bed231
+        linux-arm64: ef88273968c49fb6dba5565c53f34783dabe1754124f2c08bea6d6fbd61d4033
+    packaging:
+      rpm_name: sql_exporter
+      architectures:
+      - amd64
+      - arm64
+  pgbouncer_exporter:
+    display_name: PgBouncer Exporter
+    upstream:
+      vcs: github
+      repo: prometheus-community/pgbouncer_exporter
+      project_url: https://github.com/prometheus-community/pgbouncer_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^pgbouncer_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: de95a3d22141c0f84ac33de07e793c4993410f43d7c10e8ba281559381e031da
+        linux-arm64: f29fa44523bd872fd136d947998055754d9492f130e008ae316ec1f8984063a0
+    packaging:
+      rpm_name: pgbouncer_exporter
+      architectures:
+      - amd64
+      - arm64
+  bind_exporter:
+    display_name: Prometheus Bind Exporter
+    upstream:
+      vcs: github
+      repo: prometheus-community/bind_exporter
+      project_url: https://github.com/prometheus-community/bind_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^bind_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 837c9ef62a8b960f9ebdd241991d46f7c7a26f2db510254993986e50d75d37a4
+        linux-arm64: ba2515d87dd90b6e32f13a9f84d8cab2311b3e8315ad68b1780d746533f54b00
+    packaging:
+      rpm_name: bind_exporter
+      architectures:
+      - amd64
+      - arm64
+  ipmi_exporter:
+    display_name: Prometheus IPMI Exporter
+    upstream:
+      vcs: github
+      repo: prometheus-community/ipmi_exporter
+      project_url: https://github.com/prometheus-community/ipmi_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^ipmi_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 5a0fb507db69433c49d7c6beb2912854cc0996dd6fa66091bc4bc6b7ce8ffea0
+        linux-arm64: fe7a5a699538c543cea7e6ab1d4e553647275c3e20ced1da42501a1aef1f7278
+    packaging:
+      rpm_name: ipmi_exporter
+      architectures:
+      - amd64
+      - arm64
+  logstash_exporter:
+    display_name: Logstash Exporter
+    upstream:
+      vcs: github
+      repo: kuskoman/logstash-exporter
+      project_url: https://github.com/kuskoman/logstash-exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^logstash-exporter-linux(?:-arm)?$
+      version_from: tag
+      checksums:
+        logstash-exporter-linux: c6e45d08b997650039e5061a3415d0098bba22fa296e6caf916b8980a0faa8a1
+        logstash-exporter-linux-arm: 15736b94a3faf600768bec41b798091761114988ae3afe035aff20bbe2db87b
+    packaging:
+      rpm_name: logstash_exporter
+      architectures:
+      - amd64
+      - arm64

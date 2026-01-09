@@ -23,6 +23,11 @@ Configuration files are vendored from upstream projects whenever they publish th
 
 Build automation, Docker tooling, and more detailed documentation will be added in subsequent commits as the project matures.
 
+## Documentation
+
+- [`docs/version-tracking.md`](docs/version-tracking.md) - explains how `upstreams.yaml` is maintained and how the helper scripts are used to track upstream releases.
+- [`docs/exporters.md`](docs/exporters.md) - auto-generated exporter inventory with upstream links, licences, and supported architectures.
+
 ## Non-Goals
 
 This project is focused on building and distributing high-quality RPM packages for Prometheus and related exporters. It does not aim to:
