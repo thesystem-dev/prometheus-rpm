@@ -1,0 +1,34 @@
+[Unit]
+Description=Thanos Query
+Documentation=https://thanos.io/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=thanos
+Group=thanos
+
+EnvironmentFile=-/etc/thanos/query.conf
+ExecStart=/usr/bin/thanos query $THANOS_OPTS
+
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+
+# Hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

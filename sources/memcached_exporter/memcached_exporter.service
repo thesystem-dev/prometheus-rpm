@@ -1,0 +1,33 @@
+[Unit]
+Description=Prometheus Memcached Exporter
+Documentation=https://github.com/prometheus/memcached_exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=memcached_exporter
+Group=memcached_exporter
+
+ExecStart=/usr/bin/memcached_exporter --web.listen-address=0.0.0.0:9150 --memcached.address=127.0.0.1:11211
+
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+
+# Hardening (safe, non-behavioural)
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

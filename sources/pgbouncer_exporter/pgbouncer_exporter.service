@@ -1,0 +1,31 @@
+[Unit]
+Description=Prometheus PgBouncer Exporter
+Documentation=https://github.com/prometheus-community/pgbouncer_exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pgbouncer_exporter
+Group=pgbouncer_exporter
+ExecStart=/usr/bin/pgbouncer_exporter \
+  --pgBouncer.connectionString=postgres://postgres:@localhost:6543/pgbouncer?sslmode=disable \
+  --web.telemetry-path=/metrics
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,31 @@
+[Unit]
+Description=Prometheus IPMI Exporter
+Documentation=https://github.com/prometheus-community/ipmi_exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ipmi_exporter
+Group=ipmi_exporter
+ExecStart=/usr/bin/ipmi_exporter \
+  --config.file=/etc/ipmi_exporter/ipmi_local.yml \
+  --web.listen-address=0.0.0.0:9290
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

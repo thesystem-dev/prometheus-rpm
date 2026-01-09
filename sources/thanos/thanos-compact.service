@@ -1,0 +1,24 @@
+[Unit]
+Description=Thanos Compactor
+Documentation=https://thanos.io/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=thanos
+Group=thanos
+
+EnvironmentFile=-/etc/thanos/compact.conf
+ExecStart=/usr/bin/thanos compact $THANOS_OPTS
+
+Restart=on-failure
+RestartSec=10s
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=yes
+
+[Install]
+WantedBy=multi-user.target

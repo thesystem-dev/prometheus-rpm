@@ -1,0 +1,35 @@
+[Unit]
+Description=Prometheus Squid Exporter
+Documentation=https://github.com/boynux/squid-exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=squid_exporter
+Group=squid_exporter
+
+ExecStart=/usr/bin/squid_exporter --listen=0.0.0.0:9301
+
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+AmbientCapabilities=CAP_DAC_READ_SEARCH
+CapabilityBoundingSet=CAP_DAC_READ_SEARCH
+
+# Hardening (safe, non-behavioural)
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

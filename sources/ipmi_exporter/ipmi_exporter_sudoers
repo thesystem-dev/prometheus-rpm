@@ -1,0 +1,2 @@
+%ipmi_exporter ALL=(root) NOPASSWD: /usr/sbin/ipmi-sensors
+%ipmi_exporter ALL=(root) NOPASSWD: /usr/sbin/ipmimonitoring

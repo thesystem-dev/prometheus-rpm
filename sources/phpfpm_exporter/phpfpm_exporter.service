@@ -1,0 +1,39 @@
+[Unit]
+Description=Prometheus PHP-FPM Exporter
+Documentation=https://github.com/hipages/php-fpm_exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=phpfpm_exporter
+Group=phpfpm_exporter
+
+# Override these via systemd drop-ins if you need different pools or listen addresses.
+Environment=PHP_FPM_WEB_LISTEN_ADDRESS=:9253
+Environment=PHP_FPM_WEB_TELEMETRY_PATH=/metrics
+Environment=PHP_FPM_SCRAPE_URI=tcp://127.0.0.1:9000/status
+Environment=PHP_FPM_LOG_LEVEL=info
+
+ExecStart=/usr/bin/php-fpm_exporter server
+
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+
+# Hardening (safe, non-behavioural)
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

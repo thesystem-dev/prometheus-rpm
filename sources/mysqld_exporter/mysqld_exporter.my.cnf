@@ -1,0 +1,8 @@
+[client]
+# Replace these placeholders with a user that has PROCESS and SELECT on performance_schema
+user=exporter
+password=changeme
+# Either use a socket or host/port
+# socket=/var/lib/mysql/mysql.sock
+# host=127.0.0.1
+# port=3306

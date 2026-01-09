@@ -1,0 +1,8 @@
+# Minimal module configuration for ssl_exporter v2.x.
+# Scrape targets are passed via Prometheus relabelling as documented upstream.
+
+default_module: tcp_default
+modules:
+  tcp_default:
+    prober: tcp
+    timeout: 5s

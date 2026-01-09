@@ -1,0 +1,31 @@
+[Unit]
+Description=Prometheus SQL Exporter
+Documentation=https://github.com/burningalchemist/sql_exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=sql_exporter
+Group=sql_exporter
+ExecStart=/usr/bin/sql_exporter \
+  --config.file=/etc/sql_exporter/sql_exporter.yml \
+  --web.listen-address=0.0.0.0:9399
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

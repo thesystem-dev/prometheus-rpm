@@ -1,0 +1,33 @@
+[Unit]
+Description=Prometheus NGINX Exporter
+Documentation=https://github.com/nginxinc/nginx-prometheus-exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=nginx_exporter
+Group=nginx_exporter
+
+ExecStart=/usr/bin/nginx_exporter
+
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+
+# Hardening (safe, non-behavioural)
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

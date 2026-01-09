@@ -1,0 +1,33 @@
+[Unit]
+Description=Prometheus iPerf3 Exporter
+Documentation=https://github.com/edgard/iperf3_exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=iperf3_exporter
+Group=iperf3_exporter
+
+ExecStart=/usr/bin/iperf3_exporter --web.listen-address=0.0.0.0:9573 --iperf3.timeout=10s
+
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+
+# Hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,29 @@
+[Unit]
+Description=Logstash Exporter
+Documentation=https://github.com/kuskoman/logstash-exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=logstash_exporter
+Group=logstash_exporter
+ExecStart=/usr/bin/logstash-exporter -config /etc/logstash-exporter/config.yml
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

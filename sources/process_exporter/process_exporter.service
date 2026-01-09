@@ -1,0 +1,33 @@
+[Unit]
+Description=Prometheus Process Exporter
+Documentation=https://github.com/ncabatoff/process-exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=process_exporter
+Group=process_exporter
+
+ExecStart=/usr/bin/process_exporter --config.path=/etc/prometheus/process_exporter/process_exporter.yml --web.listen-address=0.0.0.0:9256
+
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+
+# Hardening (safe, non-behavioural)
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

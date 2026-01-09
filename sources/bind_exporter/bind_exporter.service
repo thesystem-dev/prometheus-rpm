@@ -1,0 +1,32 @@
+[Unit]
+Description=Prometheus Bind Exporter
+Documentation=https://github.com/prometheus-community/bind_exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=bind_exporter
+Group=bind_exporter
+ExecStart=/usr/bin/bind_exporter \
+  --bind.stats-url=http://localhost:8053/ \
+  --bind.pid-file=/run/named/named.pid \
+  --web.listen-address=0.0.0.0:9119
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

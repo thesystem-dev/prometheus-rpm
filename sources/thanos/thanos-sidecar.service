@@ -1,0 +1,24 @@
+[Unit]
+Description=Thanos Sidecar
+Documentation=https://thanos.io/
+After=network-online.target prometheus.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=thanos
+Group=thanos
+
+EnvironmentFile=-/etc/thanos/sidecar.conf
+ExecStart=/usr/bin/thanos sidecar $THANOS_OPTS
+
+Restart=on-failure
+RestartSec=5s
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=yes
+
+[Install]
+WantedBy=multi-user.target
