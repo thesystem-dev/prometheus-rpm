@@ -17,17 +17,21 @@ This project improves on previous Prometheus RPM packaging efforts by providing:
 
 - `specs/` - RPM spec files for Prometheus and various exporters
 - `sources/` - systemd unit files, configuration files, and other package assets referenced by the specs, organised per package (`sources/<package_name>/...`)
-- `runtime/` - placeholder directories to be populated by future runtime scripts
+- `scripts/` - helper utilities for version discovery, runtime staging, and mock builds
+- `templates/` - baseline `rpmmacros` used by `scripts/stage-runtime.sh`
+- `docker/` - builder image (`prometheus-rpm-builder:1.0`), entrypoint, and compose file for running mock inside a container
+- `runtime/` - transient workspace prepared by `scripts/stage-runtime.sh` (artifacts, SOURCES cache, repo metadata, and GPG material)
 
 Configuration files are vendored from upstream projects whenever they publish them. When no upstream example exists, hardened minimal defaults are provided alongside notes documenting any intentional divergence.
 
-Build automation, Docker tooling, and more detailed documentation will be added in subsequent commits as the project matures.
+Signing automation, publish tooling, and additional documentation will be added in subsequent commits as the project matures.
 
 ## Documentation
 
 - [`docs/version-tracking.md`](docs/version-tracking.md) - explains how `upstreams.yaml` is maintained and how the helper scripts are used to track upstream releases.
 - [`docs/exporters.md`](docs/exporters.md) - auto-generated exporter inventory with upstream links, licences, and supported architectures.
 - [`docs/runtime.md`](docs/runtime.md) - describes `scripts/stage-runtime.sh`, the runtime directory layout, and how to prepare GPG material safely.
+- [`docs/build-and-stage.md`](docs/build-and-stage.md) - covers running `docker compose`, invoking `scripts/build.sh`, and staging repository metadata via `scripts/create-repo.sh`.
 
 ## Non-Goals
 

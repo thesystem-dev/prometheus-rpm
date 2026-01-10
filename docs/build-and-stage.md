@@ -1,0 +1,171 @@
+# Build & Stage Artifacts
+
+> **Note:** This guide covers Docker-based builds.
+>
+> Run all commands from the repository root; the Compose file lives at `docker/docker-compose.yml`,
+> so pass it explicitly via `-f`.
+
+This document describes how to build RPMs using mock and how artifacts are staged for signing and publishing.
+
+## Overview
+
+The build process uses `mock` inside a Docker container to produce RPMs for multiple EL versions and architectures.
+Artifacts are written directly to `runtime/artifacts/` on the host via bind mounts, ensuring mock can use its
+native `$HOME/rpmbuild/results` path while the host repository sees files immediately without any post-build copying.
+Static sources are organized in per-package subdirectories under `sources/<package_name>/` to match the spec
+file `Source:` references.
+
+## Prerequisites
+
+1. **Stage runtime directories** – Run `scripts/stage-runtime.sh` to create
+   `runtime/artifacts/` and `runtime/repo/` directories:
+   ```bash
+   ./scripts/stage-runtime.sh --key-id <GPG_KEY> --packager 'Name <email>'
+   ```
+
+2. **Docker setup** – Build the builder image:
+   ```bash
+   docker compose -f docker/docker-compose.yml build builder
+   ```
+   This produces the `prometheus-rpm-builder:1.0` image referenced by
+   `docker/docker-compose.yml`.
+
+## Build Process
+
+### Using Docker Compose
+
+The `docker/docker-compose.yml` file configures bind mounts that map host directories into the container at mock's
+expected paths:
+
+- `runtime/artifacts` → `/home/builder/rpmbuild/results` (RPMs written here)
+- `runtime/repo` → `/home/builder/rpmbuild/repo` (for future repo staging)
+- `runtime/SOURCES` → `/home/builder/rpmbuild/SOURCES` (spectool downloads)
+- `sources/` → `/home/builder/configs` (per-package config subdirectories)
+- `specs/` → `/home/builder/rpmbuild/SPECS` (spec files)
+
+This approach keeps mock compliant with its defaults (`$HOME/rpmbuild/results`) while ensuring artifacts appear immediately
+in `runtime/artifacts/` on the host without any rsync or copy operations.
+
+### Running Builds
+
+Run builds by passing arguments to the container:
+
+```bash
+docker compose -f docker/docker-compose.yml run --rm builder --all --el 9 --arch x86_64 --arch aarch64
+```
+
+Or build specific packages:
+
+```bash
+docker compose -f docker/docker-compose.yml run --rm builder --package prometheus --package node_exporter --el 9 --arch x86_64
+```
+
+For an interactive shell or to run arbitrary helper scripts, either prefix the command with `--` to bypass the build wrapper or
+supply an explicit path (any argument containing `/` is executed directly):
+
+```bash
+# Interactive shell (using --)
+docker compose -f docker/docker-compose.yml run --rm builder --
+
+# Run a helper by path (no -- required)
+docker compose -f docker/docker-compose.yml run --rm builder ./scripts/create-repo.sh
+```
+
+### Build Output
+
+RPMs are written to `runtime/artifacts/el<EL>/<arch>/`:
+- Binary RPMs: `runtime/artifacts/el9/x86_64/*.rpm`
+- Source RPMs: `runtime/artifacts/el9/SRPMS/*.src.rpm`
+- Build logs: `runtime/artifacts/el9/x86_64/*.log`
+
+The bind mount ensures these files are immediately available on the host for downstream scripts such as `scripts/create-repo.sh`
+(and future signing helpers).
+
+## Sources Directory Structure
+
+Static sources (systemd units, config files, etc.) are organized in per-package subdirectories under `sources/<package_name>/`:
+
+```
+sources/
+├── alertmanager/
+│   ├── alertmanager.conf
+│   ├── alertmanager.service
+│   ├── alertmanager.tmpfiles.conf
+│   └── alertmanager.yml
+├── node_exporter/
+│   ├── node_exporter.service
+│   └── node_exporter.tmpfiles.conf
+├── thanos/
+│   ├── thanos-compact.service
+│   ├── thanos-query.service
+│   ├── thanos-sidecar.service
+│   ├── thanos-store.service
+│   └── thanos.tmpfiles.conf
+└── ... (36 packages total)
+```
+
+Spec files reference these files **by basename**:
+
+```spec
+Source1: alertmanager.service
+Source2: alertmanager.tmpfiles.conf
+```
+
+During the build, `scripts/build.sh` copies the per-package directories into `$HOME/rpmbuild/SOURCES/` for inspection and then
+*flattens* everything to the SOURCES root. Flattening ensures `rpmbuild` can resolve the basename-only `Source:` tags and prevents
+accidental cross-package conflicts. Run `./scripts/build.sh --check-sources` to audit the tree before starting a build; the script
+aborts if two packages ship files with the same basename.
+
+## Creating Repository Metadata
+
+After builds complete, generate repository metadata **inside the builder container** so `createrepo_c` is available:
+
+```bash
+docker compose -f docker/docker-compose.yml run --rm builder \
+  ./scripts/create-repo.sh
+```
+
+This defaults to reading from `runtime/artifacts` and writing to `runtime/repo`. To override paths, pass them as arguments after
+`./scripts/create-repo.sh`. Binary RPMs are staged under `runtime/repo/el<EL>/<arch>/` and SRPMs land in `runtime/repo/el<EL>/SRPMS/`,
+each with their own `repodata/` generated by `createrepo_c`.
+
+## Rationale
+
+Using bind mounts instead of post-build copying:
+
+1. **Mock compliance** – Mock expects `$HOME/rpmbuild/results`; we mount the
+   host directory there so mock writes to its native path.
+
+2. **No path drift** – The same path works inside the container and on the host,
+   eliminating sync issues.
+
+3. **Immediate availability** – Downstream scripts see fresh artifacts immediately
+   without waiting for copy operations.
+
+4. **Simpler workflow** – No need for rsync or mv operations to bridge container
+   and host paths.
+
+## Security Considerations
+
+The Docker Compose configuration uses `privileged: true` (see `docker/docker-compose.yml:10`).
+This is **required** for mock to function properly because:
+
+- **Chroot operations** – Mock uses `chroot()` to create isolated build environments,
+  which requires elevated capabilities
+- **Filesystem mounts** – Mock mounts filesystems (proc, sys, dev) inside build roots
+  for package installation
+- **Namespace access** – Mock runs `dnf` operations that need namespace manipulation
+  capabilities
+
+### Security Implications
+
+Running containers with `privileged: true` grants the container nearly all capabilities of the host system. This means:
+
+- The container can access host devices
+- The container can modify host kernel parameters
+- The container has broad system access
+
+**This should only be used in trusted build environments.**
+
+Keep privileged Docker usage confined to trusted build environments. If your organisation forbids privileged containers, provision
+a dedicated build host or adapt these instructions to an approved container runtime before proceeding.

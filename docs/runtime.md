@@ -1,6 +1,6 @@
 # Runtime Preparation
 
-`scripts/stage-runtime.sh` provisions the transient `runtime/` tree used by the build/sign/publish workflow. It creates the on-disk directories, refreshes `runtime/rpmmacros` from `templates/rpmmacros`, and performs safety checks so mock, rpmsign, and other helpers see a consistent layout across macOS, LXC, and Docker environments.
+`scripts/stage-runtime.sh` provisions the transient `runtime/` tree used by the build/sign/publish workflow. It creates the on-disk directories, refreshes `runtime/rpmmacros` from `templates/rpmmacros`, and performs safety checks so mock, rpmsign, and other helpers see a consistent layout before the Docker-based builds run.
 
 ## Directory Layout
 

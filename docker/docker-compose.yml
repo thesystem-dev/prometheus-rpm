@@ -1,0 +1,21 @@
+services:
+  builder:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: prometheus-rpm-builder:1.0
+    container_name: prometheus-rpm-mock
+
+    privileged: true
+
+    tty: true
+    working_dir: /home/builder
+
+    volumes:
+      - ../specs:/home/builder/rpmbuild/SPECS:ro
+      - ../runtime/artifacts:/home/builder/rpmbuild/results:rw
+      - ../runtime/repo:/home/builder/rpmbuild/repo:rw
+      - ../runtime/SOURCES:/home/builder/rpmbuild/SOURCES:rw
+      - ../sources:/home/builder/configs:ro
+      - ../scripts:/home/builder/scripts:ro
+      - ../runtime:/home/builder/runtime:rw
