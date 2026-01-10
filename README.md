@@ -42,7 +42,7 @@ This project is focused on building and distributing high-quality RPM packages f
 
 ## Roadmap
 
-- [ ] Python helpers for tracking upstream releases and maintaining an exporter inventory
+- [x] Python helpers for tracking upstream releases and maintaining an exporter inventory
 - [ ] Build and signing scripts with mock/Docker support
 - [ ] Documentation covering build, signing, publishing, and divergence notes
 - [ ] Continuous integration and container image publishing
