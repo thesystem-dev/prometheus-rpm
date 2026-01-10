@@ -29,6 +29,41 @@ die() {
 command -v mock >/dev/null || die "mock not installed"
 command -v spectool >/dev/null || die "spectool not installed"
 
+# Check for basename conflicts in source files
+# Returns 0 on success, 1 if conflicts detected
+check_source_conflicts() {
+  local configs_dir="$1"
+
+  declare -A basename_sources
+  local has_conflict=false
+
+  while IFS= read -r -d '' source_file; do
+    basename_file=$(basename "$source_file")
+
+    if [[ -n "${basename_sources[$basename_file]:-}" ]]; then
+      echo "ERROR: Basename conflict detected" >&2
+      echo "  File: $basename_file" >&2
+      echo "  Locations:" >&2
+      echo "    ${basename_sources[$basename_file]}" >&2
+      echo "    $source_file" >&2
+      has_conflict=true
+    fi
+
+    basename_sources["$basename_file"]="$source_file"
+  done < <(find "$configs_dir" -mindepth 2 -type f -print0)
+
+  if [[ "$has_conflict" == true ]]; then
+    return 1
+  fi
+
+  local file_count="${#basename_sources[@]}"
+  local package_count
+  package_count=$(find "$configs_dir" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+  echo "Found $file_count source files across $package_count packages"
+
+  return 0
+}
+
 # -------------------------
 # Defaults
 # -------------------------
@@ -169,40 +204,6 @@ fi
 if [[ -z "$(find "$CONFIGS_DIR" -mindepth 1 -maxdepth 1 -type d 2>/dev/null)" ]]; then
   die "Static sources directory '$CONFIGS_DIR' contains no package subdirectories (did you mount ./sources?)"
 fi
-
-# Check for basename conflicts in source files
-# Returns 0 on success, 1 if conflicts detected
-check_source_conflicts() {
-  local configs_dir="$1"
-  
-  declare -A basename_sources
-  local has_conflict=false
-  
-  while IFS= read -r -d '' source_file; do
-    basename_file=$(basename "$source_file")
-    
-    if [[ -n "${basename_sources[$basename_file]:-}" ]]; then
-      echo "ERROR: Basename conflict detected" >&2
-      echo "  File: $basename_file" >&2
-      echo "  Locations:" >&2
-      echo "    ${basename_sources[$basename_file]}" >&2
-      echo "    $source_file" >&2
-      has_conflict=true
-    fi
-    
-    basename_sources["$basename_file"]="$source_file"
-  done < <(find "$configs_dir" -mindepth 2 -type f -print0)
-  
-  if [[ "$has_conflict" == true ]]; then
-    return 1
-  fi
-  
-  local file_count="${#basename_sources[@]}"
-  local package_count=$(find "$configs_dir" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
-  echo "Found $file_count source files across $package_count packages"
-  
-  return 0
-}
 
 # Function to flatten source files for rpmbuild resolution
 # RPM cannot reliably resolve subdirectory paths in Source directives,
