@@ -27,6 +27,7 @@ Build automation, Docker tooling, and more detailed documentation will be added 
 
 - [`docs/version-tracking.md`](docs/version-tracking.md) - explains how `upstreams.yaml` is maintained and how the helper scripts are used to track upstream releases.
 - [`docs/exporters.md`](docs/exporters.md) - auto-generated exporter inventory with upstream links, licences, and supported architectures.
+- [`docs/runtime.md`](docs/runtime.md) - describes `scripts/stage-runtime.sh`, the runtime directory layout, and how to prepare GPG material safely.
 
 ## Non-Goals
 
