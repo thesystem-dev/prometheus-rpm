@@ -4,9 +4,10 @@
 .LSOverride
 ._*
 
+# Runtime build outputs
+runtime/
 
 # Python virtual environments / caches
 .venv/
 __pycache__/
 *.pyc
-
