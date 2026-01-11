@@ -58,11 +58,17 @@ Resolve any conflicts before staging the runtime directories so spec builds neve
 
 ## GPG Material
 
-`stage-runtime.sh` does not copy your keys—it simply prepares `runtime/gnupg/`. Export the signing key and ownertrust yourself:
+`stage-runtime.sh` prepares `runtime/gnupg/` but does not copy your keys. Export them manually:
 
 ```bash
 gpg --export-secret-keys ABCDEF1234567890 > runtime/gnupg/private.asc
-gpg --export-ownertrust > runtime/gnupg/ownertrust.txt  # optional
+gpg --armor --export ABCDEF1234567890 > runtime/gnupg/RPM-GPG-KEY-thesystem-dev  # ASCII-armoured for verification
+# Optional: only if you've assigned explicit ownertrust values you want to reuse
+gpg --export-ownertrust > runtime/gnupg/ownertrust.txt
 ```
 
-The signing helper imports these files into an ephemeral `GNUPGHOME`, so never copy your entire `~/.gnupg` directory into the repo. Keep the exported key material armoured, add it to `.gitignore`, and treat the runtime tree as disposable state.
+The signing script (`scripts/sign-rpms.sh`) imports these files into an ephemeral `GNUPGHOME` 
+when signing RPMs. The verification mode (`--verify`) also auto-imports the ASCII-armoured public key into a 
+temporary RPM database for signature validation. Never copy your entire `~/.gnupg` directory into the repo.
+
+**Security:** Add `runtime/gnupg/*.asc` to `.gitignore` and treat `runtime/` as disposable state.

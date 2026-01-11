@@ -1,5 +1,5 @@
 services:
-  builder:
+  builder: &builder-base
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -19,3 +19,11 @@ services:
       - ../sources:/home/builder/configs:ro
       - ../scripts:/home/builder/scripts:ro
       - ../runtime:/home/builder/runtime:rw
+
+  sign:
+    <<: *builder-base
+    container_name: prometheus-rpm-sign
+    entrypoint: ["/home/builder/scripts/sign-rpms.sh"]
+    command: []
+    environment:
+      GPG_PASSPHRASE: ${GPG_PASSPHRASE:-}
