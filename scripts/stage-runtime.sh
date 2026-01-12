@@ -146,6 +146,28 @@ fi
 mkdir -p "$RUNTIME_DIR" "$RUNTIME_DIR/SOURCES" "$RUNTIME_DIR/gnupg" "$RESULTS_DIR" "$REPO_DIR"
 chmod 700 "$RUNTIME_DIR/gnupg"
 
+adjust_runtime_permissions() {
+  if [ "$(id -u)" != "0" ]; then
+    return
+  fi
+
+  target_uid="${RUNTIME_UID_OVERRIDE:-$(stat -c '%u' . 2>/dev/null || echo 0)}"
+  target_gid="${RUNTIME_GID_OVERRIDE:-$(stat -c '%g' . 2>/dev/null || echo 0)}"
+
+  if [ "$target_uid" = "0" ]; then
+    echo "NOTICE: staging run as root but no non-root user detected; runtime directories will be owned by root. Set RUNTIME_UID_OVERRIDE/RUNTIME_GID_OVERRIDE to specify a different owner." >&2
+    return
+  fi
+
+  echo "NOTICE: staging run as root; adjusting runtime ownership to ${target_uid}:${target_gid} so Docker bind mounts remain writable."
+  chown -R "$target_uid":"$target_gid" \
+    "$RUNTIME_DIR" \
+    "$RESULTS_DIR" \
+    "$REPO_DIR"
+}
+
+adjust_runtime_permissions
+
 MACROS_DEST="$RUNTIME_DIR/rpmmacros"
 MACROS_TMP="$(mktemp)"
 
