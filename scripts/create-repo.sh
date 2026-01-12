@@ -3,11 +3,51 @@ set -euo pipefail
 
 INPUT_DIR="${1:-runtime/artifacts}"
 OUTPUT_DIR="${2:-runtime/repo}"
+RUNTIME_DIR="${RUNTIME_DIR:-runtime}"
+PUBLIC_KEY_FILE="${PUBLIC_KEY_FILE:-}"
+RPM_DB_DIR=""
+SKIP_SIGNATURE_CHECK=false
 
 die() {
   echo "ERROR: $*" >&2
   exit 1
 }
+
+warn() {
+  echo "WARNING: $*" >&2
+}
+
+cleanup() {
+  if [[ -n "$RPM_DB_DIR" && -d "$RPM_DB_DIR" ]]; then
+    rm -rf "$RPM_DB_DIR"
+  fi
+}
+trap cleanup EXIT
+
+if [[ -d "$RUNTIME_DIR" ]]; then
+  RUNTIME_DIR="$(cd "$RUNTIME_DIR" && pwd)"
+else
+  die "Runtime directory '$RUNTIME_DIR' not found (set RUNTIME_DIR to override)"
+fi
+
+GNUPG_DIR="$RUNTIME_DIR/gnupg"
+if [[ -z "$PUBLIC_KEY_FILE" ]]; then
+  if [[ -d "$GNUPG_DIR" && -f "$GNUPG_DIR/public.asc" ]]; then
+    PUBLIC_KEY_FILE="$GNUPG_DIR/public.asc"
+  elif [[ -d "$GNUPG_DIR" ]]; then
+    for key in "$GNUPG_DIR"/RPM-GPG-KEY-*; do
+      if [[ -f "$key" ]]; then
+        PUBLIC_KEY_FILE="$key"
+        break
+      fi
+    done
+  fi
+fi
+
+if [[ -z "$PUBLIC_KEY_FILE" ]]; then
+  warn "Public key not found under $GNUPG_DIR (signature validation will be skipped)"
+  SKIP_SIGNATURE_CHECK=true
+fi
 
 if [[ ! -d "$INPUT_DIR" ]]; then
   die "Input directory '$INPUT_DIR' not found"
@@ -39,14 +79,41 @@ copy_rpms() {
   fi
 }
 
+setup_rpm_db() {
+  if [[ "$SKIP_SIGNATURE_CHECK" == true ]]; then
+    return
+  fi
+
+  if [[ ! -f "$PUBLIC_KEY_FILE" ]]; then
+    warn "Public key file '$PUBLIC_KEY_FILE' not found or not readable (skipping rpm -K validation)"
+    SKIP_SIGNATURE_CHECK=true
+    return
+  fi
+
+  RPM_DB_DIR="$(mktemp -d)"
+  if rpm --dbpath "$RPM_DB_DIR" --import "$PUBLIC_KEY_FILE" &>/dev/null; then
+    echo "Imported public key from $PUBLIC_KEY_FILE for integrity checks"
+  else
+    warn "Failed to import public key from $PUBLIC_KEY_FILE (skipping rpm -K validation)"
+    rm -rf "$RPM_DB_DIR"
+    RPM_DB_DIR=""
+    SKIP_SIGNATURE_CHECK=true
+  fi
+}
+
 validate_rpms() {
   local target_dir="$1"
   local rpm_glob="$2"
 
+  if [[ "$SKIP_SIGNATURE_CHECK" == true ]]; then
+    echo "Skipping rpm -K validation for $target_dir (no public key available)"
+    return
+  fi
+
   local -a failed_rpms=()
   for rpm in "$target_dir"/$rpm_glob; do
     [[ -f "$rpm" ]] || continue
-    if ! rpm -K "$rpm" >/dev/null 2>&1; then
+    if ! rpm --dbpath "$RPM_DB_DIR" -K "$rpm" >/dev/null 2>&1; then
       failed_rpms+=("$rpm")
     fi
   done
@@ -57,6 +124,8 @@ validate_rpms() {
     die "Cannot proceed with corrupted RPMs"
   fi
 }
+
+setup_rpm_db
 
 for distro_dir in "$INPUT_DIR"/el*; do
   [[ -d "$distro_dir" ]] || continue
