@@ -6,6 +6,7 @@ Relies on scripts/discover_versions.py to fetch upstream metadata.
 """
 
 import argparse
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -98,6 +99,9 @@ def main() -> int:
             continue
 
         latest = extract_latest(entry)
+        # Normalise common tag style like 'v1.2.3' to RPM-friendly '1.2.3'
+        if latest:
+            latest = re.sub(r'^v(?=\d)', '', latest)
         if not latest or latest == current:
             continue
 
