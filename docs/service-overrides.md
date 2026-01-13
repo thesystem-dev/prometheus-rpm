@@ -4,7 +4,7 @@ All Prometheus components in this repository ship with systemd unit files instal
 
 ## 1. Override directory layout
 
-Systemd looks for drop-in files under `/etc/systemd/system/<unit>.d/`. For example, to override `prometheus.service` create:
+systemd looks for drop-in files under `/etc/systemd/system/<unit>.d/`. For example, to override `prometheus.service` create:
 
 ```
 /etc/systemd/system/prometheus.service.d/
@@ -19,7 +19,7 @@ sudo systemctl daemon-reload
 
 ## 2. Overriding ExecStart flags
 
-Most units expose command-line flags. To append or replace flags, use the `[Service]` section with `ExecStart=`. For example, to add an extra configuration directory:
+Most units expose command-line flags. To append or replace flags, use the `[Service]` section with `ExecStart=`. For example:
 
 ```ini
 # /etc/systemd/system/prometheus.service.d/execstart.conf
@@ -29,8 +29,7 @@ ExecStart=/usr/bin/prometheus \
   --config.file=/etc/prometheus/prometheus.yml \
   --storage.tsdb.path=/var/lib/prometheus \
   --web.config.file=/etc/prometheus/web.yml \
-  --config.file=/etc/prometheus/prometheus.yml \
-  --config.expand-queries  # custom flag
+  --web.enable-lifecycle
 ```
 
 The first `ExecStart=` line clears the vendor definition; the second defines the full command. Copy the original arguments from `/usr/lib/systemd/system/prometheus.service` and append your changes.
@@ -92,7 +91,7 @@ After editing drop-ins:
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl restart prometheus.service
+sudo systemctl restart <unit>.service  # e.g. prometheus.service
 ```
 
 Repeat for each service you customise. Document your overrides alongside infrastructure configuration so they can be recreated on new hosts.

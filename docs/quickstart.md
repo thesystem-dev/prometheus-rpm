@@ -4,6 +4,8 @@ These steps configure a host to consume the Prometheus RPM repository published 
 
 ## 1. Import the signing key
 
+Import the GPG public key to verify package signatures and ensure packages haven't been tampered with:
+
 ```bash
 sudo rpm --import https://rpms.thesystem.dev/RPM-GPG-KEY-thesystem-dev
 ```

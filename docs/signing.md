@@ -10,7 +10,7 @@ RPM signing cryptographically signs packages using GPG (GNU Privacy Guard). Sign
 - **Source authentication** – confirm packages come from the expected publisher.
 - **Trust chain** – allow users to establish trust through GPG key verification.
 
-RPM signatures are embedded in the package header and verified during installation with `rpm --checksig` or automatically by package managers such as `dnf`/`yum` when the public key is imported into the RPM database.
+RPM signatures are embedded in the package header and verified during installation with `rpm --checksig` or automatically by DNF when the public key is imported into the RPM database.
 
 ## 1. Requirements
 

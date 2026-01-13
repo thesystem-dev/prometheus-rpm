@@ -1,6 +1,6 @@
 # Prometheus RPM Build
 
-This repository provides Prometheus and exporter RPM packages for Enterprise Linux systems. The long-running [lest/prometheus-rpm](https://github.com/lest/prometheus-rpm/) project appears unmaintained, so this repository serves as an actively maintained successor that tracks upstream releases, verifies the artifacts we publish, and provides signed package repositories.
+This repository provides Prometheus and exporter RPM packages for Enterprise Linux systems. The long-running [lest/prometheus-rpm](https://github.com/lest/prometheus-rpm/) project appears unmaintained, so this repository serves as an actively maintained successor that tracks upstream releases, verifies the artefacts we publish, and provides signed package repositories.
 
 ---
 
@@ -25,7 +25,7 @@ This project improves on previous Prometheus RPM packaging efforts by providing:
 - `scripts/sign-rpms.sh` - GPG-based RPM/SRPM signing with interactive and automated modes
 - `templates/` - baseline `rpmmacros` used by `scripts/stage-runtime.sh`
 - `docker/` - builder image (`prometheus-rpm-builder:1.0`), entrypoint, and compose file for running mock inside a container
-- `runtime/` - transient workspace prepared by `scripts/stage-runtime.sh` (artifacts, SOURCES cache, repo metadata, and GPG material)
+- `runtime/` - transient workspace prepared by `scripts/stage-runtime.sh` (artefacts, SOURCES cache, repo metadata, and GPG material)
 
 Configuration files are vendored from upstream projects whenever they publish them. When no upstream example exists, hardened minimal defaults are provided alongside notes documenting any intentional divergence.
 
@@ -36,9 +36,9 @@ Publish tooling and additional documentation will be added in subsequent commits
 - [`docs/version-tracking.md`](docs/version-tracking.md) - explains how `upstreams.yaml` is maintained and how the helper scripts are used to track upstream releases.
 - [`docs/exporters.md`](docs/exporters.md) - auto-generated exporter inventory with upstream links, licences, and supported architectures.
 - [`docs/runtime.md`](docs/runtime.md) - describes `scripts/stage-runtime.sh`, the runtime directory layout, and how to prepare GPG material safely.
-- [`docs/build-and-stage.md`](docs/build-and-stage.md) - covers running `docker compose`, invoking `scripts/build.sh`, and staging repository metadata via `scripts/create-repo.sh`.
-- [`docs/publishing.md`](docs/publishing.md) - explains running `scripts/create-repo.sh`, syncing `runtime/repo/`, and configuring consumers.
-- [`docs/signing.md`](docs/signing.md) - covers exporting GPG keys, running `scripts/sign-rpms.sh`, and verifying signed artifacts locally or in CI.
+- [`docs/build-and-stage.md`](docs/build-and-stage.md) - covers running `docker compose`, invoking `scripts/build.sh`, and staging artefacts for signing.
+- [`docs/signing.md`](docs/signing.md) - covers exporting GPG keys, running `scripts/sign-rpms.sh`, and verifying signed artefacts locally or in CI.
+- [`docs/publishing.md`](docs/publishing.md) - describes creating repository metadata, syncing to remote hosts, and making packages available to consumers.
 - [`docs/quickstart.md`](docs/quickstart.md) - consumer setup guide (import key, add repo, install packages).
 - [`docs/service-overrides.md`](docs/service-overrides.md) - describes how to adjust systemd units via drop-in overrides.
 

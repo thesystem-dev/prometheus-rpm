@@ -1,6 +1,6 @@
 # Publishing Signed RPM Repositories
 
-This guide explains how to turn the signed RPMs under `runtime/artifacts/` into a consumable YUM/DNF repository and publish it to a remote host (for example, via `rsync` or `scp`). All commands assume you are in the repository root and that RPMs have already been built and signed.
+This guide explains how to turn the signed RPMs under `runtime/artifacts/` into a consumable DNF repository and publish it to a remote host (for example, via `rsync` or `scp`). All commands assume you are in the repository root and that RPMs have already been built (see [docs/build-and-stage.md](build-and-stage.md)) and signed (see [docs/signing.md](signing.md)).
 
 ## 1. Generate repository metadata
 
@@ -71,4 +71,4 @@ Direct users to [`docs/quickstart.md`](quickstart.md) for instructions on import
 
 ## 7. Future automation
 
-Today’s workflow relies on manual `rsync`/`scp`. When you are ready to automate publishing (for example, via CI or Cloudflare R2), hook into the same `runtime/repo/` output and reuse the steps above.
+The current workflow relies on manual `rsync`/`scp`. When you are ready to automate publishing (for example, via CI or Cloudflare R2), hook into the same `runtime/repo/` output and reuse the steps above.
