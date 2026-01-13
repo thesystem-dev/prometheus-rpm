@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           prometheus
-Version:        3.8.1
+Version:        3.9.1
 Release:        1%{?dist}
 Summary:        Prometheus monitoring system and time series database
 
@@ -100,5 +100,8 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Tue Jan 13 2026 James Wilson <git@thesystem.dev> - 3.9.1-1
+- Rebase to upstream version 3.9.1
+
 * Wed Dec 17 2025 James Wilson <packages@thesystem.dev> - 3.8.1-1
 - Initial RPM package

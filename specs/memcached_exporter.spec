@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           memcached_exporter
-Version:        0.15.0
+Version:        0.15.4
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Memcached metrics
 
@@ -77,5 +77,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Tue Jan 13 2026 James Wilson <git@thesystem.dev> - 0.15.4-1
+- Rebase to upstream version 0.15.4
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 0.15.0-1
 - Initial RPM package

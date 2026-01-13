@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           apache_exporter
-Version:        1.0.10
+Version:        1.0.12
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Apache HTTP Server
 
@@ -78,5 +78,8 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Tue Jan 13 2026 James Wilson <git@thesystem.dev> - 1.0.12-1
+- Rebase to upstream version 1.0.12
+
 * Wed Dec 17 2025 James Wilson <packages@thesystem.dev> - 1.0.10-1
 - Initial RPM package
