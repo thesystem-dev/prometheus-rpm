@@ -33,6 +33,7 @@ Publish tooling and additional documentation will be added in subsequent commits
 - [`docs/exporters.md`](docs/exporters.md) - auto-generated exporter inventory with upstream links, licences, and supported architectures.
 - [`docs/runtime.md`](docs/runtime.md) - describes `scripts/stage-runtime.sh`, the runtime directory layout, and how to prepare GPG material safely.
 - [`docs/build-and-stage.md`](docs/build-and-stage.md) - covers running `docker compose`, invoking `scripts/build.sh`, and staging repository metadata via `scripts/create-repo.sh`.
+- [`docs/publishing.md`](docs/publishing.md) - explains running `scripts/create-repo.sh`, syncing `runtime/repo/`, and configuring consumers.
 - [`docs/signing.md`](docs/signing.md) - covers exporting GPG keys, running `scripts/sign-rpms.sh`, and verifying signed artifacts locally or in CI.
 
 ## Non-Goals
@@ -50,7 +51,8 @@ This project is focused on building and distributing high-quality RPM packages f
 
 - [x] Python helpers for tracking upstream releases and maintaining an exporter inventory
 - [x] Build and signing scripts with mock/Docker support
-- [x] Documentation covering build, signing, and publishing workflows
+- [x] Documentation covering build and signing workflows
+- [x] Documentation covering publishing workflows
 - [ ] Continuous integration and container image publishing
 
 ## Contributing

@@ -76,7 +76,7 @@ docker compose -f docker/docker-compose.yml run --rm sign
 export GPG_PASSPHRASE='your-passphrase'
 docker compose -f docker/docker-compose.yml run --rm -e GPG_PASSPHRASE sign
 ```
-- Uses Expect to drive `rpmsign --addsign`.
+- Runs `rpmsign --addsign` non-interactively via an Expect script (passphrase provided by `GPG_PASSPHRASE`).
 - Add `--force` to re-sign even if signatures already exist (see below).
 
 Logs are written to `runtime/artifacts/signing.log` for later review.
@@ -211,3 +211,5 @@ docker compose -f docker/docker-compose.yml run --rm builder \
 ```
 
 This copies RPMs into `runtime/repo/` and runs `createrepo_c`, preserving the signatures for downstream consumers.
+
+See [docs/publishing.md](publishing.md) for instructions on syncing `runtime/repo/` and exposing the repository to users.
