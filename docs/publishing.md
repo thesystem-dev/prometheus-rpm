@@ -67,30 +67,7 @@ Verify that `repodata/repomd.xml` is accessible via the browser or `curl`.
 
 ## 6. Consumer configuration
 
-On client systems:
-
-1. Import the public key:
-   ```bash
-   sudo rpm --import https://packages.example.com/repos/prometheus-rpm/RPM-GPG-KEY-thesystem-dev
-   ```
-
-2. Create `/etc/yum.repos.d/prometheus-rpm.repo`:
-
-   ```ini
-   [prometheus-rpm]
-   name=Prometheus RPM Repository
-   baseurl=https://packages.example.com/repos/prometheus-rpm/el9/x86_64
-   enabled=1
-   gpgcheck=1
-   gpgkey=https://packages.example.com/repos/prometheus-rpm/RPM-GPG-KEY-thesystem-dev
-   ```
-
-3. Refresh metadata and test:
-   ```bash
-   sudo dnf clean all
-   sudo dnf makecache --repo prometheus-rpm
-   sudo dnf repoquery --repo prometheus-rpm
-   ```
+Direct users to [`docs/quickstart.md`](quickstart.md) for instructions on importing the key and adding the repository.
 
 ## 7. Future automation
 

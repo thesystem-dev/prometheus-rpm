@@ -1,6 +1,10 @@
 # Prometheus RPM Build
 
-This repository provides Prometheus and exporter RPM packages for Enterprise Linux systems. The long-running [lest/prometheus-rpm](https://github.com/lest/prometheus-rpm/) project appears unmaintained, so this project serves as an actively maintained successor that tracks upstream releases, verifies the artifacts we publish, and provides signed package repositories.
+This repository provides Prometheus and exporter RPM packages for Enterprise Linux systems. The long-running [lest/prometheus-rpm](https://github.com/lest/prometheus-rpm/) project appears unmaintained, so this repository serves as an actively maintained successor that tracks upstream releases, verifies the artifacts we publish, and provides signed package repositories.
+
+---
+
+💡 **Just want to install the packages?** See [`docs/quickstart.md`](docs/quickstart.md) for key import and repo configuration instructions.
 
 ## Goals
 
@@ -35,6 +39,8 @@ Publish tooling and additional documentation will be added in subsequent commits
 - [`docs/build-and-stage.md`](docs/build-and-stage.md) - covers running `docker compose`, invoking `scripts/build.sh`, and staging repository metadata via `scripts/create-repo.sh`.
 - [`docs/publishing.md`](docs/publishing.md) - explains running `scripts/create-repo.sh`, syncing `runtime/repo/`, and configuring consumers.
 - [`docs/signing.md`](docs/signing.md) - covers exporting GPG keys, running `scripts/sign-rpms.sh`, and verifying signed artifacts locally or in CI.
+- [`docs/quickstart.md`](docs/quickstart.md) - consumer setup guide (import key, add repo, install packages).
+- [`docs/service-overrides.md`](docs/service-overrides.md) - describes how to adjust systemd units via drop-in overrides.
 
 ## Non-Goals
 
