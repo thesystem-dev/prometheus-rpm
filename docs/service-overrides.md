@@ -85,6 +85,28 @@ ExecStart=/usr/bin/node_exporter \
   --web.config.file=/etc/node_exporter/web.yml
 ```
 
+### restic_exporter: repository credentials
+
+`restic_exporter` reads its configuration from environment variables (the unit already references `/etc/restic_exporter.d/env`). Create the directory and env file with restricted permissions:
+
+```bash
+sudo install -d -m 0750 /etc/restic_exporter.d
+sudo install -m 0640 /etc/restic_exporter.d/env
+```
+
+Populate `/etc/restic_exporter.d/env`:
+
+```
+RESTIC_REPOSITORY=s3:https://objects.example.com/backups
+RESTIC_PASSWORD_FILE=/etc/restic_exporter.d/password
+RESTIC_BIN=/usr/bin/restic
+LISTEN_ADDRESS=0.0.0.0
+LISTEN_PORT=8001
+REFRESH_INTERVAL=600
+```
+
+If you keep secrets outside the env file, point the variables to those paths (for example, `RESTIC_PASSWORD_FILE` above). No additional drop-in is required—the vendor unit already includes `EnvironmentFile=-/etc/restic_exporter.d/env`. Reload and restart after editing as usual.
+
 ## 5. Applying changes
 
 After editing drop-ins:
