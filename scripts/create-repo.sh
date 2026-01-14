@@ -162,4 +162,35 @@ for distro_dir in "$INPUT_DIR"/el*; do
   done
 done
 
+# Propagate noarch RPMs into both arch repos per EL so consumers on any arch
+# can resolve them even if only one arch was built.
+for distro_dir in "$OUTPUT_DIR"/el*; do
+  [[ -d "$distro_dir" ]] || continue
+  x_dir="$distro_dir/x86_64"
+  a_dir="$distro_dir/aarch64"
+  mkdir -p "$x_dir" "$a_dir"
+
+  # Collect unique noarch RPMs already copied for this EL
+  # They may originate from either arch's build output.
+  mapfile -t noarch_rpms < <(find "$distro_dir" -type f -name "*.noarch.rpm" -print 2>/dev/null | sort -u)
+
+  if [[ ${#noarch_rpms[@]} -gt 0 ]]; then
+    echo "Ensuring noarch RPMs are available under both $distro_dir/x86_64 and $distro_dir/aarch64"
+    for rpm in "${noarch_rpms[@]}"; do
+      cp -n "$rpm" "$x_dir/" 2>/dev/null || true
+      cp -n "$rpm" "$a_dir/" 2>/dev/null || true
+    done
+
+    # Refresh metadata after noarch propagation
+    if compgen -G "$x_dir/*.rpm" >/dev/null; then
+      echo "Updating metadata for ${distro_dir}/x86_64 (after noarch propagation)"
+      "$CREATEREPO_BIN" --update "$x_dir"
+    fi
+    if compgen -G "$a_dir/*.rpm" >/dev/null; then
+      echo "Updating metadata for ${distro_dir}/aarch64 (after noarch propagation)"
+      "$CREATEREPO_BIN" --update "$a_dir"
+    fi
+  fi
+done
+
 echo "Repository content available in '$OUTPUT_DIR'"

@@ -84,6 +84,13 @@ RPMs are written to `runtime/artifacts/el<EL>/<arch>/`:
 The bind mount ensures these files are immediately available on the host for downstream scripts such as `scripts/create-repo.sh`
 (see [docs/signing.md](signing.md)).
 
+> **Noarch packages**
+>
+> Specs marked `BuildArch: noarch` (for example, `restic_exporter`) build once per EL release regardless of the `--arch`
+> flags passed to `scripts/build.sh`. During repository creation, `scripts/create-repo.sh` automatically copies those `*.noarch.rpm`
+> files into both `x86_64/` and `aarch64/` repo directories so consumers on either architecture can install them even if you only
+> ran one arch build.
+
 ## Sources Directory Structure
 
 Static sources (systemd units, config files, etc.) are organized in per-package subdirectories under `sources/<package_name>/`:

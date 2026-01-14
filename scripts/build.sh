@@ -279,12 +279,21 @@ for pkg in "${PACKAGES[@]}"; do
   spec="$SPECS_DIR/$pkg.spec"
   [[ -f "$spec" ]] || die "Missing spec: $spec"
 
+  is_noarch=false
+  if grep -qi '^BuildArch:\s*noarch' "$spec"; then
+    is_noarch=true
+  fi
+
   echo
   echo "============================================================"
   echo "Package: $pkg"
   echo "============================================================"
   for el in "${ELS[@]}"; do
     for arch in "${ARCHES[@]}"; do
+      if [[ "$is_noarch" == true && "$arch" != "${ARCHES[0]}" ]]; then
+        echo "Skipping $pkg for $arch (noarch; building once per EL on ${ARCHES[0]})"
+        continue
+      fi
       ensure_sources_for_arch "$pkg" "$arch" "$spec"
 
       mock_root="$(mock_root_for "$el" "$arch")"
