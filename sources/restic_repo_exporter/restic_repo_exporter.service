@@ -1,0 +1,34 @@
+[Unit]
+Description=Restic Repository Exporter
+Documentation=https://github.com/Worty/restic-repo-exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=restic_repo_exporter
+Group=restic_repo_exporter
+
+EnvironmentFile=-/etc/restic_repo_exporter.d/env
+ExecStart=/usr/bin/restic_repo_exporter --repo-path=${RESTIC_REPO_PATH:?unset} ${RESTIC_REPO_EXPORTER_ARGS:-}
+
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+
+# --- Hardening ---
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

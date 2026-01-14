@@ -107,6 +107,28 @@ REFRESH_INTERVAL=600
 
 If you keep secrets outside the env file, point the variables to those paths (for example, `RESTIC_PASSWORD_FILE` above). No additional drop-in is required—the vendor unit already includes `EnvironmentFile=-/etc/restic_exporter.d/env`. Reload and restart after editing as usual.
 
+### restic_repo_exporter: multi-repo scanning
+
+`restic_repo_exporter` expects an environment file at `/etc/restic_repo_exporter.d/env` (referenced by the vendor unit). Create it with restricted permissions:
+
+```bash
+sudo install -d -m 0750 /etc/restic_repo_exporter.d
+sudo install -m 0640 /etc/restic_repo_exporter.d/env
+```
+
+Populate `/etc/restic_repo_exporter.d/env` with at least the base repo path and a default password. You can supply per-repo overrides by appending the directory name:
+
+```
+RESTIC_REPO_PATH=/srv/restic
+RESTIC_PASSWORD=default-password
+RESTIC_PASSWORD_repo1=secret1
+RESTIC_PASSWORD_repo2=secret2
+MAX_SIMULTANEOUS_RESTIC_PROCESSES=4
+RESTIC_REPO_EXPORTER_ARGS=--listen-address=:9200 --scrape-interval=60
+```
+
+`RESTIC_REPO_EXPORTER_ARGS` is appended to the vendor ExecStart, so use it for optional flags (listen address, scrape interval, etc.). Restart the service after editing.
+
 ## 5. Applying changes
 
 After editing drop-ins:

@@ -537,6 +537,22 @@ projects:
       rpm_name: restic_exporter
       architectures:
       - noarch
+
+  restic_repo_exporter:
+    display_name: Restic Repo Exporter
+    upstream:
+      vcs: github
+      repo: Worty/restic-repo-exporter
+      project_url: https://github.com/Worty/restic-repo-exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^restic-repo-exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
+      version_from: tag
+    packaging:
+      rpm_name: restic_repo_exporter
+      architectures:
+      - amd64
+      - arm64
   keepalived_exporter:
     display_name: Keepalived Exporter
     upstream:
