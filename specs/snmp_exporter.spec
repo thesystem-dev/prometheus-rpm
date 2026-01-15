@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           snmp_exporter
-Version:        0.29.0
+Version:        0.30.1
 Release:        1%{?dist}
 Summary:        Prometheus exporter for SNMP targets
 
@@ -80,5 +80,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Jan 15 2026 James Wilson <git@thesystem.dev> - 0.30.1-1
+- Rebase to upstream version 0.30.1
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 0.29.0-1
 - Initial RPM package
