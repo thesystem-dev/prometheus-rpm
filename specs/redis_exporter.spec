@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           redis_exporter
-Version:        1.80.1
+Version:        1.80.2
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Redis metrics
 
@@ -78,5 +78,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Tue Jan 27 2026 James Wilson <git@thesystem.dev> - 1.80.2-1
+- Rebase to upstream version 1.80.2
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 1.80.1-1
 - Initial RPM package
