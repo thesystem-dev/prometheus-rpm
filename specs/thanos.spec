@@ -3,7 +3,7 @@
 
 Name:           thanos
 Version:        0.40.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Highly available Prometheus setup with long-term storage
 
 License:        Apache-2.0
@@ -99,5 +99,8 @@ fi
 %{_sysusersdir}/thanos.conf
 
 %changelog
+* Sun Feb 08 2026 James Wilson <packages@thesystem.dev> - 0.40.1-2
+- Add RestrictAddressFamilies to compact/sidecar/store unit hardening
+
 * Wed Dec 17 2025 James Wilson <packages@thesystem.dev> - 0.40.1-1
 - Initial RPM package
