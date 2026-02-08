@@ -3,7 +3,7 @@
 
 Name:           node_exporter
 Version:        1.10.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus Node Exporter
 
 License:        Apache-2.0
@@ -89,5 +89,8 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Sun Feb 08 2026 James Wilson <packages@thesystem.dev> - 1.10.2-2
+- Allow AF_NETLINK in systemd sandbox for arp/netdev collectors
+
 * Wed Dec 17 2025 James Wilson <packages@thesystem.dev> - 1.10.2-1
 - Initial RPM package
