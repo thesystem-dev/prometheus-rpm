@@ -3,7 +3,7 @@
 
 Name:           mysqld_exporter
 Version:        0.18.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus exporter for MySQL
 
 License:        Apache-2.0
@@ -45,8 +45,8 @@ install -D -m 0755 mysqld_exporter %{buildroot}%{_bindir}/mysqld_exporter
 
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/mysqld_exporter.service
 
-install -d %{buildroot}%{_sysconfdir}/mysqld_exporter
-install -D -m 0600 %{SOURCE2} %{buildroot}%{_sysconfdir}/mysqld_exporter/.my.cnf
+install -d -m 0750 %{buildroot}%{_sysconfdir}/mysqld_exporter
+install -D -m 0640 %{SOURCE2} %{buildroot}%{_sysconfdir}/mysqld_exporter/.my.cnf
 
 install -d %{buildroot}%{_sysusersdir}
 cat > %{buildroot}%{_sysusersdir}/mysqld_exporter.conf << 'EOF'
@@ -77,12 +77,15 @@ fi
 %files
 %{_bindir}/mysqld_exporter
 %{_unitdir}/mysqld_exporter.service
-%dir %{_sysconfdir}/mysqld_exporter
-%config(noreplace) %{_sysconfdir}/mysqld_exporter/.my.cnf
+%dir %attr(0750,root,mysqld_exporter) %{_sysconfdir}/mysqld_exporter
+%config(noreplace) %attr(0640,root,mysqld_exporter) %{_sysconfdir}/mysqld_exporter/.my.cnf
 %{_sysusersdir}/mysqld_exporter.conf
 %license %{_licensedir}/%{name}/LICENSE
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Tue Feb 10 2026 James Wilson <packages@thesystem.dev> - 0.18.0-2
+- Fix my.cnf permissions so mysqld_exporter can read credentials securely
+
 * Wed Dec 17 2025 James Wilson <packages@thesystem.dev> - 0.18.0-1
 - Initial RPM package
