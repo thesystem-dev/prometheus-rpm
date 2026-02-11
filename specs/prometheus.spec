@@ -3,7 +3,7 @@
 
 Name:           prometheus
 Version:        3.9.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus monitoring system and time series database
 
 License:        Apache-2.0
@@ -20,6 +20,7 @@ URL:            https://prometheus.io/
 Source0: https://github.com/prometheus/prometheus/releases/download/v%{version}/prometheus-%{version}.linux-%{prom_arch}.tar.gz#/%{prom_sha}
 Source1: prometheus.service
 Source2: prometheus.tmpfiles.conf
+Source3: prometheus.sysusers
 
 BuildRequires:  systemd-rpm-macros
 
@@ -58,10 +59,7 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/prometheus.service
 install -D -m 0644 %{SOURCE2} %{buildroot}%{_tmpfilesdir}/prometheus.conf
 
 # sysusers (EL8+)
-install -d %{buildroot}%{_sysusersdir}
-cat > %{buildroot}%{_sysusersdir}/prometheus.conf << 'EOF'
-u prometheus - "Prometheus monitoring system" /var/lib/prometheus
-EOF
+install -D -m 0644 %{SOURCE3} %{buildroot}%{_sysusersdir}/prometheus.conf
 
 # License
 install -D -m 0644 LICENSE %{buildroot}%{_licensedir}/%{name}/LICENSE
@@ -75,6 +73,9 @@ NOTICE file not provided in upstream release %{version}; placeholder added to do
 EOF
 fi
 
+
+%pre
+%sysusers_create_compat %{SOURCE3}
 
 %post
 %systemd_post prometheus.service
@@ -100,6 +101,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 3.9.1-2
+- Create prometheus account in %pre via sysusers for correct file ownership on install
+
 * Tue Jan 13 2026 James Wilson <git@thesystem.dev> - 3.9.1-1
 - Rebase to upstream version 3.9.1
 

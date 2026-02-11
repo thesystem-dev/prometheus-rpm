@@ -3,7 +3,7 @@
 
 Name:           thanos
 Version:        0.40.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Highly available Prometheus setup with long-term storage
 
 License:        Apache-2.0
@@ -23,6 +23,7 @@ Source2: thanos-store.service
 Source3: thanos-compact.service
 Source4: thanos-sidecar.service
 Source5: thanos.tmpfiles.conf
+Source6: thanos.sysusers
 
 BuildRequires:  systemd-rpm-macros
 
@@ -61,10 +62,10 @@ install -d -m 0750 %{buildroot}/var/lib/thanos
 install -D -m 0644 %{SOURCE5} %{buildroot}%{_tmpfilesdir}/thanos.conf
 
 # sysusers (EL8+)
-install -d %{buildroot}%{_sysusersdir}
-cat > %{buildroot}%{_sysusersdir}/thanos.conf << 'EOF'
-u thanos - "Thanos service user" /var/lib/thanos
-EOF
+install -D -m 0644 %{SOURCE6} %{buildroot}%{_sysusersdir}/thanos.conf
+
+%pre
+%sysusers_create_compat %{SOURCE6}
 
 %post
 %systemd_post thanos-query.service
@@ -99,6 +100,9 @@ fi
 %{_sysusersdir}/thanos.conf
 
 %changelog
+* Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 0.40.1-3
+- Create thanos account in %pre via sysusers for correct file ownership on install
+
 * Sun Feb 08 2026 James Wilson <packages@thesystem.dev> - 0.40.1-2
 - Add RestrictAddressFamilies to compact/sidecar/store unit hardening
 

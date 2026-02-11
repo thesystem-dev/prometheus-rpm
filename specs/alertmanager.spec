@@ -3,7 +3,7 @@
 
 Name:           alertmanager
 Version:        0.30.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus Alertmanager
 
 License:        Apache-2.0
@@ -22,6 +22,7 @@ Source1: alertmanager.service
 Source2: alertmanager.yml
 Source3: alertmanager.conf
 Source4: alertmanager.tmpfiles.conf
+Source5: alertmanager.sysusers
 
 BuildRequires:  systemd-rpm-macros
 
@@ -54,10 +55,7 @@ install -d -m 0750 %{buildroot}/var/lib/alertmanager
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/alertmanager.service
 install -D -m 0644 %{SOURCE4} %{buildroot}%{_tmpfilesdir}/alertmanager.conf
 
-install -d %{buildroot}%{_sysusersdir}
-cat > %{buildroot}%{_sysusersdir}/alertmanager.conf << 'EOF'
-u alertmanager - "Prometheus Alertmanager" /var/lib/alertmanager
-EOF
+install -D -m 0644 %{SOURCE5} %{buildroot}%{_sysusersdir}/alertmanager.conf
 
 install -D -m 0644 LICENSE %{buildroot}%{_licensedir}/%{name}/LICENSE
 NOTICE_DST="%{buildroot}%{_licensedir}/%{name}/NOTICE"
@@ -70,6 +68,9 @@ NOTICE file not provided in upstream release %{version}; placeholder added to do
 EOF
 fi
 
+
+%pre
+%sysusers_create_compat %{SOURCE5}
 
 %post
 %systemd_post alertmanager.service
@@ -96,6 +97,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 0.30.1-2
+- Create alertmanager account in %pre via sysusers for correct file ownership on install
+
 * Tue Jan 13 2026 James Wilson <git@thesystem.dev> - 0.30.1-1
 - Rebase to upstream version 0.30.1
 

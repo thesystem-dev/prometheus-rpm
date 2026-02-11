@@ -3,7 +3,7 @@
 
 Name:           pushgateway
 Version:        1.11.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus push acceptor for batch and ephemeral jobs
 
 License:        Apache-2.0
@@ -20,6 +20,7 @@ URL:            https://github.com/prometheus/pushgateway
 Source0: https://github.com/prometheus/pushgateway/releases/download/v%{version}/pushgateway-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
 Source1: pushgateway.service
 Source2: pushgateway.tmpfiles.conf
+Source3: pushgateway.sysusers
 
 BuildRequires:  systemd-rpm-macros
 
@@ -58,12 +59,12 @@ cd ..
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/pushgateway.service
 install -D -m 0644 %{SOURCE2} %{buildroot}%{_tmpfilesdir}/pushgateway.conf
 
-install -d %{buildroot}%{_sysusersdir}
-cat > %{buildroot}%{_sysusersdir}/pushgateway.conf << 'EOF'
-u pushgateway - "Prometheus Pushgateway" /var/lib/pushgateway
-EOF
+install -D -m 0644 %{SOURCE3} %{buildroot}%{_sysusersdir}/pushgateway.conf
 
 install -d -m 0750 %{buildroot}/var/lib/pushgateway
+
+%pre
+%sysusers_create_compat %{SOURCE3}
 
 %post
 %systemd_post pushgateway.service
@@ -87,6 +88,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 1.11.2-2
+- Create pushgateway account in %pre via sysusers for correct file ownership on install
+
 * Tue Jan 13 2026 James Wilson <git@thesystem.dev> - 1.11.2-1
 - Rebase to upstream version 1.11.2
 

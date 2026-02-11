@@ -3,7 +3,7 @@
 
 Name:           node_exporter
 Version:        1.10.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Prometheus Node Exporter
 
 License:        Apache-2.0
@@ -20,6 +20,7 @@ URL:            https://github.com/prometheus/node_exporter
 Source0: https://github.com/prometheus/node_exporter/releases/download/v%{version}/node_exporter-%{version}.linux-%{arch}.tar.gz#/%{node_sha}
 Source1: node_exporter.service
 Source2: node_exporter.tmpfiles.conf
+Source3: node_exporter.sysusers
 
 BuildRequires:  systemd-rpm-macros
 
@@ -49,10 +50,7 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/node_exporter.service
 install -D -m 0644 %{SOURCE2} %{buildroot}%{_tmpfilesdir}/node_exporter.conf
 install -d -m 0750 %{buildroot}/var/lib/node_exporter
 
-install -d %{buildroot}%{_sysusersdir}
-cat > %{buildroot}%{_sysusersdir}/node_exporter.conf << 'EOF'
-u node_exporter - "Prometheus Node Exporter" /var/lib/node_exporter
-EOF
+install -D -m 0644 %{SOURCE3} %{buildroot}%{_sysusersdir}/node_exporter.conf
 
 cd node_exporter-%{version}.linux-%{arch}
 install -D -m 0644 LICENSE %{buildroot}%{_licensedir}/%{name}/LICENSE
@@ -66,6 +64,9 @@ NOTICE file not provided in upstream release %{version}; placeholder added to do
 EOF
 fi
 
+
+%pre
+%sysusers_create_compat %{SOURCE3}
 
 %post
 %systemd_post node_exporter.service
@@ -89,6 +90,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 1.10.2-3
+- Create node_exporter account in %pre via sysusers for correct file ownership on install
+
 * Sun Feb 08 2026 James Wilson <packages@thesystem.dev> - 1.10.2-2
 - Allow AF_NETLINK in systemd sandbox for arp/netdev collectors
 

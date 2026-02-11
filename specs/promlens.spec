@@ -3,7 +3,7 @@
 
 Name:           promlens
 Version:        0.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        PromQL query analyzer UI
 
 License:        Apache-2.0
@@ -20,6 +20,7 @@ URL:            https://github.com/prometheus/promlens
 Source0: https://github.com/prometheus/promlens/releases/download/v%{version}/promlens-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
 Source1: promlens.service
 Source2: promlens.tmpfiles.conf
+Source3: promlens.sysusers
 
 BuildRequires:  systemd-rpm-macros
 
@@ -58,12 +59,12 @@ cd ..
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/promlens.service
 install -D -m 0644 %{SOURCE2} %{buildroot}%{_tmpfilesdir}/promlens.conf
 
-install -d %{buildroot}%{_sysusersdir}
-cat > %{buildroot}%{_sysusersdir}/promlens.conf << 'EOF'
-u promlens - "Promlens UI" /var/lib/promlens
-EOF
+install -D -m 0644 %{SOURCE3} %{buildroot}%{_sysusersdir}/promlens.conf
 
 install -d -m 0750 %{buildroot}/var/lib/promlens
+
+%pre
+%sysusers_create_compat %{SOURCE3}
 
 %post
 %systemd_post promlens.service
@@ -87,5 +88,8 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 0.3.0-2
+- Create promlens account in %pre via sysusers for correct file ownership on install
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 0.3.0-1
 - Initial RPM package

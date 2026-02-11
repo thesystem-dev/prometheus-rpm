@@ -3,7 +3,7 @@
 
 Name:           mysqld_exporter
 Version:        0.18.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Prometheus exporter for MySQL
 
 License:        Apache-2.0
@@ -20,6 +20,7 @@ URL:            https://github.com/prometheus/mysqld_exporter
 Source0: https://github.com/prometheus/mysqld_exporter/releases/download/v%{version}/mysqld_exporter-%{version}.linux-%{go_arch}.tar.gz#/%{go_sha}
 Source1: mysqld_exporter.service
 Source2: mysqld_exporter.my.cnf
+Source3: mysqld_exporter.sysusers
 
 BuildRequires:  systemd-rpm-macros
 
@@ -48,10 +49,7 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/mysqld_exporter.service
 install -d -m 0750 %{buildroot}%{_sysconfdir}/mysqld_exporter
 install -D -m 0640 %{SOURCE2} %{buildroot}%{_sysconfdir}/mysqld_exporter/.my.cnf
 
-install -d %{buildroot}%{_sysusersdir}
-cat > %{buildroot}%{_sysusersdir}/mysqld_exporter.conf << 'EOF'
-u mysqld_exporter - "Prometheus MySQL exporter"
-EOF
+install -D -m 0644 %{SOURCE3} %{buildroot}%{_sysusersdir}/mysqld_exporter.conf
 
 install -D -m 0644 LICENSE %{buildroot}%{_licensedir}/%{name}/LICENSE
 NOTICE_DST="%{buildroot}%{_licensedir}/%{name}/NOTICE"
@@ -64,6 +62,9 @@ NOTICE file not provided in upstream release %{version}; placeholder added to do
 EOF
 fi
 
+
+%pre
+%sysusers_create_compat %{SOURCE3}
 
 %post
 %systemd_post mysqld_exporter.service
@@ -84,6 +85,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Tue Feb 10 2026 James Wilson <packages@thesystem.dev> - 0.18.0-3
+- Create mysqld_exporter account in %pre via sysusers for correct file ownership on install
+
 * Tue Feb 10 2026 James Wilson <packages@thesystem.dev> - 0.18.0-2
 - Fix my.cnf permissions so mysqld_exporter can read credentials securely
 
