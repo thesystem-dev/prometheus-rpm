@@ -1,0 +1,26 @@
+[Unit]
+Description=Thanos Query Frontend
+Documentation=https://thanos.io/
+After=network-online.target thanos-query.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=thanos
+Group=thanos
+
+EnvironmentFile=-/etc/thanos/query-frontend.conf
+ExecStart=/usr/bin/thanos query-frontend $THANOS_OPTS
+
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

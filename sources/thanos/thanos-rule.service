@@ -1,0 +1,26 @@
+[Unit]
+Description=Thanos Rule
+Documentation=https://thanos.io/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=thanos
+Group=thanos
+
+EnvironmentFile=-/etc/thanos/rule.conf
+ExecStart=/usr/bin/thanos rule $THANOS_OPTS
+
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

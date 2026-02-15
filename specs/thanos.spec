@@ -3,7 +3,7 @@
 
 Name:           thanos
 Version:        0.40.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Highly available Prometheus setup with long-term storage
 
 License:        Apache-2.0
@@ -22,8 +22,11 @@ Source1: thanos-query.service
 Source2: thanos-store.service
 Source3: thanos-compact.service
 Source4: thanos-sidecar.service
-Source5: thanos.tmpfiles.conf
-Source6: thanos.sysusers
+Source5: thanos-query-frontend.service
+Source6: thanos-receive.service
+Source7: thanos-rule.service
+Source8: thanos.tmpfiles.conf
+Source9: thanos.sysusers
 
 BuildRequires:  systemd-rpm-macros
 
@@ -57,23 +60,26 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/thanos-query.service
 install -D -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/thanos-store.service
 install -D -m 0644 %{SOURCE3} %{buildroot}%{_unitdir}/thanos-compact.service
 install -D -m 0644 %{SOURCE4} %{buildroot}%{_unitdir}/thanos-sidecar.service
+install -D -m 0644 %{SOURCE5} %{buildroot}%{_unitdir}/thanos-query-frontend.service
+install -D -m 0644 %{SOURCE6} %{buildroot}%{_unitdir}/thanos-receive.service
+install -D -m 0644 %{SOURCE7} %{buildroot}%{_unitdir}/thanos-rule.service
 
 # Config directory (empty; user-managed)
 install -d %{buildroot}%{_sysconfdir}/thanos
 
 # Runtime directory
 install -d -m 0750 %{buildroot}/var/lib/thanos
-install -D -m 0644 %{SOURCE5} %{buildroot}%{_tmpfilesdir}/thanos.conf
+install -D -m 0644 %{SOURCE8} %{buildroot}%{_tmpfilesdir}/thanos.conf
 
 # sysusers (EL8+)
-install -D -m 0644 %{SOURCE6} %{buildroot}%{_sysusersdir}/thanos.conf
+install -D -m 0644 %{SOURCE9} %{buildroot}%{_sysusersdir}/thanos.conf
 
 %pre
 %if 0%{?rhel} == 8
 getent group thanos >/dev/null 2>&1 || groupadd -r thanos >/dev/null 2>&1 || :
 getent passwd thanos >/dev/null 2>&1 || useradd -r -g thanos -d /var/lib/thanos -s /sbin/nologin -c "Thanos service user" thanos >/dev/null 2>&1 || :
 %else
-%sysusers_create_compat %{SOURCE6}
+%sysusers_create_compat %{SOURCE9}
 %endif
 
 %post
@@ -81,6 +87,9 @@ getent passwd thanos >/dev/null 2>&1 || useradd -r -g thanos -d /var/lib/thanos 
 %systemd_post thanos-store.service
 %systemd_post thanos-compact.service
 %systemd_post thanos-sidecar.service
+%systemd_post thanos-query-frontend.service
+%systemd_post thanos-receive.service
+%systemd_post thanos-rule.service
 if [ $1 -eq 1 ] && [ -x /usr/bin/systemd-tmpfiles ]; then
   /usr/bin/systemd-tmpfiles --create %{_tmpfilesdir}/thanos.conf >/dev/null 2>&1 || :
 fi
@@ -90,12 +99,18 @@ fi
 %systemd_preun thanos-store.service
 %systemd_preun thanos-compact.service
 %systemd_preun thanos-sidecar.service
+%systemd_preun thanos-query-frontend.service
+%systemd_preun thanos-receive.service
+%systemd_preun thanos-rule.service
 
 %postun
 %systemd_postun_with_restart thanos-query.service
 %systemd_postun_with_restart thanos-store.service
 %systemd_postun_with_restart thanos-compact.service
 %systemd_postun_with_restart thanos-sidecar.service
+%systemd_postun_with_restart thanos-query-frontend.service
+%systemd_postun_with_restart thanos-receive.service
+%systemd_postun_with_restart thanos-rule.service
 
 %files
 %{_bindir}/thanos
@@ -103,12 +118,18 @@ fi
 %{_unitdir}/thanos-store.service
 %{_unitdir}/thanos-compact.service
 %{_unitdir}/thanos-sidecar.service
+%{_unitdir}/thanos-query-frontend.service
+%{_unitdir}/thanos-receive.service
+%{_unitdir}/thanos-rule.service
 %dir %{_sysconfdir}/thanos
 %attr(0750,thanos,thanos) %dir /var/lib/thanos
 %{_tmpfilesdir}/thanos.conf
 %{_sysusersdir}/thanos.conf
 
 %changelog
+* Sun Feb 15 2026 James Wilson <packages@thesystem.dev> - 0.40.1-5
+- Add systemd units for thanos query-frontend, receive, and rule components
+
 * Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 0.40.1-4
 - Fix EL8 PREIN regression; create thanos account in %pre on EL8 and use sysusers compat on EL9-EL10
 
