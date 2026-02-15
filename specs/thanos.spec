@@ -3,7 +3,7 @@
 
 Name:           thanos
 Version:        0.40.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Highly available Prometheus setup with long-term storage
 
 License:        Apache-2.0
@@ -30,7 +30,11 @@ BuildRequires:  systemd-rpm-macros
 ExclusiveArch: x86_64 aarch64
 
 %{?systemd_requires}
+%if 0%{?rhel} == 8
+Requires(pre):  shadow-utils
+%else
 %{?sysusers_requires_compat}
+%endif
 
 %description
 Thanos is a set of components that can be composed into a highly available
@@ -65,7 +69,12 @@ install -D -m 0644 %{SOURCE5} %{buildroot}%{_tmpfilesdir}/thanos.conf
 install -D -m 0644 %{SOURCE6} %{buildroot}%{_sysusersdir}/thanos.conf
 
 %pre
+%if 0%{?rhel} == 8
+getent group thanos >/dev/null 2>&1 || groupadd -r thanos >/dev/null 2>&1 || :
+getent passwd thanos >/dev/null 2>&1 || useradd -r -g thanos -d /var/lib/thanos -s /sbin/nologin -c "Thanos service user" thanos >/dev/null 2>&1 || :
+%else
 %sysusers_create_compat %{SOURCE6}
+%endif
 
 %post
 %systemd_post thanos-query.service
@@ -100,6 +109,9 @@ fi
 %{_sysusersdir}/thanos.conf
 
 %changelog
+* Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 0.40.1-4
+- Fix EL8 PREIN regression; create thanos account in %pre on EL8 and use sysusers compat on EL9-EL10
+
 * Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 0.40.1-3
 - Create thanos account in %pre via sysusers for correct file ownership on install
 

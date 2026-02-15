@@ -3,7 +3,7 @@
 
 Name:           pushgateway
 Version:        1.11.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Prometheus push acceptor for batch and ephemeral jobs
 
 License:        Apache-2.0
@@ -27,7 +27,11 @@ BuildRequires:  systemd-rpm-macros
 ExclusiveArch: x86_64 aarch64
 
 %{?systemd_requires}
+%if 0%{?rhel} == 8
+Requires(pre):  shadow-utils
+%else
 %{?sysusers_requires_compat}
+%endif
 
 %description
 Prometheus Pushgateway allows ephemeral and batch jobs to push metrics,
@@ -64,7 +68,12 @@ install -D -m 0644 %{SOURCE3} %{buildroot}%{_sysusersdir}/pushgateway.conf
 install -d -m 0750 %{buildroot}/var/lib/pushgateway
 
 %pre
+%if 0%{?rhel} == 8
+getent group pushgateway >/dev/null 2>&1 || groupadd -r pushgateway >/dev/null 2>&1 || :
+getent passwd pushgateway >/dev/null 2>&1 || useradd -r -g pushgateway -d /var/lib/pushgateway -s /sbin/nologin -c "Prometheus Pushgateway" pushgateway >/dev/null 2>&1 || :
+%else
 %sysusers_create_compat %{SOURCE3}
+%endif
 
 %post
 %systemd_post pushgateway.service
@@ -88,6 +97,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 1.11.2-3
+- Fix EL8 PREIN regression; create pushgateway account in %pre on EL8 and use sysusers compat on EL9-EL10
+
 * Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 1.11.2-2
 - Create pushgateway account in %pre via sysusers for correct file ownership on install
 

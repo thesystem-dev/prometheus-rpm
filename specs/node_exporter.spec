@@ -3,7 +3,7 @@
 
 Name:           node_exporter
 Version:        1.10.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Prometheus Node Exporter
 
 License:        Apache-2.0
@@ -27,7 +27,11 @@ BuildRequires:  systemd-rpm-macros
 ExclusiveArch: x86_64 aarch64
 
 %{?systemd_requires}
+%if 0%{?rhel} == 8
+Requires(pre):  shadow-utils
+%else
 %{?sysusers_requires_compat}
+%endif
 
 %description
 Prometheus exporter for host metrics.
@@ -66,7 +70,12 @@ fi
 
 
 %pre
+%if 0%{?rhel} == 8
+getent group node_exporter >/dev/null 2>&1 || groupadd -r node_exporter >/dev/null 2>&1 || :
+getent passwd node_exporter >/dev/null 2>&1 || useradd -r -g node_exporter -d /var/lib/node_exporter -s /sbin/nologin -c "Prometheus Node Exporter" node_exporter >/dev/null 2>&1 || :
+%else
 %sysusers_create_compat %{SOURCE3}
+%endif
 
 %post
 %systemd_post node_exporter.service
@@ -90,6 +99,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 1.10.2-4
+- Fix EL8 PREIN regression; create node_exporter account in %pre on EL8 and use sysusers compat on EL9-EL10
+
 * Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 1.10.2-3
 - Create node_exporter account in %pre via sysusers for correct file ownership on install
 

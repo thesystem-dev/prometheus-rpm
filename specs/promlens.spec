@@ -3,7 +3,7 @@
 
 Name:           promlens
 Version:        0.3.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        PromQL query analyzer UI
 
 License:        Apache-2.0
@@ -27,7 +27,11 @@ BuildRequires:  systemd-rpm-macros
 ExclusiveArch: x86_64 aarch64
 
 %{?systemd_requires}
+%if 0%{?rhel} == 8
+Requires(pre):  shadow-utils
+%else
 %{?sysusers_requires_compat}
+%endif
 
 %description
 Promlens provides an interactive UI for inspecting and optimizing PromQL
@@ -64,7 +68,12 @@ install -D -m 0644 %{SOURCE3} %{buildroot}%{_sysusersdir}/promlens.conf
 install -d -m 0750 %{buildroot}/var/lib/promlens
 
 %pre
+%if 0%{?rhel} == 8
+getent group promlens >/dev/null 2>&1 || groupadd -r promlens >/dev/null 2>&1 || :
+getent passwd promlens >/dev/null 2>&1 || useradd -r -g promlens -d /var/lib/promlens -s /sbin/nologin -c "Promlens UI" promlens >/dev/null 2>&1 || :
+%else
 %sysusers_create_compat %{SOURCE3}
+%endif
 
 %post
 %systemd_post promlens.service
@@ -88,6 +97,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 0.3.0-3
+- Fix EL8 PREIN regression; create promlens account in %pre on EL8 and use sysusers compat on EL9-EL10
+
 * Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 0.3.0-2
 - Create promlens account in %pre via sysusers for correct file ownership on install
 

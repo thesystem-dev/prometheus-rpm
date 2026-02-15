@@ -3,7 +3,7 @@
 
 Name:           mysqld_exporter
 Version:        0.18.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Prometheus exporter for MySQL
 
 License:        Apache-2.0
@@ -27,7 +27,11 @@ BuildRequires:  systemd-rpm-macros
 ExclusiveArch: x86_64 aarch64
 
 %{?systemd_requires}
+%if 0%{?rhel} == 8
+Requires(pre):  shadow-utils
+%else
 %{?sysusers_requires_compat}
+%endif
 
 %description
 Prometheus exporter for MySQL metrics.
@@ -64,7 +68,12 @@ fi
 
 
 %pre
+%if 0%{?rhel} == 8
+getent group mysqld_exporter >/dev/null 2>&1 || groupadd -r mysqld_exporter >/dev/null 2>&1 || :
+getent passwd mysqld_exporter >/dev/null 2>&1 || useradd -r -g mysqld_exporter -M -s /sbin/nologin -c "Prometheus MySQL exporter" mysqld_exporter >/dev/null 2>&1 || :
+%else
 %sysusers_create_compat %{SOURCE3}
+%endif
 
 %post
 %systemd_post mysqld_exporter.service
@@ -85,6 +94,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 0.18.0-4
+- Fix EL8 PREIN regression; create mysqld_exporter account in %pre on EL8 and use sysusers compat on EL9-EL10
+
 * Tue Feb 10 2026 James Wilson <packages@thesystem.dev> - 0.18.0-3
 - Create mysqld_exporter account in %pre via sysusers for correct file ownership on install
 

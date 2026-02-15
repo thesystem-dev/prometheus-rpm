@@ -3,7 +3,7 @@
 
 Name:           prometheus
 Version:        3.9.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Prometheus monitoring system and time series database
 
 License:        Apache-2.0
@@ -27,7 +27,11 @@ BuildRequires:  systemd-rpm-macros
 ExclusiveArch: x86_64 aarch64
 
 %{?systemd_requires}
+%if 0%{?rhel} == 8
+Requires(pre):  shadow-utils
+%else
 %{?sysusers_requires_compat}
+%endif
 
 %description
 Prometheus is a systems and service monitoring system. It collects metrics
@@ -75,7 +79,12 @@ fi
 
 
 %pre
+%if 0%{?rhel} == 8
+getent group prometheus >/dev/null 2>&1 || groupadd -r prometheus >/dev/null 2>&1 || :
+getent passwd prometheus >/dev/null 2>&1 || useradd -r -g prometheus -d /var/lib/prometheus -s /sbin/nologin -c "Prometheus monitoring system" prometheus >/dev/null 2>&1 || :
+%else
 %sysusers_create_compat %{SOURCE3}
+%endif
 
 %post
 %systemd_post prometheus.service
@@ -101,6 +110,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 3.9.1-3
+- Fix EL8 PREIN regression; create prometheus account in %pre on EL8 and use sysusers compat on EL9-EL10
+
 * Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 3.9.1-2
 - Create prometheus account in %pre via sysusers for correct file ownership on install
 
