@@ -1,0 +1,16 @@
+# Example object storage configuration for Thanos components.
+# Copy to /etc/thanos/objectstore.yml and adjust for your provider.
+#
+# Used by:
+# - thanos compact
+# - thanos store
+# - thanos sidecar (optional uploads)
+
+type: S3
+config:
+  bucket: CHANGEME
+  endpoint: s3.amazonaws.com
+  region: us-east-1
+  access_key: CHANGEME
+  secret_key: CHANGEME
+  insecure: false

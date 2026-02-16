@@ -3,7 +3,7 @@
 
 Name:           thanos
 Version:        0.40.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Highly available Prometheus setup with long-term storage
 
 License:        Apache-2.0
@@ -27,6 +27,15 @@ Source6: thanos-receive.service
 Source7: thanos-rule.service
 Source8: thanos.tmpfiles.conf
 Source9: thanos.sysusers
+Source10: thanos-query.conf
+Source11: thanos-store.conf
+Source12: thanos-compact.conf
+Source13: thanos-sidecar.conf
+Source14: thanos-query-frontend.conf
+Source15: thanos-receive.conf
+Source16: thanos-rule.conf
+Source17: thanos-objectstore.yml.example
+Source18: thanos-receive-hashrings.json.example
 
 BuildRequires:  systemd-rpm-macros
 
@@ -64,8 +73,17 @@ install -D -m 0644 %{SOURCE5} %{buildroot}%{_unitdir}/thanos-query-frontend.serv
 install -D -m 0644 %{SOURCE6} %{buildroot}%{_unitdir}/thanos-receive.service
 install -D -m 0644 %{SOURCE7} %{buildroot}%{_unitdir}/thanos-rule.service
 
-# Config directory (empty; user-managed)
-install -d %{buildroot}%{_sysconfdir}/thanos
+# Config directory
+install -d -m 0750 %{buildroot}%{_sysconfdir}/thanos
+install -D -m 0644 %{SOURCE10} %{buildroot}%{_sysconfdir}/thanos/query.conf
+install -D -m 0644 %{SOURCE11} %{buildroot}%{_sysconfdir}/thanos/store.conf
+install -D -m 0644 %{SOURCE12} %{buildroot}%{_sysconfdir}/thanos/compact.conf
+install -D -m 0644 %{SOURCE13} %{buildroot}%{_sysconfdir}/thanos/sidecar.conf
+install -D -m 0644 %{SOURCE14} %{buildroot}%{_sysconfdir}/thanos/query-frontend.conf
+install -D -m 0644 %{SOURCE15} %{buildroot}%{_sysconfdir}/thanos/receive.conf
+install -D -m 0644 %{SOURCE16} %{buildroot}%{_sysconfdir}/thanos/rule.conf
+install -D -m 0644 %{SOURCE17} %{buildroot}%{_sysconfdir}/thanos/objectstore.yml.example
+install -D -m 0644 %{SOURCE18} %{buildroot}%{_sysconfdir}/thanos/receive-hashrings.json.example
 
 # Runtime directory
 install -d -m 0750 %{buildroot}/var/lib/thanos
@@ -121,12 +139,25 @@ fi
 %{_unitdir}/thanos-query-frontend.service
 %{_unitdir}/thanos-receive.service
 %{_unitdir}/thanos-rule.service
-%dir %{_sysconfdir}/thanos
+%dir %attr(0750,root,thanos) %{_sysconfdir}/thanos
+%config(noreplace) %attr(0640,root,thanos) %{_sysconfdir}/thanos/query.conf
+%config(noreplace) %attr(0640,root,thanos) %{_sysconfdir}/thanos/store.conf
+%config(noreplace) %attr(0640,root,thanos) %{_sysconfdir}/thanos/compact.conf
+%config(noreplace) %attr(0640,root,thanos) %{_sysconfdir}/thanos/sidecar.conf
+%config(noreplace) %attr(0640,root,thanos) %{_sysconfdir}/thanos/query-frontend.conf
+%config(noreplace) %attr(0640,root,thanos) %{_sysconfdir}/thanos/receive.conf
+%config(noreplace) %attr(0640,root,thanos) %{_sysconfdir}/thanos/rule.conf
+%config(noreplace) %attr(0640,root,thanos) %{_sysconfdir}/thanos/objectstore.yml.example
+%config(noreplace) %attr(0640,root,thanos) %{_sysconfdir}/thanos/receive-hashrings.json.example
 %attr(0750,thanos,thanos) %dir /var/lib/thanos
 %{_tmpfilesdir}/thanos.conf
 %{_sysusersdir}/thanos.conf
 
 %changelog
+* Mon Feb 16 2026 James Wilson <packages@thesystem.dev> - 0.40.1-6
+- Add component config templates under /etc/thanos and example objectstore/hashring configs
+- Set explicit Thanos listener defaults with documented hardening alternatives
+
 * Sun Feb 15 2026 James Wilson <packages@thesystem.dev> - 0.40.1-5
 - Add systemd units for thanos query-frontend, receive, and rule components
 
