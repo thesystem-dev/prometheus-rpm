@@ -2,8 +2,8 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           thanos
-Version:        0.40.1
-Release:        8%{?dist}
+Version:        0.41.0
+Release:        1%{?dist}
 Summary:        Highly available Prometheus setup with long-term storage
 
 License:        Apache-2.0
@@ -157,6 +157,9 @@ fi
 %{_sysusersdir}/thanos.conf
 
 %changelog
+* Mon Feb 16 2026 James Wilson <git@thesystem.dev> - 0.41.0-1
+- Rebase to upstream version 0.41.0
+
 * Mon Feb 16 2026 James Wilson <packages@thesystem.dev> - 0.40.1-8
 - Update query.conf to use endpoint SD config guidance instead of deprecated --endpoint flags
 - Add /etc/thanos/query-endpoints.yml.example for endpoint SD configuration

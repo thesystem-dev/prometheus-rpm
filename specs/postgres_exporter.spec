@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           postgres_exporter
-Version:        0.18.1
+Version:        0.19.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for PostgreSQL metrics
 
@@ -83,5 +83,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Mon Feb 16 2026 James Wilson <git@thesystem.dev> - 0.19.0-1
+- Rebase to upstream version 0.19.0
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 0.18.1-1
 - Initial RPM package

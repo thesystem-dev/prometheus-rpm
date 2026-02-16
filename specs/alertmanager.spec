@@ -2,8 +2,8 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           alertmanager
-Version:        0.30.1
-Release:        4%{?dist}
+Version:        0.31.1
+Release:        1%{?dist}
 Summary:        Prometheus Alertmanager
 
 License:        Apache-2.0
@@ -106,6 +106,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Mon Feb 16 2026 James Wilson <git@thesystem.dev> - 0.31.1-1
+- Rebase to upstream version 0.31.1
+
 * Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 0.30.1-4
 - Fix EL8 PREIN regression; create alertmanager account in %pre on EL8 and use sysusers compat on EL9-EL10
 
