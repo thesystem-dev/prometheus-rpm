@@ -3,7 +3,7 @@
 
 Name:           alertmanager
 Version:        0.31.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus Alertmanager
 
 License:        Apache-2.0
@@ -106,6 +106,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Mon Feb 16 2026 James Wilson <packages@thesystem.dev> - 0.31.1-2
+- Add AF_NETLINK to systemd RestrictAddressFamilies to fix cluster advertise address detection
+
 * Mon Feb 16 2026 James Wilson <packages@thesystem.dev> - 0.31.1-1
 - Rebase to upstream version 0.31.1
 
