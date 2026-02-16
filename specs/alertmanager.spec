@@ -106,7 +106,7 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
-* Mon Feb 16 2026 James Wilson <git@thesystem.dev> - 0.31.1-1
+* Mon Feb 16 2026 James Wilson <packages@thesystem.dev> - 0.31.1-1
 - Rebase to upstream version 0.31.1
 
 * Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 0.30.1-4
@@ -115,7 +115,7 @@ fi
 * Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 0.30.1-2
 - Create alertmanager account in %pre via sysusers for correct file ownership on install
 
-* Tue Jan 13 2026 James Wilson <git@thesystem.dev> - 0.30.1-1
+* Tue Jan 13 2026 James Wilson <packages@thesystem.dev> - 0.30.1-1
 - Rebase to upstream version 0.30.1
 
 * Wed Dec 17 2025 James Wilson <packages@thesystem.dev> - 0.30.0-1

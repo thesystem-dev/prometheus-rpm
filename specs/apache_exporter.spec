@@ -78,7 +78,7 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
-* Tue Jan 13 2026 James Wilson <git@thesystem.dev> - 1.0.12-1
+* Tue Jan 13 2026 James Wilson <packages@thesystem.dev> - 1.0.12-1
 - Rebase to upstream version 1.0.12
 
 * Wed Dec 17 2025 James Wilson <packages@thesystem.dev> - 1.0.10-1

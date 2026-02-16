@@ -83,7 +83,7 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
-* Mon Feb 16 2026 James Wilson <git@thesystem.dev> - 0.19.0-1
+* Mon Feb 16 2026 James Wilson <packages@thesystem.dev> - 0.19.0-1
 - Rebase to upstream version 0.19.0
 
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 0.18.1-1

@@ -116,7 +116,7 @@ fi
 * Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 3.9.1-2
 - Create prometheus account in %pre via sysusers for correct file ownership on install
 
-* Tue Jan 13 2026 James Wilson <git@thesystem.dev> - 3.9.1-1
+* Tue Jan 13 2026 James Wilson <packages@thesystem.dev> - 3.9.1-1
 - Rebase to upstream version 3.9.1
 
 * Wed Dec 17 2025 James Wilson <packages@thesystem.dev> - 3.8.1-1

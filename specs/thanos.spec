@@ -157,7 +157,7 @@ fi
 %{_sysusersdir}/thanos.conf
 
 %changelog
-* Mon Feb 16 2026 James Wilson <git@thesystem.dev> - 0.41.0-1
+* Mon Feb 16 2026 James Wilson <packages@thesystem.dev> - 0.41.0-1
 - Rebase to upstream version 0.41.0
 
 * Mon Feb 16 2026 James Wilson <packages@thesystem.dev> - 0.40.1-8

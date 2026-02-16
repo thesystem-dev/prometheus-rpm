@@ -103,7 +103,7 @@ fi
 * Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 1.11.2-2
 - Create pushgateway account in %pre via sysusers for correct file ownership on install
 
-* Tue Jan 13 2026 James Wilson <git@thesystem.dev> - 1.11.2-1
+* Tue Jan 13 2026 James Wilson <packages@thesystem.dev> - 1.11.2-1
 - Rebase to upstream version 1.11.2
 
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 1.11.0-1
