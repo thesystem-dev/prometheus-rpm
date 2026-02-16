@@ -1,0 +1,6 @@
+# Example endpoint SD configuration for Thanos Query.
+# Copy to /etc/thanos/query-endpoints.yml and adjust targets.
+
+endpoints:
+  - address: 127.0.0.1:10905
+  - address: 10.0.0.10:10901

@@ -3,7 +3,7 @@
 
 Name:           thanos
 Version:        0.40.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Highly available Prometheus setup with long-term storage
 
 License:        Apache-2.0
@@ -36,6 +36,7 @@ Source15: thanos-receive.conf
 Source16: thanos-rule.conf
 Source17: thanos-objectstore.yml.example
 Source18: thanos-receive-hashrings.json.example
+Source19: thanos-query-endpoints.yml.example
 
 BuildRequires:  systemd-rpm-macros
 
@@ -84,6 +85,7 @@ install -D -m 0644 %{SOURCE15} %{buildroot}%{_sysconfdir}/thanos/receive.conf
 install -D -m 0644 %{SOURCE16} %{buildroot}%{_sysconfdir}/thanos/rule.conf
 install -D -m 0644 %{SOURCE17} %{buildroot}%{_sysconfdir}/thanos/objectstore.yml.example
 install -D -m 0644 %{SOURCE18} %{buildroot}%{_sysconfdir}/thanos/receive-hashrings.json.example
+install -D -m 0644 %{SOURCE19} %{buildroot}%{_sysconfdir}/thanos/query-endpoints.yml.example
 
 # Runtime directory
 install -d -m 0750 %{buildroot}/var/lib/thanos
@@ -149,11 +151,17 @@ fi
 %config(noreplace) %attr(0640,root,thanos) %{_sysconfdir}/thanos/rule.conf
 %config(noreplace) %attr(0640,root,thanos) %{_sysconfdir}/thanos/objectstore.yml.example
 %config(noreplace) %attr(0640,root,thanos) %{_sysconfdir}/thanos/receive-hashrings.json.example
+%config(noreplace) %attr(0640,root,thanos) %{_sysconfdir}/thanos/query-endpoints.yml.example
 %attr(0750,thanos,thanos) %dir /var/lib/thanos
 %{_tmpfilesdir}/thanos.conf
 %{_sysusersdir}/thanos.conf
 
 %changelog
+* Mon Feb 16 2026 James Wilson <packages@thesystem.dev> - 0.40.1-8
+- Update query.conf to use endpoint SD config guidance instead of deprecated --endpoint flags
+- Add /etc/thanos/query-endpoints.yml.example for endpoint SD configuration
+- Add copy-from-example hints for objectstore/hashrings files in Thanos component configs
+
 * Mon Feb 16 2026 James Wilson <packages@thesystem.dev> - 0.40.1-7
 - Run thanos-sidecar as prometheus so shipper metadata writes succeed on Prometheus TSDB paths
 - Keep access to /etc/thanos config via thanos supplementary group
