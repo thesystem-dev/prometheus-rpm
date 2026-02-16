@@ -6,8 +6,9 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=thanos
-Group=thanos
+User=prometheus
+Group=prometheus
+SupplementaryGroups=thanos
 
 EnvironmentFile=-/etc/thanos/sidecar.conf
 ExecStart=/usr/bin/thanos sidecar $THANOS_OPTS

@@ -3,7 +3,7 @@
 
 Name:           thanos
 Version:        0.40.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Highly available Prometheus setup with long-term storage
 
 License:        Apache-2.0
@@ -154,6 +154,10 @@ fi
 %{_sysusersdir}/thanos.conf
 
 %changelog
+* Mon Feb 16 2026 James Wilson <packages@thesystem.dev> - 0.40.1-7
+- Run thanos-sidecar as prometheus so shipper metadata writes succeed on Prometheus TSDB paths
+- Keep access to /etc/thanos config via thanos supplementary group
+
 * Mon Feb 16 2026 James Wilson <packages@thesystem.dev> - 0.40.1-6
 - Add component config templates under /etc/thanos and example objectstore/hashring configs
 - Set explicit Thanos listener defaults with documented hardening alternatives

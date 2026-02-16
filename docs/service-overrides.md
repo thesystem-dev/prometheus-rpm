@@ -85,6 +85,29 @@ ExecStart=/usr/bin/node_exporter \
   --web.config.file=/etc/node_exporter/web.yml
 ```
 
+### thanos-sidecar: TSDB ownership
+
+In this package, `thanos-sidecar.service` runs as `prometheus:prometheus` with `SupplementaryGroups=thanos`.
+
+The packaged unit requires write access to the local Prometheus TSDB directory in order to create and maintain Thanos shipper metadata.
+
+When using this package set:
+
+- Install the `prometheus` RPM before enabling `thanos-sidecar`, or
+- Provide an equivalent `prometheus` user and group, and ensure the TSDB directory exists with appropriate ownership and permissions.
+
+If the `--tsdb.path` option is overridden, the specified directory must:
+
+- Exist prior to service start
+- Be owned by, or writable by, the `prometheus` user
+
+If the systemd service user or group is modified via a drop-in override, the administrator must ensure that:
+
+- The TSDB directory ownership and permissions are updated accordingly
+- Any referenced Thanos configuration files are readable by the configured service user or an assigned supplementary group
+
+Failure to meet these requirements will prevent `thanos-sidecar` from starting or from correctly shipping blocks.
+
 ### restic_exporter: repository credentials
 
 `restic_exporter` reads its configuration from environment variables (the unit already references `/etc/restic_exporter.d/env`). Create the directory and env file with restricted permissions:
