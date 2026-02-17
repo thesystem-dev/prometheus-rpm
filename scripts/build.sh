@@ -312,6 +312,14 @@ for pkg in "${PACKAGES[@]}"; do
       fi
 
       mkdir -p "$result_dir"
+      srpm_dir="$RESULTS_DIR/el${el}/SRPMS"
+      mkdir -p "$srpm_dir"
+
+      # Pre-build hygiene: move stray SRPMs out of shared arch result dirs.
+      for stale_srpm in "$result_dir"/*.src.rpm; do
+        [[ -e "$stale_srpm" ]] || break
+        mv "$stale_srpm" "$srpm_dir/"
+      done
 
       echo "Staged sources directory contents:"
       ls -al "$SOURCES_DIR"
@@ -335,12 +343,12 @@ for pkg in "${PACKAGES[@]}"; do
       fi
 
       # Validate SRPM was produced
-      srpms=("$result_dir"/*.src.rpm)
+      srpms=("$result_dir"/"${pkg}"-*.src.rpm)
       if [[ ! -e "${srpms[0]}" ]]; then
         die "No SRPM produced for $pkg (EL${el}/${arch})"
       fi
       if [[ ${#srpms[@]} -gt 1 ]]; then
-        die "Multiple SRPMs found for $pkg (EL${el}/${arch}): ${srpms[*]}"
+        die "Multiple package SRPMs found for $pkg (EL${el}/${arch}): ${srpms[*]}"
       fi
       srpm="${srpms[0]}"
 
@@ -353,9 +361,7 @@ for pkg in "${PACKAGES[@]}"; do
         die "RPM rebuild failed for $pkg (EL${el}/${arch}). See: $build_log"
       fi
 
-      srpm_dir="$RESULTS_DIR/el${el}/SRPMS"
-      mkdir -p "$srpm_dir"
-      for srpm_file in "$result_dir"/*.src.rpm; do
+      for srpm_file in "$result_dir"/"${pkg}"-*.src.rpm; do
         [[ -e "$srpm_file" ]] || break
         mv "$srpm_file" "$srpm_dir/"
       done
