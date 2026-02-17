@@ -106,9 +106,12 @@ def main() -> int:
             continue
 
         comment = f'Rebase to upstream version {latest}'
+        escaped_latest = re.escape(latest)
         cmd = (
-            f'rpmdev-bumpspec --comment "{comment}" '
-            f"-n {latest} specs/{spec_path.name}"
+            f'if grep -Eq "^Version:[[:space:]]*{escaped_latest}$" specs/{spec_path.name}; then '
+            f'echo "SKIP specs/{spec_path.name}: already at {latest}"; '
+            f'else rpmdev-bumpspec --comment "{comment}" -n {latest} specs/{spec_path.name}; '
+            f"fi"
         )
         outdated.append(f"{spec_name}: {current} -> {latest}")
         commands.append(cmd)
@@ -121,10 +124,6 @@ def main() -> int:
     for line in outdated:
         print(f"  - {line}")
 
-    print("\nSuggested commands:")
-    for cmd in commands:
-        print(f"  {cmd}")
-
     if args.write_script:
         args.write_script.write_text(
             "#!/usr/bin/env bash\nset -euo pipefail\n"
@@ -133,6 +132,8 @@ def main() -> int:
         )
         args.write_script.chmod(0o755)
         print(f"\nWrote helper script to {args.write_script}")
+    else:
+        print("\nUse --write-script to generate a runnable bump script.")
 
     return 0
 
