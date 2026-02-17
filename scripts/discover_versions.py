@@ -15,6 +15,7 @@ It is NOT responsible for:
 
 import re
 import sys
+import os
 from pathlib import Path
 
 import requests
@@ -33,7 +34,15 @@ def load_upstreams(path: Path) -> dict:
 
 def fetch_github_latest_release(repo: str) -> dict:
     url = GITHUB_LATEST_RELEASE_API.format(repo=repo)
-    resp = requests.get(url, timeout=15)
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "prometheus-rpm-discover-versions",
+    }
+    github_token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    if github_token:
+        headers["Authorization"] = f"Bearer {github_token}"
+
+    resp = requests.get(url, timeout=15, headers=headers)
     resp.raise_for_status()
     return resp.json()
 
