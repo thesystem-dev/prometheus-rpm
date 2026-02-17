@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           mongodb_exporter
-Version:        0.47.2
+Version:        0.48.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for MongoDB metrics
 
@@ -78,5 +78,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Tue Feb 17 2026 James Wilson <git@thesystem.dev> - 0.48.0-1
+- Rebase to upstream version 0.48.0
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 0.47.2-1
 - Initial RPM package

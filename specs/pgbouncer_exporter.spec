@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           pgbouncer_exporter
-Version:        0.11.0
+Version:        0.11.1
 Release:        1%{?dist}
 Summary:        Prometheus exporter for PgBouncer
 
@@ -78,5 +78,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Tue Feb 17 2026 James Wilson <git@thesystem.dev> - 0.11.1-1
+- Rebase to upstream version 0.11.1
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 0.11.0-1
 - Initial RPM package

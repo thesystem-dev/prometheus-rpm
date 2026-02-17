@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           restic_exporter
-Version:        2.0.0
+Version:        2.0.1
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Restic backup metrics
 
@@ -102,5 +102,8 @@ EOF
 %license %{_licensedir}/%{name}/LICENSE
 
 %changelog
+* Tue Feb 17 2026 James Wilson <git@thesystem.dev> - 2.0.1-1
+- Rebase to upstream version 2.0.1
+
 * Tue Jan 13 2026 James Wilson <packages@thesystem.dev> - 2.0.0-1
 - Initial RPM package from source tarball; installs Python script with wrapper
