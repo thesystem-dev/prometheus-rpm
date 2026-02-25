@@ -3,7 +3,7 @@
 
 Name:           thanos
 Version:        0.41.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Highly available Prometheus setup with long-term storage
 
 License:        Apache-2.0
@@ -157,6 +157,9 @@ fi
 %{_sysusersdir}/thanos.conf
 
 %changelog
+* Thu Feb 26 2026 James Wilson <packages@thesystem.dev> - 0.41.0-2
+- Add ExecReload with SIGHUP support to thanos-rule.service
+
 * Mon Feb 16 2026 James Wilson <packages@thesystem.dev> - 0.41.0-1
 - Rebase to upstream version 0.41.0
 

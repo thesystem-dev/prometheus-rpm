@@ -3,7 +3,7 @@
 
 Name:           prometheus
 Version:        3.9.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Prometheus monitoring system and time series database
 
 License:        Apache-2.0
@@ -110,6 +110,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Feb 26 2026 James Wilson <packages@thesystem.dev> - 3.9.1-4
+- Add ExecReload with SIGHUP support to prometheus.service
+
 * Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 3.9.1-3
 - Fix EL8 PREIN regression; create prometheus account in %pre on EL8 and use sysusers compat on EL9-EL10
 

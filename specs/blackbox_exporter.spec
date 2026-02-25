@@ -3,7 +3,7 @@
 
 Name:           blackbox_exporter
 Version:        0.28.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus blackbox prober
 
 License:        Apache-2.0
@@ -83,6 +83,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Feb 26 2026 James Wilson <packages@thesystem.dev> - 0.28.0-2
+- Add ExecReload with SIGHUP support to blackbox_exporter.service
+
 * Tue Jan 13 2026 James Wilson <packages@thesystem.dev> - 0.28.0-1
 - Rebase to upstream version 0.28.0
 

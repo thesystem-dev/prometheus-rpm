@@ -15,6 +15,7 @@ ExecStart=/usr/bin/alertmanager \
   --config.file=/etc/alertmanager/alertmanager.yml \
   --storage.path=/var/lib/alertmanager \
   $ALERTMANAGER_OPTS
+ExecReload=/bin/kill -HUP $MAINPID
 
 Restart=on-failure
 RestartSec=5s
