@@ -70,8 +70,9 @@ Then run the bump script inside the image:
 
 ```bash
 docker run --rm \
-  -v "$PWD":/home/builder \
-  -w /home/builder \
+  -v "$PWD":/work \
+  -v "$PWD/runtime/rpmmacros":/home/builder/.rpmmacros:ro \
+  -w /work \
   prometheus-rpm-builder:1.0 \
   ./runtime/bump.sh
 
@@ -81,6 +82,7 @@ git diff  # review changes before committing
 Notes:
 
 - Do not use the docker compose builder service to run `bump.sh`. Its volume layout mounts specs read-only under /home/builder/rpmbuild/SPECS and does not provide /home/builder/specs, so the helper cannot modify spec files in place.
+- Mount `runtime/rpmmacros` to `/home/builder/.rpmmacros` so `rpmdev-bumpspec` picks up the configured `%packager`.
 - After bumping versions, regenerate the exporter inventory:
 
 ```bash
