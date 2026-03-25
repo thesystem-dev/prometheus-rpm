@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           smokeping_prober
-Version:        0.10.0
+Version:        0.11.0
 Release:        1%{?dist}
 Summary:        Prometheus smokeping-style prober
 
@@ -78,5 +78,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Tue Mar 10 2026 James Wilson <packages@thesystem.dev> - 0.11.0-1
+- Rebase to upstream version 0.11.0
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 0.10.0-1
 - Initial RPM package

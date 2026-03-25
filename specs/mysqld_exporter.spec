@@ -2,8 +2,8 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           mysqld_exporter
-Version:        0.18.0
-Release:        4%{?dist}
+Version:        0.19.0
+Release:        1%{?dist}
 Summary:        Prometheus exporter for MySQL
 
 License:        Apache-2.0
@@ -94,6 +94,9 @@ getent passwd mysqld_exporter >/dev/null 2>&1 || useradd -r -g mysqld_exporter -
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Mar 25 2026 James Wilson <packages@thesystem.dev> - 0.19.0-1
+- Rebase to upstream version 0.19.0
+
 * Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 0.18.0-4
 - Fix EL8 PREIN regression; create mysqld_exporter account in %pre on EL8 and use sysusers compat on EL9-EL10
 

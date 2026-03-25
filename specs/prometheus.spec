@@ -2,8 +2,8 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           prometheus
-Version:        3.9.1
-Release:        4%{?dist}
+Version:        3.10.0
+Release:        1%{?dist}
 Summary:        Prometheus monitoring system and time series database
 
 License:        Apache-2.0
@@ -110,6 +110,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Sun Mar 01 2026 James Wilson <packages@thesystem.dev> - 3.10.0-1
+- Rebase to upstream version 3.10.0
+
 * Thu Feb 26 2026 James Wilson <packages@thesystem.dev> - 3.9.1-4
 - Add ExecReload with SIGHUP support to prometheus.service
 
