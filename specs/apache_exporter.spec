@@ -11,10 +11,10 @@ URL:            https://github.com/Lusitaniae/apache_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha bf7eaebb4ba2c251fa4b6f8661e3204a11df8933415c4c1307010ff976be42b8
+%global exporter_sha 92e0cc13c3f8c43394931760d0ea9e6072aa94e2fd24dd245b2d1d1763296b0d
 %else
 %global exporter_arch amd64
-%global exporter_sha 565993bd506d3342c51d3868a0c5bf200766c569b8ed86816b8ae5ac4245c026
+%global exporter_sha 2f0d6127ad704f40ab14e9409595e9a497b9057caf60a493bac600e6e9868824
 %endif
 
 Source0: https://github.com/Lusitaniae/apache_exporter/releases/download/v%{version}/apache_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}

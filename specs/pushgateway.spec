@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/pushgateway
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 4d6faa82083513d60d7450e6867cc6f4f78a892e7f698500ea97772677690b55
+%global exporter_sha b3fb835dbb0a29b1d6f9cd7ae3568a5615e59b96f8787965248cea67163d4db1
 %else
 %global exporter_arch amd64
-%global exporter_sha 5888b0c36d1b8e85950b6eb81ad168ff485a139807896a8727f877813690170c
+%global exporter_sha 2ec72315e150dda071fdeef09360780a386a67e5207ebaa53bb18f2f1a3b89cf
 %endif
 
 Source0: https://github.com/prometheus/pushgateway/releases/download/v%{version}/pushgateway-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}

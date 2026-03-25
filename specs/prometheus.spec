@@ -11,10 +11,10 @@ URL:            https://prometheus.io/
 
 %ifarch aarch64
 %global prom_arch arm64
-%global prom_sha 8d95804e692bba65a48d32ecdfb3d4acd8e1560d440c8cc08f48167cb838ec4b
+%global prom_sha f6fc81c7955b6e1ddd532c62b55896f7e7a61d997a3817ac3534114f2dd33ab1
 %else
 %global prom_arch amd64
-%global prom_sha a09972ced892cd298e353eb9559f1a90f499da3fb4ff0845be352fc138780ee7
+%global prom_sha 41c50d97bb6a181623fc89d3fe61d0cc68ee69cc93da9091b8bba005f9690122
 %endif
 
 Source0: https://github.com/prometheus/prometheus/releases/download/v%{version}/prometheus-%{version}.linux-%{prom_arch}.tar.gz#/%{prom_sha}

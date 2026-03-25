@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus-community/postgres_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 81c22dc2b6dcc58e9e2b5c0e557301dbf0ca0812ee3113d31984c1a37811d1cc
+%global exporter_sha 0ac6fe8c1f66f13b12adb8da282d248d9e1a48df6684e453ca232fd8fd62a11a
 %else
 %global exporter_arch amd64
-%global exporter_sha 1630965540d49a4907ad181cef5696306d7a481f87f43978538997e85d357272
+%global exporter_sha 229096c7988df6ca41fe5b4bf66865089971535e7f0d819c12c920ec64dd2bd0
 %endif
 
 Source0: https://github.com/prometheus-community/postgres_exporter/releases/download/v%{version}/postgres_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}

@@ -11,10 +11,10 @@ URL:            https://github.com/burningalchemist/sql_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha ef88273968c49fb6dba5565c53f34783dabe1754124f2c08bea6d6fbd61d4033
+%global exporter_sha 9ba22783704180067b8fcd1c7b4a814446c6c85716da05d46311573d788560ac
 %else
 %global exporter_arch amd64
-%global exporter_sha be086d7066bdc470a76c0ee1be91b81b9be89e5863c50fd3e39c7c54c2bed231
+%global exporter_sha c1b381eb92bbadf19484aa0c684e2d36bb2a98b5f0c7febd65534f404a281f59
 %endif
 
 Source0: https://github.com/burningalchemist/sql_exporter/releases/download/%{version}/sql_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}

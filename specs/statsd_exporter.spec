@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/statsd_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 7d361ebbd77b8cd51d03ad2e1c6fab727b9ae1b8322a5a855c1072dfd4491088
+%global exporter_sha ed66d0fc603e59b9381d9e489a9ec51e759da31be7554a28ac71d289980c13d9
 %else
 %global exporter_arch amd64
-%global exporter_sha 6951081e3115669e4353975f897dda1cefddef5a5d16addc908485d9be16b72b
+%global exporter_sha 46e39d834247fcd6219b9076a1c1065973859b70f7316b5159f158ce2da9c2b6
 %endif
 
 Source0: https://github.com/prometheus/statsd_exporter/releases/download/v%{version}/statsd_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}

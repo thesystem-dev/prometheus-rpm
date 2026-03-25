@@ -11,10 +11,10 @@ URL:            https://github.com/percona/mongodb_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha dee8c5a5024703645311a3551cbb0bf57436d6204ed673c2d98703969006d07d
+%global exporter_sha d5f44eb975fd81be6cab687adbce5a9d88b9a30ea0f1f1f19c4f8fd9feb8c265
 %else
 %global exporter_arch amd64
-%global exporter_sha e523bf5abe0c07367cead661f57a6555ea6a8d090c272f0f7da51b67f611c050
+%global exporter_sha 5b53b3df79cbef2b9fbbe432002bbbf09905e953b309fa23c52fcfe07bbd405a
 %endif
 
 Source0: https://github.com/percona/mongodb_exporter/releases/download/v%{version}/mongodb_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}

@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/snmp_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha e590870ad2fcd39ea9c7d722d6e85aa6f1cc9e8671ff3f17feba12a6b5a3b47a
+%global exporter_sha a12d159a8fee527e9f7b4dfa36eec490629f8d3c1fe4bcd155a7820ae8983949
 %else
 %global exporter_arch amd64
-%global exporter_sha fd7ded886180063a8f77e1ca18cc648e44b318b9c92bcb3867b817d93a5232d6
+%global exporter_sha 026aac4e23447ed593a783eccab9089cd41d77d17c9d2a0ab84398e45a0bb93e
 %endif
 
 Source0: https://github.com/prometheus/snmp_exporter/releases/download/v%{version}/snmp_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}

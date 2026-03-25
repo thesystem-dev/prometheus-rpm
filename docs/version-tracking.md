@@ -8,9 +8,10 @@ Upstream releases are tracked using a simple metadata model and helper scripts. 
 | --- | --- |
 | `scripts/discover_versions.py` | Calls the upstream release API (GitHub for now) and prints the latest version, or the latest release matching a configured series/tag filter, plus the artefacts that match the regex in `upstreams.yaml`. |
 | `scripts/plan-version-bumps.py` | Reads the discovery output, compares it with the `Version:` field in each spec, and prints the `rpmdev-bumpspec` commands needed to catch up. Use `--write-script` to emit a helper shell script. |
+| `scripts/sync-source-checksums.py` | Updates `upstreams.yaml` and spec `%global *_sha` values from discovered asset digests. It prefers upstream GitHub asset digests and falls back to a locally computed SHA256 only when no upstream digest is available. |
 | `scripts/generate_exporter_inventory.py` | Builds `docs/exporters.md`, a table that summarises package names, upstream project URLs, licences, and supported architectures. |
 
-All three scripts are **read-only** and rely exclusively on `upstreams.yaml`. They intentionally avoid modifying spec files, ensuring that changelog updates remain manual and auditable.
+`discover_versions.py`, `plan-version-bumps.py`, and `generate_exporter_inventory.py` are **read-only**. `sync-source-checksums.py` is the write step for source hash metadata only; changelog updates remain manual and auditable.
 
 ## Prometheus LTS Tracking
 
@@ -70,6 +71,9 @@ docker run --rm -e GITHUB_TOKEN -e PIP_DISABLE_PIP_VERSION_CHECK=1 -v "$PWD":/wo
   bash -lc "pip install -r requirements.txt && python scripts/plan-version-bumps.py --write-script runtime/bump.sh"
 
 docker run --rm -e GITHUB_TOKEN -e PIP_DISABLE_PIP_VERSION_CHECK=1 -v "$PWD":/work -w /work python:3.14-slim \
+  bash -lc "pip install -r requirements.txt && python scripts/sync-source-checksums.py"
+
+docker run --rm -e GITHUB_TOKEN -e PIP_DISABLE_PIP_VERSION_CHECK=1 -v "$PWD":/work -w /work python:3.14-slim \
   bash -lc "pip install -r requirements.txt && python scripts/generate_exporter_inventory.py"
 ```
 
@@ -102,9 +106,13 @@ Notes:
 
 - Do not use the docker compose builder service to run `bump.sh`. Its volume layout mounts specs read-only under /home/builder/rpmbuild/SPECS and does not provide /home/builder/specs, so the helper cannot modify spec files in place.
 - Mount `runtime/rpmmacros` to `/home/builder/.rpmmacros` so `rpmdev-bumpspec` picks up the configured `%packager`.
+- After `bump.sh`, run `scripts/sync-source-checksums.py` before building so the spec SHA256 macros and `upstreams.yaml` stay aligned with the selected assets.
 - After bumping versions, regenerate the exporter inventory:
 
 ```bash
+docker run --rm -e GITHUB_TOKEN -e PIP_DISABLE_PIP_VERSION_CHECK=1 -v "$PWD":/work -w /work python:3.14-slim \
+  bash -lc "pip install -r requirements.txt && python scripts/sync-source-checksums.py"
+
 docker run --rm -e GITHUB_TOKEN -e PIP_DISABLE_PIP_VERSION_CHECK=1 -v "$PWD":/work -w /work python:3.14-slim \
   bash -lc "pip install -r requirements.txt && python scripts/generate_exporter_inventory.py"
 ```
@@ -116,6 +124,7 @@ The helper scripts revolve around `upstreams.yaml`. When upstream releases move,
 1. Update `upstreams.yaml` whenever you add an exporter or change its release artefact naming/checksum scheme.
 2. Run `scripts/discover_versions.py` to ensure the metadata still matches upstream. For filtered packages such as `prometheus-lts`, this validates the configured `series` or `tag_regex`.
 3. Use `scripts/plan-version-bumps.py` to generate the bump commands for any outdated specs. Then apply the changes as described in 'Apply version bumps (container-only)' above.
-4. Rebuild `docs/exporters.md` so downstream users can see the full catalogue.
+4. Run `scripts/sync-source-checksums.py` so the recorded SHA256 values match the selected upstream assets.
+5. Rebuild `docs/exporters.md` so downstream users can see the full catalogue.
 
 Future tooling (build, sign, publish) will reuse the same metadata, so keeping it accurate prevents churn when additional scripts are introduced.

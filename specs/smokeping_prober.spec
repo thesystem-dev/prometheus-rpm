@@ -11,10 +11,10 @@ URL:            https://github.com/SuperQ/smokeping_prober
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 7c0e7311206a578327f00428c9dd917ec85b40dbf04f1917b9efed5a76b13524
+%global exporter_sha 9a2389d6ff1b9d15c7843561a1855e067dad58e382eaf8f9b0d0ac4e03a1cf89
 %else
 %global exporter_arch amd64
-%global exporter_sha d17b0ed4a0e75a957ef96aeb085da8df6db5209d3b8aaca1f56ad3d571dfc22b
+%global exporter_sha 92dcefd7d0da8c58f46e0466e34c455234bee18355824be1bff1707b1d6e8e66
 %endif
 
 Source0: https://github.com/SuperQ/smokeping_prober/releases/download/v%{version}/smokeping_prober-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}

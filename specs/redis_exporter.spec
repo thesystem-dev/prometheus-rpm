@@ -11,10 +11,10 @@ URL:            https://github.com/oliver006/redis_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha a807907d413edb1c0aa88513e7c1570c302873bd1cfcbf36fb53a14629177882
+%global exporter_sha 13aaa6acbb145848cb97ed3bab22747e094b3f0ed22df83c8ace593e3c527c95
 %else
 %global exporter_arch amd64
-%global exporter_sha 1818cc2cbd3bac62a6f43054a2cc1596fc5f6148ce80112a6308bc3cad6d81fa
+%global exporter_sha 2d98dd0888f46e206bf3ad1b7c1784934a3a39cd8774cf47615f4c15594547cd
 %endif
 
 Source0: https://github.com/oliver006/redis_exporter/releases/download/v%{version}/redis_exporter-v%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}

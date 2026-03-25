@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus-community/pgbouncer_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha f29fa44523bd872fd136d947998055754d9492f130e008ae316ec1f8984063a0
+%global exporter_sha a5ce7e1d9b94afbcf28b1ee0e15a939076f8e86bd687699ad087d5dad44928f0
 %else
 %global exporter_arch amd64
-%global exporter_sha de95a3d22141c0f84ac33de07e793c4993410f43d7c10e8ba281559381e031da
+%global exporter_sha 987a16715835470a08251945648f5c51043baabfa48a8b18af77b336e548a6d7
 %endif
 
 Source0: https://github.com/prometheus-community/pgbouncer_exporter/releases/download/v%{version}/pgbouncer_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}

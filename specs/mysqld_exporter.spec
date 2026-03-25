@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/mysqld_exporter
 
 %ifarch aarch64
 %global go_arch arm64
-%global go_sha abdb452600ca086b68244aadf8045fbf0b6a48dcb76eed5576995806c176f6ce
+%global go_sha c0ced018825d9e8c69619df4995132f7256c1bc9e947acd31978351723b72557
 %else
 %global go_arch amd64
-%global go_sha 46e8f45654352bdd42d162b2b4a68f00055d45acc168f9c068235b9e3acc39c1
+%global go_sha 97238be558bd1a6aa6b9a927fa21d91dc5cabe6b9e00678b5cafa2bbb3899e72
 %endif
 
 Source0: https://github.com/prometheus/mysqld_exporter/releases/download/v%{version}/mysqld_exporter-%{version}.linux-%{go_arch}.tar.gz#/%{go_sha}

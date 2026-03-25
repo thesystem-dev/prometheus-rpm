@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/blackbox_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha afb5581b1d4ea45078eebc96e4f989f912d1144d2cc131db8a6c0963bcc6a654
+%global exporter_sha 63312be0983d85e5109710a7dc93df3051157ae581853fa3655d171cc1b2806e
 %else
 %global exporter_arch amd64
-%global exporter_sha 4b1bb299c685ecff75d41e55e90aae8e02a658395fb14092c7f9c5c9d75016c7
+%global exporter_sha caf5d242fb1cf6d5cb678f3f799f22703d4fafea26b03dcbbd7e1f1825e06329
 %endif
 
 Source0: https://github.com/prometheus/blackbox_exporter/releases/download/v%{version}/blackbox_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}

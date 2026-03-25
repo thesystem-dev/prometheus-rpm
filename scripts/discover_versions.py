@@ -196,11 +196,13 @@ def main() -> int:
             if not match:
                 continue
 
+            digest = asset.get("digest")
             matched_assets.append(
                 {
                     "name": name,
                     "url": asset.get("browser_download_url"),
                     "version": match.groupdict().get("version", tag),
+                    "digest": digest,
                 }
             )
 

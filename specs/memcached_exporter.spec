@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/memcached_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 1ec401184ed207c40e8ab8323f46d116f6ff7654ea4040fe0d786af237c5df8d
+%global exporter_sha 609e6d7484f22fd9e405c0022a9e2d7f86eedef1cfa55772231528271082aeae
 %else
 %global exporter_arch amd64
-%global exporter_sha d628bd8119b8e69696f61bdf6736490962d5abd52d35207b58a547447aa4e74f
+%global exporter_sha 5b82e6579b77fae00683d10d5923329173925a5abd95a799f5489a66136b884c
 %endif
 
 Source0: https://github.com/prometheus/memcached_exporter/releases/download/v%{version}/memcached_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}

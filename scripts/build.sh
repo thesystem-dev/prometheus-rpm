@@ -28,6 +28,7 @@ die() {
 
 command -v mock >/dev/null || die "mock not installed"
 command -v spectool >/dev/null || die "spectool not installed"
+command -v sha256sum >/dev/null || die "sha256sum not installed"
 
 # Check for basename conflicts in source files
 # Returns 0 on success, 1 if conflicts detected
@@ -62,6 +63,62 @@ check_source_conflicts() {
   echo "Found $file_count source files across $package_count packages"
 
   return 0
+}
+
+extract_expected_sha() {
+  local spec="$1"
+  local arch="$2"
+
+  awk -v arch="$arch" '
+    BEGIN { branch = "global" }
+    /^%ifarch[[:space:]]+/ {
+      target = $2
+      if (target == "aarch64") {
+        branch = (arch == "aarch64") ? "aarch64" : "skip"
+      } else {
+        branch = "skip"
+      }
+      next
+    }
+    /^%else$/ {
+      if (branch == "aarch64") {
+        branch = "skip"
+      } else if (branch == "skip" && arch != "aarch64") {
+        branch = "else"
+      }
+      next
+    }
+    /^%endif$/ {
+      branch = "global"
+      next
+    }
+    /^[[:space:]]*%global[[:space:]]+[[:alnum:]_]+_sha[[:space:]]+[0-9A-Fa-f]{64}[[:space:]]*$/ {
+      if (branch == "aarch64" || branch == "else" || branch == "global") {
+        print $3
+        exit
+      }
+    }
+  ' "$spec"
+}
+
+verify_downloaded_source_checksum() {
+  local spec="$1"
+  local arch="$2"
+
+  if ! grep -Eq '^Source0:[[:space:]].*#/%\{[[:alnum:]_]+_sha\}[[:space:]]*$' "$spec"; then
+    return
+  fi
+
+  local expected_sha
+  expected_sha="$(extract_expected_sha "$spec" "$arch")"
+  [[ -n "$expected_sha" ]] || die "Failed to determine expected SHA256 for $spec ($arch)"
+
+  local source_path="$SOURCES_DIR/$expected_sha"
+  [[ -f "$source_path" ]] || die "Expected source file not found after download: $source_path"
+
+  local actual_sha
+  actual_sha="$(sha256sum "$source_path" | awk '{print $1}')"
+  [[ "$actual_sha" == "$expected_sha" ]] || die "Source checksum mismatch for $spec ($arch): expected $expected_sha got $actual_sha"
 }
 
 # -------------------------
@@ -263,6 +320,8 @@ ensure_sources_for_arch() {
     --define "_target_cpu $arch" \
     --define "_arch $arch" \
     "$spec"
+
+  verify_downloaded_source_checksum "$spec" "$arch"
 
   # spectool can clobber local files if it stages Source1+,
   # so re-copy and re-flatten the tracked configs after each fetch.

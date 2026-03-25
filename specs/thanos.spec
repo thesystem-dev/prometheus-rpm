@@ -11,10 +11,10 @@ URL:            https://thanos.io/
 
 %ifarch aarch64
 %global thanos_arch arm64
-%global thanos_sha d76ece2b856e5da76f0ef8dceb92b2157286d0ffd26f4851e147b89ba2f0c643
+%global thanos_sha 7bdf4e7e8134b075e4c8666625de82cd1b93b7bb45906cc12e602485dc26b346
 %else
 %global thanos_arch amd64
-%global thanos_sha 5493dcb06f93fa72245eb5af283ce05ff40acb6c6e2071bac37532d26e9b83ee
+%global thanos_sha 6bcd47f53e1665ba7faf4920f8bc39ef134b8b7a7d4b8122475bcdbacef349ed
 %endif
 
 Source0: https://github.com/thanos-io/thanos/releases/download/v%{version}/thanos-%{version}.linux-%{thanos_arch}.tar.gz#/%{thanos_sha}

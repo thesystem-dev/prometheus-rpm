@@ -10,8 +10,8 @@ projects:
       asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: a09972ced892cd298e353eb9559f1a90f499da3fb4ff0845be352fc138780ee7
-        linux-arm64: 8d95804e692bba65a48d32ecdfb3d4acd8e1560d440c8cc08f48167cb838ec4b
+        linux-amd64: 41c50d97bb6a181623fc89d3fe61d0cc68ee69cc93da9091b8bba005f9690122
+        linux-arm64: f6fc81c7955b6e1ddd532c62b55896f7e7a61d997a3817ac3534114f2dd33ab1
     packaging:
       rpm_name: prometheus
       architectures:
@@ -65,8 +65,8 @@ projects:
       asset_pattern: ^thanos-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 5493dcb06f93fa72245eb5af283ce05ff40acb6c6e2071bac37532d26e9b83ee
-        linux-arm64: d76ece2b856e5da76f0ef8dceb92b2157286d0ffd26f4851e147b89ba2f0c643
+        linux-amd64: 6bcd47f53e1665ba7faf4920f8bc39ef134b8b7a7d4b8122475bcdbacef349ed
+        linux-arm64: 7bdf4e7e8134b075e4c8666625de82cd1b93b7bb45906cc12e602485dc26b346
     packaging:
       rpm_name: thanos
       architectures:
@@ -83,8 +83,8 @@ projects:
       asset_pattern: ^alertmanager-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 86fd95034e3e17094d6951118c54b396200be22a1c16af787e1f7129ebce8f1f
-        linux-arm64: 061a5ab3998fb8af75192980a559c7bfa3892da55098da839d7a79d94abe0b61
+        linux-amd64: 35191cbd9d4f8162458b78dd7e93990cccd246044d9a6f788adb1c66ac3ea07b
+        linux-arm64: 266dda88b64318c27847ef9af4ff450fc178c827550a8039420c5ca8657a4a8b
     packaging:
       rpm_name: alertmanager
       architectures:
@@ -101,8 +101,8 @@ projects:
       asset_pattern: ^mysqld_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 46e8f45654352bdd42d162b2b4a68f00055d45acc168f9c068235b9e3acc39c1
-        linux-arm64: abdb452600ca086b68244aadf8045fbf0b6a48dcb76eed5576995806c176f6ce
+        linux-amd64: 97238be558bd1a6aa6b9a927fa21d91dc5cabe6b9e00678b5cafa2bbb3899e72
+        linux-arm64: c0ced018825d9e8c69619df4995132f7256c1bc9e947acd31978351723b72557
     packaging:
       rpm_name: mysqld_exporter
       architectures:
@@ -137,8 +137,8 @@ projects:
       asset_pattern: ^apache_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 565993bd506d3342c51d3868a0c5bf200766c569b8ed86816b8ae5ac4245c026
-        linux-arm64: bf7eaebb4ba2c251fa4b6f8661e3204a11df8933415c4c1307010ff976be42b8
+        linux-amd64: 2f0d6127ad704f40ab14e9409595e9a497b9057caf60a493bac600e6e9868824
+        linux-arm64: 92e0cc13c3f8c43394931760d0ea9e6072aa94e2fd24dd245b2d1d1763296b0d
     packaging:
       rpm_name: apache_exporter
       architectures:
@@ -173,8 +173,8 @@ projects:
       asset_pattern: ^statsd_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 6951081e3115669e4353975f897dda1cefddef5a5d16addc908485d9be16b72b
-        linux-arm64: 7d361ebbd77b8cd51d03ad2e1c6fab727b9ae1b8322a5a855c1072dfd4491088
+        linux-amd64: 46e39d834247fcd6219b9076a1c1065973859b70f7316b5159f158ce2da9c2b6
+        linux-arm64: ed66d0fc603e59b9381d9e489a9ec51e759da31be7554a28ac71d289980c13d9
     packaging:
       rpm_name: statsd_exporter
       architectures:
@@ -209,8 +209,8 @@ projects:
       asset_pattern: ^pushgateway-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 5888b0c36d1b8e85950b6eb81ad168ff485a139807896a8727f877813690170c
-        linux-arm64: 4d6faa82083513d60d7450e6867cc6f4f78a892e7f698500ea97772677690b55
+        linux-amd64: 2ec72315e150dda071fdeef09360780a386a67e5207ebaa53bb18f2f1a3b89cf
+        linux-arm64: b3fb835dbb0a29b1d6f9cd7ae3568a5615e59b96f8787965248cea67163d4db1
     packaging:
       rpm_name: pushgateway
       architectures:
@@ -227,8 +227,8 @@ projects:
       asset_pattern: ^memcached_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: d628bd8119b8e69696f61bdf6736490962d5abd52d35207b58a547447aa4e74f
-        linux-arm64: 1ec401184ed207c40e8ab8323f46d116f6ff7654ea4040fe0d786af237c5df8d
+        linux-amd64: 5b82e6579b77fae00683d10d5923329173925a5abd95a799f5489a66136b884c
+        linux-arm64: 609e6d7484f22fd9e405c0022a9e2d7f86eedef1cfa55772231528271082aeae
     packaging:
       rpm_name: memcached_exporter
       architectures:
@@ -263,8 +263,8 @@ projects:
       asset_pattern: ^blackbox_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 4b1bb299c685ecff75d41e55e90aae8e02a658395fb14092c7f9c5c9d75016c7
-        linux-arm64: afb5581b1d4ea45078eebc96e4f989f912d1144d2cc131db8a6c0963bcc6a654
+        linux-amd64: caf5d242fb1cf6d5cb678f3f799f22703d4fafea26b03dcbbd7e1f1825e06329
+        linux-arm64: 63312be0983d85e5109710a7dc93df3051157ae581853fa3655d171cc1b2806e
     packaging:
       rpm_name: blackbox_exporter
       architectures:
@@ -299,8 +299,8 @@ projects:
       asset_pattern: ^postgres_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 1630965540d49a4907ad181cef5696306d7a481f87f43978538997e85d357272
-        linux-arm64: 81c22dc2b6dcc58e9e2b5c0e557301dbf0ca0812ee3113d31984c1a37811d1cc
+        linux-amd64: 229096c7988df6ca41fe5b4bf66865089971535e7f0d819c12c920ec64dd2bd0
+        linux-arm64: 0ac6fe8c1f66f13b12adb8da282d248d9e1a48df6684e453ca232fd8fd62a11a
     packaging:
       rpm_name: postgres_exporter
       architectures:
@@ -317,8 +317,8 @@ projects:
       asset_pattern: ^redis_exporter-v(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 1818cc2cbd3bac62a6f43054a2cc1596fc5f6148ce80112a6308bc3cad6d81fa
-        linux-arm64: a807907d413edb1c0aa88513e7c1570c302873bd1cfcbf36fb53a14629177882
+        linux-amd64: 2d98dd0888f46e206bf3ad1b7c1784934a3a39cd8774cf47615f4c15594547cd
+        linux-arm64: 13aaa6acbb145848cb97ed3bab22747e094b3f0ed22df83c8ace593e3c527c95
     packaging:
       rpm_name: redis_exporter
       architectures:
@@ -335,8 +335,8 @@ projects:
       asset_pattern: ^snmp_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: fd7ded886180063a8f77e1ca18cc648e44b318b9c92bcb3867b817d93a5232d6
-        linux-arm64: e590870ad2fcd39ea9c7d722d6e85aa6f1cc9e8671ff3f17feba12a6b5a3b47a
+        linux-amd64: 026aac4e23447ed593a783eccab9089cd41d77d17c9d2a0ab84398e45a0bb93e
+        linux-arm64: a12d159a8fee527e9f7b4dfa36eec490629f8d3c1fe4bcd155a7820ae8983949
     packaging:
       rpm_name: snmp_exporter
       architectures:
@@ -389,8 +389,8 @@ projects:
       asset_pattern: ^mongodb_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: e523bf5abe0c07367cead661f57a6555ea6a8d090c272f0f7da51b67f611c050
-        linux-arm64: dee8c5a5024703645311a3551cbb0bf57436d6204ed673c2d98703969006d07d
+        linux-amd64: 5b53b3df79cbef2b9fbbe432002bbbf09905e953b309fa23c52fcfe07bbd405a
+        linux-arm64: d5f44eb975fd81be6cab687adbce5a9d88b9a30ea0f1f1f19c4f8fd9feb8c265
     packaging:
       rpm_name: mongodb_exporter
       architectures:
@@ -497,8 +497,8 @@ projects:
       asset_pattern: ^smokeping_prober-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: d17b0ed4a0e75a957ef96aeb085da8df6db5209d3b8aaca1f56ad3d571dfc22b
-        linux-arm64: 7c0e7311206a578327f00428c9dd917ec85b40dbf04f1917b9efed5a76b13524
+        linux-amd64: 92dcefd7d0da8c58f46e0466e34c455234bee18355824be1bff1707b1d6e8e66
+        linux-arm64: 9a2389d6ff1b9d15c7843561a1855e067dad58e382eaf8f9b0d0ac4e03a1cf89
     packaging:
       rpm_name: smokeping_prober
       architectures:
@@ -540,7 +540,6 @@ projects:
       architectures:
       - amd64
       - arm64
-
   restic_exporter:
     display_name: Restic Exporter
     upstream:
@@ -549,14 +548,12 @@ projects:
       project_url: https://github.com/ngosang/restic-exporter
     releases:
       type: github-releases
-      # Note: asset_pattern unused – source tarball from tag archive
       asset_pattern: ^restic[-_]exporter[_-](?P<version>[^_\-]+)[_-]linux[_-](amd64|arm64)\.tar\.gz$
       version_from: tag
     packaging:
       rpm_name: restic_exporter
       architectures:
       - noarch
-
   restic_repo_exporter:
     display_name: Restic Repo Exporter
     upstream:
@@ -619,8 +616,8 @@ projects:
       asset_pattern: ^sql_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: be086d7066bdc470a76c0ee1be91b81b9be89e5863c50fd3e39c7c54c2bed231
-        linux-arm64: ef88273968c49fb6dba5565c53f34783dabe1754124f2c08bea6d6fbd61d4033
+        linux-amd64: c1b381eb92bbadf19484aa0c684e2d36bb2a98b5f0c7febd65534f404a281f59
+        linux-arm64: 9ba22783704180067b8fcd1c7b4a814446c6c85716da05d46311573d788560ac
     packaging:
       rpm_name: sql_exporter
       architectures:
@@ -637,8 +634,8 @@ projects:
       asset_pattern: ^pgbouncer_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: de95a3d22141c0f84ac33de07e793c4993410f43d7c10e8ba281559381e031da
-        linux-arm64: f29fa44523bd872fd136d947998055754d9492f130e008ae316ec1f8984063a0
+        linux-amd64: 987a16715835470a08251945648f5c51043baabfa48a8b18af77b336e548a6d7
+        linux-arm64: a5ce7e1d9b94afbcf28b1ee0e15a939076f8e86bd687699ad087d5dad44928f0
     packaging:
       rpm_name: pgbouncer_exporter
       architectures:
@@ -692,7 +689,7 @@ projects:
       version_from: tag
       checksums:
         logstash-exporter-linux: c6e45d08b997650039e5061a3415d0098bba22fa296e6caf916b8980a0faa8a1
-        logstash-exporter-linux-arm: 15736b94a3faf600768bec41b798091761114988ae3afe035aff20bbe2db87b
+        logstash-exporter-linux-arm: 15736b94a3faf600768bec41b798091761114988ae3afe035aff20bbe2db87b7
     packaging:
       rpm_name: logstash_exporter
       architectures:

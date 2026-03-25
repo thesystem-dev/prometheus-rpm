@@ -11,10 +11,10 @@ URL:            https://prometheus.io/
 
 %ifarch aarch64
 %global am_arch arm64
-%global am_sha 061a5ab3998fb8af75192980a559c7bfa3892da55098da839d7a79d94abe0b61
+%global am_sha 266dda88b64318c27847ef9af4ff450fc178c827550a8039420c5ca8657a4a8b
 %else
 %global am_arch amd64
-%global am_sha 86fd95034e3e17094d6951118c54b396200be22a1c16af787e1f7129ebce8f1f
+%global am_sha 35191cbd9d4f8162458b78dd7e93990cccd246044d9a6f788adb1c66ac3ea07b
 %endif
 
 Source0: https://github.com/prometheus/alertmanager/releases/download/v%{version}/alertmanager-%{version}.linux-%{am_arch}.tar.gz#/%{am_sha}
