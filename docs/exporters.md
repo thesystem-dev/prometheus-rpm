@@ -29,6 +29,7 @@ Auto-generated from `upstreams.yaml` by `scripts/generate_exporter_inventory.py`
 | `postgres_exporter` | Prometheus Postgres Exporter | [https://github.com/prometheus-community/postgres_exporter](https://github.com/prometheus-community/postgres_exporter) | Apache-2.0 | amd64, arm64 |
 | `process_exporter` | Prometheus Process Exporter | [https://github.com/ncabatoff/process-exporter](https://github.com/ncabatoff/process-exporter) | MIT | amd64, arm64 |
 | `prometheus` | Prometheus | [https://prometheus.io/](https://prometheus.io/) | Apache-2.0 | amd64, arm64 |
+| `prometheus-lts` | Prometheus (LTS) | [https://prometheus.io/docs/introduction/release-cycle/](https://prometheus.io/docs/introduction/release-cycle/) | Apache-2.0 | amd64, arm64 |
 | `promlens` | Promlens | [https://github.com/prometheus/promlens](https://github.com/prometheus/promlens) | Apache-2.0 | amd64, arm64 |
 | `pushgateway` | Prometheus Pushgateway | [https://github.com/prometheus/pushgateway](https://github.com/prometheus/pushgateway) | Apache-2.0 | amd64, arm64 |
 | `redis_exporter` | Prometheus Redis Exporter | [https://github.com/oliver006/redis_exporter](https://github.com/oliver006/redis_exporter) | MIT | amd64, arm64 |

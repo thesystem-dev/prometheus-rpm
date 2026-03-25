@@ -1,33 +1,35 @@
 %global debug_package %{nil}
 %global _missing_build_ids_terminate_build 0
 
-Name:           prometheus
-Version:        3.10.0
+Name:           prometheus-lts
+Version:        3.5.1
 Release:        1%{?dist}
-Summary:        Prometheus monitoring system and time series database
+Summary:        Prometheus monitoring system and time series database (LTS)
 
 License:        Apache-2.0
 URL:            https://prometheus.io/
 
 %ifarch aarch64
 %global prom_arch arm64
-%global prom_sha 8d95804e692bba65a48d32ecdfb3d4acd8e1560d440c8cc08f48167cb838ec4b
+%global prom_sha cdb1de33d6d3ed73b4633cebedb70258c29e41bd132d287d387f322a046143d2
 %else
 %global prom_arch amd64
-%global prom_sha a09972ced892cd298e353eb9559f1a90f499da3fb4ff0845be352fc138780ee7
+%global prom_sha cd6aea0ab214b05838470668dfcee7d01a7d91913509a227b00401ca872423f0
 %endif
 
+%global prom_srcdir prometheus-%{version}.linux-%{prom_arch}
+
 Source0: https://github.com/prometheus/prometheus/releases/download/v%{version}/prometheus-%{version}.linux-%{prom_arch}.tar.gz#/%{prom_sha}
-Source1: prometheus.service
-Source2: prometheus.tmpfiles.conf
-Source3: prometheus.sysusers
+Source1: prometheus-lts.service
+Source2: prometheus-lts.tmpfiles.conf
+Source3: prometheus-lts.sysusers
 
 BuildRequires:  systemd-rpm-macros
 
 ExclusiveArch: x86_64 aarch64
 
 %{?systemd_requires}
-Conflicts:      prometheus-lts
+Conflicts:      prometheus
 %if 0%{?rhel} == 8
 Requires(pre):  shadow-utils
 %else
@@ -40,6 +42,10 @@ from configured targets at given intervals, evaluates rule expressions,
 displays the results, and can trigger alerts if some condition is observed
 to be true.
 
+This package tracks the current Prometheus long-term support (LTS) release line and
+installs the same runtime layout as the standard package. It cannot be
+co-installed with prometheus.
+
 %prep
 %setup -q -c -T
 tar -xf %{SOURCE0}
@@ -48,7 +54,7 @@ tar -xf %{SOURCE0}
 /bin/true
 
 %install
-cd prometheus-%{version}.linux-%{prom_arch}
+cd %{prom_srcdir}
 
 install -D -m 0755 prometheus %{buildroot}%{_bindir}/prometheus
 install -D -m 0755 promtool   %{buildroot}%{_bindir}/promtool
@@ -111,20 +117,5 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
-* Sun Mar 01 2026 James Wilson <packages@thesystem.dev> - 3.10.0-1
-- Rebase to upstream version 3.10.0
-
-* Thu Feb 26 2026 James Wilson <packages@thesystem.dev> - 3.9.1-4
-- Add ExecReload with SIGHUP support to prometheus.service
-
-* Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 3.9.1-3
-- Fix EL8 PREIN regression; create prometheus account in %pre on EL8 and use sysusers compat on EL9-EL10
-
-* Wed Feb 11 2026 James Wilson <packages@thesystem.dev> - 3.9.1-2
-- Create prometheus account in %pre via sysusers for correct file ownership on install
-
-* Tue Jan 13 2026 James Wilson <packages@thesystem.dev> - 3.9.1-1
-- Rebase to upstream version 3.9.1
-
-* Wed Dec 17 2025 James Wilson <packages@thesystem.dev> - 3.8.1-1
-- Initial RPM package
+* Wed Mar 25 2026 James Wilson <packages@thesystem.dev> - 3.5.1-1
+- Add Prometheus LTS package for the supported release line

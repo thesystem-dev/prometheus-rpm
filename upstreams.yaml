@@ -17,6 +17,25 @@ projects:
       architectures:
       - amd64
       - arm64
+  prometheus-lts:
+    display_name: Prometheus (LTS)
+    upstream:
+      vcs: github
+      repo: prometheus/prometheus
+      project_url: https://prometheus.io/docs/introduction/release-cycle/
+    releases:
+      type: github-releases
+      series: '3.5'
+      asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: cd6aea0ab214b05838470668dfcee7d01a7d91913509a227b00401ca872423f0
+        linux-arm64: cdb1de33d6d3ed73b4633cebedb70258c29e41bd132d287d387f322a046143d2
+    packaging:
+      rpm_name: prometheus-lts
+      architectures:
+      - amd64
+      - arm64
   node_exporter:
     display_name: Prometheus Node Exporter
     upstream:
