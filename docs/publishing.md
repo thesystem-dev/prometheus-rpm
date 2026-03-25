@@ -34,7 +34,36 @@ Before publishing, review the repo tree:
   rpm -Kv runtime/repo/el9/x86_64/*.rpm | head -n 8
   ```
 
-## 3. Copy the repository to your host
+## 3. Optional: prune old package versions
+
+If you want to limit retained history in the published repository (for example, to control storage usage in S3/R2-backed repositories), use `scripts/prune-repo.sh` against `runtime/repo`.
+
+Dry-run first (containerized):
+
+```bash
+docker compose -f docker/docker-compose.yml run --rm builder -- \
+  ./scripts/prune-repo.sh --root runtime/repo --keep 3 --dry-run
+```
+
+Apply pruning (keeps latest 3 per package in each repo directory and updates `repodata`):
+
+```bash
+docker compose -f docker/docker-compose.yml run --rm builder -- \
+  ./scripts/prune-repo.sh --root runtime/repo --keep 3
+```
+
+If you keep a persistent local cache of historical build artefacts, you can prune that cache before regenerating `runtime/repo`:
+
+```bash
+docker compose -f docker/docker-compose.yml run --rm builder -- \
+  ./scripts/prune-repo.sh --root runtime/artifacts --keep 3 --create-repo
+```
+
+This `runtime/artifacts` form is for a history-bearing local artefact store. It is not a general CI retention workflow for ephemeral runners that only contain the current job's outputs.
+
+`prune-repo.sh` selects the appropriate `repomanage` variant automatically: repo directories with `repodata/` use `dnf repomanage` when available, while plain artefact directories use standalone `repomanage`.
+
+## 4. Copy the repository to your host
 
 Use `rsync` (recommended) or `scp` to copy the entire `runtime/repo/` tree to the server that will host the repository:
 
@@ -44,7 +73,7 @@ rsync -av --delete runtime/repo/ user@host:/var/www/repos/prometheus-rpm/
 
 Adjust the destination path to match your web server or file-share layout. The `--delete` flag keeps the remote tree in sync with your local content; drop it if you prefer manual cleanup.
 
-## 4. Publish the GPG public key
+## 5. Publish the GPG public key
 
 Export the ASCII-armoured signing key (if you have not already) and upload it alongside the repo:
 
@@ -55,7 +84,7 @@ scp runtime/gnupg/RPM-GPG-KEY-thesystem-dev user@host:/var/www/repos/prometheus-
 
 Expose this key via HTTPS so consumers can import it before enabling the repo.
 
-## 5. Serve the repository
+## 6. Serve the repository
 
 Configure your HTTP server (nginx, Apache, etc.) to serve the published directory, for example:
 
@@ -65,10 +94,10 @@ https://packages.example.com/repos/prometheus-rpm/el9/x86_64/
 
 Verify that `repodata/repomd.xml` is accessible via the browser or `curl`.
 
-## 6. Consumer configuration
+## 7. Consumer configuration
 
 Direct users to [`docs/quickstart.md`](quickstart.md) for instructions on importing the key and adding the repository.
 
-## 7. Future automation
+## 8. Future automation
 
 The current workflow relies on manual `rsync`/`scp`. When you are ready to automate publishing (for example, via CI or Cloudflare R2), hook into the same `runtime/repo/` output and reuse the steps above.
