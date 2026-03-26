@@ -7,6 +7,7 @@ Auto-generated from `upstreams.yaml` by `scripts/generate_exporter_inventory.py`
 | `alertmanager` | Prometheus Alertmanager | [https://prometheus.io/docs/alerting/latest/alertmanager/](https://prometheus.io/docs/alerting/latest/alertmanager/) | Apache-2.0 | amd64, arm64 |
 | `apache_exporter` | Apache Exporter | [https://github.com/Lusitaniae/apache_exporter](https://github.com/Lusitaniae/apache_exporter) | Apache-2.0 | amd64, arm64 |
 | `bind_exporter` | Prometheus Bind Exporter | [https://github.com/prometheus-community/bind_exporter](https://github.com/prometheus-community/bind_exporter) | Apache-2.0 | amd64, arm64 |
+| `bird_exporter` | Prometheus BIRD Exporter | [https://github.com/czerwonk/bird_exporter](https://github.com/czerwonk/bird_exporter) | MIT | amd64, arm64 |
 | `blackbox_exporter` | Prometheus Blackbox Exporter | [https://github.com/prometheus/blackbox_exporter](https://github.com/prometheus/blackbox_exporter) | Apache-2.0 | amd64, arm64 |
 | `collectd_exporter` | Prometheus Collectd Exporter | [https://github.com/prometheus/collectd_exporter](https://github.com/prometheus/collectd_exporter) | Apache-2.0 | amd64, arm64 |
 | `consul_exporter` | Prometheus Consul Exporter | [https://github.com/prometheus/consul_exporter](https://github.com/prometheus/consul_exporter) | Apache-2.0 | amd64, arm64 |

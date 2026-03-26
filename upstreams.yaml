@@ -270,6 +270,24 @@ projects:
       architectures:
       - amd64
       - arm64
+  bird_exporter:
+    display_name: Prometheus BIRD Exporter
+    upstream:
+      vcs: github
+      repo: czerwonk/bird_exporter
+      project_url: https://github.com/czerwonk/bird_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^bird_exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux_amd64: 97a8ea96b6ba2aeb77709c0e12dee66d5b197a6339e624b05f0ccaf1c5f8e5e6
+        linux_arm64: be38216aaa76c9bc13550d52ab254621a5f0c0a2d7599c1632c13e3383a6aa31
+    packaging:
+      rpm_name: bird_exporter
+      architectures:
+      - amd64
+      - arm64
   blackbox_exporter:
     display_name: Prometheus Blackbox Exporter
     upstream:
