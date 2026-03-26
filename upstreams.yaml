@@ -713,3 +713,21 @@ projects:
       architectures:
       - amd64
       - arm64
+  collectd_exporter:
+    display_name: Prometheus Collectd Exporter
+    upstream:
+      vcs: github
+      repo: prometheus/collectd_exporter
+      project_url: https://github.com/prometheus/collectd_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^collectd_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 734bc83d67b3a8f2eba0b6a9b089078387509f1c5e74136b6a6d2ef5567401b6
+        linux-arm64: 1a96a19392bb8f4f4175563ea57a933acd51323bcd10b4a623a2584e126be65d
+    packaging:
+      rpm_name: collectd_exporter
+      architectures:
+      - amd64
+      - arm64

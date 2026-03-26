@@ -8,6 +8,7 @@ Auto-generated from `upstreams.yaml` by `scripts/generate_exporter_inventory.py`
 | `apache_exporter` | Apache Exporter | [https://github.com/Lusitaniae/apache_exporter](https://github.com/Lusitaniae/apache_exporter) | Apache-2.0 | amd64, arm64 |
 | `bind_exporter` | Prometheus Bind Exporter | [https://github.com/prometheus-community/bind_exporter](https://github.com/prometheus-community/bind_exporter) | Apache-2.0 | amd64, arm64 |
 | `blackbox_exporter` | Prometheus Blackbox Exporter | [https://github.com/prometheus/blackbox_exporter](https://github.com/prometheus/blackbox_exporter) | Apache-2.0 | amd64, arm64 |
+| `collectd_exporter` | Prometheus Collectd Exporter | [https://github.com/prometheus/collectd_exporter](https://github.com/prometheus/collectd_exporter) | Apache-2.0 | amd64, arm64 |
 | `consul_exporter` | Prometheus Consul Exporter | [https://github.com/prometheus/consul_exporter](https://github.com/prometheus/consul_exporter) | Apache-2.0 | amd64, arm64 |
 | `elasticsearch_exporter` | Prometheus Elasticsearch Exporter | [https://github.com/prometheus-community/elasticsearch_exporter](https://github.com/prometheus-community/elasticsearch_exporter) | Apache-2.0 | amd64, arm64 |
 | `graphite_exporter` | Prometheus Graphite Exporter | [https://github.com/prometheus/graphite_exporter](https://github.com/prometheus/graphite_exporter) | Apache-2.0 | amd64, arm64 |
