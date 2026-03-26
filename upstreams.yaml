@@ -731,3 +731,21 @@ projects:
       architectures:
       - amd64
       - arm64
+  smartctl_exporter:
+    display_name: Prometheus Smartctl Exporter
+    upstream:
+      vcs: github
+      repo: prometheus-community/smartctl_exporter
+      project_url: https://github.com/prometheus-community/smartctl_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^smartctl_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 875983cd27affc5a682401930e5a8eea3f06c325fe6d6a7228c5547d882685b3
+        linux-arm64: 27353b3adca7f54dd486417412041a17260709c724ea63f5138df2612ecf4299
+    packaging:
+      rpm_name: smartctl_exporter
+      architectures:
+      - amd64
+      - arm64

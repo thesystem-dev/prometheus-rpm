@@ -37,6 +37,7 @@ Auto-generated from `upstreams.yaml` by `scripts/generate_exporter_inventory.py`
 | `redis_exporter` | Prometheus Redis Exporter | [https://github.com/oliver006/redis_exporter](https://github.com/oliver006/redis_exporter) | MIT | amd64, arm64 |
 | `restic_exporter` | Restic Exporter | [https://github.com/ngosang/restic-exporter](https://github.com/ngosang/restic-exporter) | MIT | noarch |
 | `restic_repo_exporter` | Restic Repo Exporter | [https://github.com/Worty/restic-repo-exporter](https://github.com/Worty/restic-repo-exporter) | MIT | amd64, arm64 |
+| `smartctl_exporter` | Prometheus Smartctl Exporter | [https://github.com/prometheus-community/smartctl_exporter](https://github.com/prometheus-community/smartctl_exporter) | Apache-2.0 | amd64, arm64 |
 | `smokeping_prober` | Prometheus Smokeping Prober | [https://github.com/SuperQ/smokeping_prober](https://github.com/SuperQ/smokeping_prober) | Apache-2.0 | amd64, arm64 |
 | `snmp_exporter` | Prometheus SNMP Exporter | [https://github.com/prometheus/snmp_exporter](https://github.com/prometheus/snmp_exporter) | Apache-2.0 | amd64, arm64 |
 | `sql_exporter` | SQL Exporter | [https://github.com/burningalchemist/sql_exporter](https://github.com/burningalchemist/sql_exporter) | MIT | amd64, arm64 |

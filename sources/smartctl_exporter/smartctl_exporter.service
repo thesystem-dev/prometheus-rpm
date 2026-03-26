@@ -1,0 +1,32 @@
+[Unit]
+Description=Prometheus Smartctl Exporter
+Documentation=https://github.com/prometheus-community/smartctl_exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+
+ExecStart=/usr/bin/smartctl_exporter --web.listen-address=0.0.0.0:9633
+
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+
+# smartctl requires root-level device access; do not isolate /dev.
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target
