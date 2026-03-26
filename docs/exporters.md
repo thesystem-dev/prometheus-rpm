@@ -23,6 +23,7 @@ Auto-generated from `upstreams.yaml` by `scripts/generate_exporter_inventory.py`
 | `memcached_exporter` | Prometheus Memcached Exporter | [https://github.com/prometheus/memcached_exporter](https://github.com/prometheus/memcached_exporter) | Apache-2.0 | amd64, arm64 |
 | `mongodb_exporter` | Percona MongoDB Exporter | [https://github.com/percona/mongodb_exporter](https://github.com/percona/mongodb_exporter) | Apache-2.0 | amd64, arm64 |
 | `mysqld_exporter` | Prometheus MySQLd Exporter | [https://github.com/prometheus/mysqld_exporter](https://github.com/prometheus/mysqld_exporter) | Apache-2.0 | amd64, arm64 |
+| `nats_exporter` | Prometheus NATS Exporter | [https://github.com/nats-io/prometheus-nats-exporter](https://github.com/nats-io/prometheus-nats-exporter) | Apache-2.0 | amd64, arm64 |
 | `nginx_exporter` | NGINX Exporter | [https://github.com/nginxinc/nginx-prometheus-exporter](https://github.com/nginxinc/nginx-prometheus-exporter) | Apache-2.0 | amd64, arm64 |
 | `node_exporter` | Prometheus Node Exporter | [https://prometheus.io/](https://prometheus.io/) | Apache-2.0 | amd64, arm64 |
 | `nut_exporter` | Prometheus NUT Exporter | [https://github.com/DRuggeri/nut_exporter](https://github.com/DRuggeri/nut_exporter) | Apache-2.0 | amd64, arm64 |

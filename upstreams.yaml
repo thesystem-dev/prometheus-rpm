@@ -749,3 +749,21 @@ projects:
       architectures:
       - amd64
       - arm64
+  nats_exporter:
+    display_name: Prometheus NATS Exporter
+    upstream:
+      vcs: github
+      repo: nats-io/prometheus-nats-exporter
+      project_url: https://github.com/nats-io/prometheus-nats-exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^prometheus-nats-exporter-v(?P<version>[^/]+)-linux-(x86_64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-x86_64: 74c896a226d2b561daeae42f47110a535c9562b3ddbaafc04ea8092d0c4704ca
+        linux-arm64: e9ad85ab2d2da7b28e076db35b010d1d3be38a50991abaf335940bbcefa6b9d6
+    packaging:
+      rpm_name: nats_exporter
+      architectures:
+      - amd64
+      - arm64

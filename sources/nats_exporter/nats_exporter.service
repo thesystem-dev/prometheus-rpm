@@ -1,0 +1,34 @@
+[Unit]
+Description=Prometheus NATS Exporter
+Documentation=https://github.com/nats-io/prometheus-nats-exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=nats_exporter
+Group=nats_exporter
+
+# Default to the conventional local NATS monitoring endpoint and varz metrics.
+ExecStart=/usr/bin/nats_exporter -varz -addr 0.0.0.0 -port 7777 http://127.0.0.1:8222
+
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+
+# Hardening (safe, non-behavioural)
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target
