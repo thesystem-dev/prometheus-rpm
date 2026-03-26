@@ -29,6 +29,7 @@ Auto-generated from `upstreams.yaml` by `scripts/generate_exporter_inventory.py`
 | `nut_exporter` | Prometheus NUT Exporter | [https://github.com/DRuggeri/nut_exporter](https://github.com/DRuggeri/nut_exporter) | Apache-2.0 | amd64, arm64 |
 | `pgbouncer_exporter` | PgBouncer Exporter | [https://github.com/prometheus-community/pgbouncer_exporter](https://github.com/prometheus-community/pgbouncer_exporter) | MIT | amd64, arm64 |
 | `phpfpm_exporter` | PHP-FPM Exporter | [https://github.com/hipages/php-fpm_exporter](https://github.com/hipages/php-fpm_exporter) | MIT | amd64, arm64 |
+| `ping_exporter` | Prometheus Ping Exporter | [https://github.com/czerwonk/ping_exporter](https://github.com/czerwonk/ping_exporter) | MIT | amd64, arm64 |
 | `postgres_exporter` | Prometheus Postgres Exporter | [https://github.com/prometheus-community/postgres_exporter](https://github.com/prometheus-community/postgres_exporter) | Apache-2.0 | amd64, arm64 |
 | `process_exporter` | Prometheus Process Exporter | [https://github.com/ncabatoff/process-exporter](https://github.com/ncabatoff/process-exporter) | MIT | amd64, arm64 |
 | `prometheus` | Prometheus | [https://prometheus.io/](https://prometheus.io/) | Apache-2.0 | amd64, arm64 |

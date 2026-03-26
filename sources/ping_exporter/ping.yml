@@ -1,0 +1,20 @@
+# Adapted from upstream czerwonk/ping_exporter (v1.2.0)
+# Source: https://github.com/czerwonk/ping_exporter/blob/v1.2.0/dist/ping_exporter.yaml
+# This is the upstream sample configuration shipped with ping_exporter.
+# Users should customize this file for their environment per upstream documentation.
+targets:
+  - 127.0.0.1
+
+dns:
+  # enforce a specific DNS server for host name lookups (optional,
+  # defaults to system resolver)
+  #nameserver: 1.1.1.1
+
+  # refresh interval for host name (optional)
+  #refresh: 2m45s
+
+ping:
+  interval: 2s
+  timeout: 3s
+  history-size: 42
+  payload-size: 56

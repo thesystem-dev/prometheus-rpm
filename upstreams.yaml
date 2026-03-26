@@ -162,6 +162,24 @@ projects:
       architectures:
       - amd64
       - arm64
+  ping_exporter:
+    display_name: Prometheus Ping Exporter
+    upstream:
+      vcs: github
+      repo: czerwonk/ping_exporter
+      project_url: https://github.com/czerwonk/ping_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^ping_exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux_amd64: e876a1e6d7fa714676635bce6c7d63c1e6760917ae7ce2bb180c90cfae209615
+        linux_arm64: ac4786dc8b2448629e61708a61a57830d12f030d0112856d1be8f0621c2e4fee
+    packaging:
+      rpm_name: ping_exporter
+      architectures:
+      - amd64
+      - arm64
   statsd_exporter:
     display_name: Prometheus StatsD Exporter
     upstream:
