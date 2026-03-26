@@ -695,3 +695,21 @@ projects:
       architectures:
       - amd64
       - arm64
+  nut_exporter:
+    display_name: Prometheus NUT Exporter
+    upstream:
+      vcs: github
+      repo: DRuggeri/nut_exporter
+      project_url: https://github.com/DRuggeri/nut_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^nut_exporter-v(?P<version>[^/]+)-linux-(amd64|arm64)$
+      version_from: tag
+      checksums:
+        linux-amd64: ee2929c43a910bc16bb0c3cc505c40c7d285fefa8717f4d08895e0c087f52cdf
+        linux-arm64: f5fa05294427f154ece133facc23c54a1fdb8ac34765f332f70dad4a3c83280c
+    packaging:
+      rpm_name: nut_exporter
+      architectures:
+      - amd64
+      - arm64
