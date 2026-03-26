@@ -258,8 +258,12 @@ def main() -> int:
                 )
 
             discovered = discovery.get(project_name) or discovery.get(rpm_name)
-            if not discovered or discovered.get("error"):
+            if not discovered:
                 raise RuntimeError(f"No usable discovery data for {rpm_name}")
+            if discovered.get("error"):
+                raise RuntimeError(
+                    f"No usable discovery data for {rpm_name}: {discovered['error']}"
+                )
 
             assets = discovered.get("assets") or []
             checksum_keys = list(checksum_map.keys())

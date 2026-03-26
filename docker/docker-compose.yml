@@ -1,3 +1,6 @@
+x-builder-env: &builder-env
+  GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+
 services:
   builder: &builder-base
     build:
@@ -10,6 +13,8 @@ services:
 
     tty: true
     working_dir: /home/builder
+    environment:
+      <<: *builder-env
 
     volumes:
       - ../specs:/home/builder/rpmbuild/SPECS:ro
@@ -26,4 +31,5 @@ services:
     entrypoint: ["/home/builder/scripts/sign-rpms.sh"]
     command: []
     environment:
+      <<: *builder-env
       GPG_PASSPHRASE: ${GPG_PASSPHRASE:-}
