@@ -1,0 +1,32 @@
+[Unit]
+Description=Prometheus FRR Exporter
+Documentation=https://github.com/tynany/frr_exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=frr_exporter
+Group=frr_exporter
+
+ExecStart=/usr/bin/frr_exporter --web.listen-address=0.0.0.0:9342
+
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

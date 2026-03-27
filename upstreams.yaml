@@ -288,6 +288,24 @@ projects:
       architectures:
       - amd64
       - arm64
+  frr_exporter:
+    display_name: Prometheus FRR Exporter
+    upstream:
+      vcs: github
+      repo: tynany/frr_exporter
+      project_url: https://github.com/tynany/frr_exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^frr_exporter-(?P<version>[^.]+)\.linux-(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux_amd64: 853d32348a878f607e07d5e84fc9eab082f4472f7c434157f4933ef6e6a2cdae
+        linux_arm64: ac10819d6ab370f48ebc118a1d3ae5012924afe9242321461090e5c72ca9f67c
+    packaging:
+      rpm_name: frr_exporter
+      architectures:
+      - amd64
+      - arm64
   blackbox_exporter:
     display_name: Prometheus Blackbox Exporter
     upstream:
