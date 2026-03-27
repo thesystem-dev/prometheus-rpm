@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           sql_exporter
-Version:        0.20.0
+Version:        0.21.0
 Release:        1%{?dist}
 Summary:        Configuration-driven SQL metrics exporter
 
@@ -11,10 +11,10 @@ URL:            https://github.com/burningalchemist/sql_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 9ba22783704180067b8fcd1c7b4a814446c6c85716da05d46311573d788560ac
+%global exporter_sha d0d33727534eb8acafc020e8d5de908bc799f52880e1a010dee4c6bf5893b8cc
 %else
 %global exporter_arch amd64
-%global exporter_sha c1b381eb92bbadf19484aa0c684e2d36bb2a98b5f0c7febd65534f404a281f59
+%global exporter_sha 1602aff99b8224c7fb8d75e02f856ec4ffef5e8d46721b5c6c8af9957ac53e63
 %endif
 
 Source0: https://github.com/burningalchemist/sql_exporter/releases/download/%{version}/sql_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -90,6 +90,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Mar 26 2026 James Wilson <packages@thesystem.dev> - 0.21.0-1
+- Rebase to upstream version 0.21.0
+
 * Wed Mar 25 2026 James Wilson <packages@thesystem.dev> - 0.20.0-1
 - Rebase to upstream version 0.20.0
 

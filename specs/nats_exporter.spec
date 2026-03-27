@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           nats_exporter
-Version:        0.19.1
+Version:        0.19.2
 Release:        1%{?dist}
 Summary:        Prometheus exporter for NATS metrics
 
@@ -11,10 +11,10 @@ URL:            https://github.com/nats-io/prometheus-nats-exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha e9ad85ab2d2da7b28e076db35b010d1d3be38a50991abaf335940bbcefa6b9d6
+%global exporter_sha 97eeae12d51196fa105873a5512e0444617656a8470b594f9e489642a0aee936
 %else
 %global exporter_arch x86_64
-%global exporter_sha 74c896a226d2b561daeae42f47110a535c9562b3ddbaafc04ea8092d0c4704ca
+%global exporter_sha a90b89a2f17d86dc00575cef02901741ea22f45afdce8bda0496d6ed09c56b36
 %endif
 
 Source0: https://github.com/nats-io/prometheus-nats-exporter/releases/download/v%{version}/prometheus-nats-exporter-v%{version}-linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -75,5 +75,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Mar 26 2026 James Wilson <packages@thesystem.dev> - 0.19.2-1
+- Rebase to upstream version 0.19.2
+
 * Thu Mar 26 2026 James Wilson <packages@thesystem.dev> - 0.19.1-1
 - Initial RPM package

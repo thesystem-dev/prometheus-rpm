@@ -652,8 +652,8 @@ projects:
       asset_pattern: ^sql_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: c1b381eb92bbadf19484aa0c684e2d36bb2a98b5f0c7febd65534f404a281f59
-        linux-arm64: 9ba22783704180067b8fcd1c7b4a814446c6c85716da05d46311573d788560ac
+        linux-amd64: 1602aff99b8224c7fb8d75e02f856ec4ffef5e8d46721b5c6c8af9957ac53e63
+        linux-arm64: d0d33727534eb8acafc020e8d5de908bc799f52880e1a010dee4c6bf5893b8cc
     packaging:
       rpm_name: sql_exporter
       architectures:
@@ -796,8 +796,8 @@ projects:
       asset_pattern: ^prometheus-nats-exporter-v(?P<version>[^/]+)-linux-(x86_64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-x86_64: 74c896a226d2b561daeae42f47110a535c9562b3ddbaafc04ea8092d0c4704ca
-        linux-arm64: e9ad85ab2d2da7b28e076db35b010d1d3be38a50991abaf335940bbcefa6b9d6
+        linux-x86_64: a90b89a2f17d86dc00575cef02901741ea22f45afdce8bda0496d6ed09c56b36
+        linux-arm64: 97eeae12d51196fa105873a5512e0444617656a8470b594f9e489642a0aee936
     packaging:
       rpm_name: nats_exporter
       architectures:
