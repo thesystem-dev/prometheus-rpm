@@ -3,7 +3,7 @@
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}}
 
 Name:           keepalived_exporter
-Version:        1.7.0
+Version:        1.7.1
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Keepalived metrics
 
@@ -12,10 +12,10 @@ URL:            https://github.com/mehdy/keepalived-exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 0c97ff5753f9172bbd6d28109114c75c1812c3fe6ef31bcf264c00216c1c0673
+%global exporter_sha 687a13b7b60441b10441c434e8abc9ddf10a501a65f640e9c48226ee1667eef9
 %else
 %global exporter_arch amd64
-%global exporter_sha 4e0045670392ffea9b324d935a62bbd7bc1537362ae1e8e71e3973611b7a5d9c
+%global exporter_sha 2adb1dd62a50cd98f723eab28244420868dee1dae2a9d2dcd0a5f1ed647a5f59
 %endif
 
 Source0: https://github.com/mehdy/keepalived-exporter/releases/download/v%{version}/keepalived-exporter_%{version}_linux_%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -86,5 +86,8 @@ EOF
 %doc %{_pkgdocdir}/README.md
 
 %changelog
+* Tue Apr 28 2026 James Wilson <packages@thesystem.dev> - 1.7.1-1
+- Rebase to upstream version 1.7.1
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 1.7.0-1
 - Switch to mehdy/keepalived-exporter (GPLv3, multi-arch builds)

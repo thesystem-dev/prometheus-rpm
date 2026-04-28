@@ -10,8 +10,8 @@ projects:
       asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: f643ea1ee90d109329302d27bddb1fb2e52655b1fa84e9e26f9a6f340da144a6
-        linux-arm64: 4e40f115655a3021744137f49287846bc5a59e02835565748ff66b23e776a73d
+        linux-amd64: 9479af67673316278958cda1f39b88a09f8921084e039c65acca060d0447bb38
+        linux-arm64: d2ec0a96259afde955ad1560ced303cef99cac4dac676bd4dd7614d76adb708a
     packaging:
       rpm_name: prometheus
       architectures:
@@ -29,8 +29,8 @@ projects:
       asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 552c6d701e27d3c77983bb8a76e61953cb60021f6e10f17a929546a6dedc436a
-        linux-arm64: 06a77b3f580b0db0f41e1c52274503b609db58660e44577facb0ee53e4ff8b27
+        linux-amd64: 8c30b9d99664e39b0363c0ba54fab30a7958e9d3de27246bf26ed85e6cfb8946
+        linux-arm64: 11457bc76cab34f5ac05ba05fb80cfca1e8be7e4b31ae7c054879ce1066cb9a5
     packaging:
       rpm_name: prometheus-lts
       architectures:
@@ -634,8 +634,8 @@ projects:
       asset_pattern: ^keepalived-exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 4e0045670392ffea9b324d935a62bbd7bc1537362ae1e8e71e3973611b7a5d9c
-        linux-arm64: 0c97ff5753f9172bbd6d28109114c75c1812c3fe6ef31bcf264c00216c1c0673
+        linux-amd64: 2adb1dd62a50cd98f723eab28244420868dee1dae2a9d2dcd0a5f1ed647a5f59
+        linux-arm64: 687a13b7b60441b10441c434e8abc9ddf10a501a65f640e9c48226ee1667eef9
     packaging:
       rpm_name: keepalived_exporter
       architectures:
