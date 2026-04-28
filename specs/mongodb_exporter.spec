@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           mongodb_exporter
-Version:        0.49.0
+Version:        0.50.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for MongoDB metrics
 
@@ -11,10 +11,10 @@ URL:            https://github.com/percona/mongodb_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha d5f44eb975fd81be6cab687adbce5a9d88b9a30ea0f1f1f19c4f8fd9feb8c265
+%global exporter_sha dabea42be7f52c03eccf43d6c57b06e90de3c70af46fa86ccc75c4a5919d1a44
 %else
 %global exporter_arch amd64
-%global exporter_sha 5b53b3df79cbef2b9fbbe432002bbbf09905e953b309fa23c52fcfe07bbd405a
+%global exporter_sha a2da5f66a46a1c9a52667df144d8db8c6a634d2aaa72f5aeeab3d0954e4911c3
 %endif
 
 Source0: https://github.com/percona/mongodb_exporter/releases/download/v%{version}/mongodb_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -78,6 +78,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Apr 09 2026 James Wilson <packages@thesystem.dev> - 0.50.0-1
+- Rebase to upstream version 0.50.0
+
 * Tue Mar 03 2026 James Wilson <packages@thesystem.dev> - 0.49.0-1
 - Rebase to upstream version 0.49.0
 

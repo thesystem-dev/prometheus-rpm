@@ -2,8 +2,8 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           node_exporter
-Version:        1.10.2
-Release:        4%{?dist}
+Version:        1.11.1
+Release:        1%{?dist}
 Summary:        Prometheus Node Exporter
 
 License:        Apache-2.0
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/node_exporter
 
 %ifarch aarch64
 %global arch arm64
-%global node_sha de69ec8341c8068b7c8e4cfe3eb85065d24d984a3b33007f575d307d13eb89a6
+%global node_sha ba1886efbd76cb96b0087c695ea8d1b9cb6e8aa946c996d744e9ee16c8e3591a
 %else
 %global arch amd64
-%global node_sha c46e5b6f53948477ff3a19d97c58307394a29fe64a01905646f026ddc32cb65b
+%global node_sha 9f5ea48e5bc7b656f8a91a32e7d7deb89f70f73dabd0d974418aca15f37d6810
 %endif
 
 Source0: https://github.com/prometheus/node_exporter/releases/download/v%{version}/node_exporter-%{version}.linux-%{arch}.tar.gz#/%{node_sha}
@@ -99,6 +99,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Apr 09 2026 James Wilson <packages@thesystem.dev> - 1.11.1-1
+- Rebase to upstream version 1.11.1
+
 * Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 1.10.2-4
 - Fix EL8 PREIN regression; create node_exporter account in %pre on EL8 and use sysusers compat on EL9-EL10
 

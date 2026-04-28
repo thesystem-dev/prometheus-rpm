@@ -2,8 +2,8 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           alertmanager
-Version:        0.31.1
-Release:        3%{?dist}
+Version:        0.32.0
+Release:        1%{?dist}
 Summary:        Prometheus Alertmanager
 
 License:        Apache-2.0
@@ -11,10 +11,10 @@ URL:            https://prometheus.io/
 
 %ifarch aarch64
 %global am_arch arm64
-%global am_sha 266dda88b64318c27847ef9af4ff450fc178c827550a8039420c5ca8657a4a8b
+%global am_sha 7812e12699694974f57ecc0b0400913c6c0d90190630d4332a7994a44982b1ed
 %else
 %global am_arch amd64
-%global am_sha 35191cbd9d4f8162458b78dd7e93990cccd246044d9a6f788adb1c66ac3ea07b
+%global am_sha be72f50f6124ec53d944c0f100f8ec8108d969bade02fcc9f06a3068ff6c726f
 %endif
 
 Source0: https://github.com/prometheus/alertmanager/releases/download/v%{version}/alertmanager-%{version}.linux-%{am_arch}.tar.gz#/%{am_sha}
@@ -106,6 +106,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Apr 09 2026 James Wilson <packages@thesystem.dev> - 0.32.0-1
+- Rebase to upstream version 0.32.0
+
 * Thu Feb 26 2026 James Wilson <packages@thesystem.dev> - 0.31.1-3
 - Add ExecReload with SIGHUP support to alertmanager.service
 

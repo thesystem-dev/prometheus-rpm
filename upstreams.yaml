@@ -10,8 +10,8 @@ projects:
       asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 41c50d97bb6a181623fc89d3fe61d0cc68ee69cc93da9091b8bba005f9690122
-        linux-arm64: f6fc81c7955b6e1ddd532c62b55896f7e7a61d997a3817ac3534114f2dd33ab1
+        linux-amd64: f643ea1ee90d109329302d27bddb1fb2e52655b1fa84e9e26f9a6f340da144a6
+        linux-arm64: 4e40f115655a3021744137f49287846bc5a59e02835565748ff66b23e776a73d
     packaging:
       rpm_name: prometheus
       architectures:
@@ -29,8 +29,8 @@ projects:
       asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: cd6aea0ab214b05838470668dfcee7d01a7d91913509a227b00401ca872423f0
-        linux-arm64: cdb1de33d6d3ed73b4633cebedb70258c29e41bd132d287d387f322a046143d2
+        linux-amd64: 552c6d701e27d3c77983bb8a76e61953cb60021f6e10f17a929546a6dedc436a
+        linux-arm64: 06a77b3f580b0db0f41e1c52274503b609db58660e44577facb0ee53e4ff8b27
     packaging:
       rpm_name: prometheus-lts
       architectures:
@@ -47,8 +47,8 @@ projects:
       asset_pattern: ^node_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: c46e5b6f53948477ff3a19d97c58307394a29fe64a01905646f026ddc32cb65b
-        linux-arm64: de69ec8341c8068b7c8e4cfe3eb85065d24d984a3b33007f575d307d13eb89a6
+        linux-amd64: 9f5ea48e5bc7b656f8a91a32e7d7deb89f70f73dabd0d974418aca15f37d6810
+        linux-arm64: ba1886efbd76cb96b0087c695ea8d1b9cb6e8aa946c996d744e9ee16c8e3591a
     packaging:
       rpm_name: node_exporter
       architectures:
@@ -83,8 +83,8 @@ projects:
       asset_pattern: ^alertmanager-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 35191cbd9d4f8162458b78dd7e93990cccd246044d9a6f788adb1c66ac3ea07b
-        linux-arm64: 266dda88b64318c27847ef9af4ff450fc178c827550a8039420c5ca8657a4a8b
+        linux-amd64: be72f50f6124ec53d944c0f100f8ec8108d969bade02fcc9f06a3068ff6c726f
+        linux-arm64: 7812e12699694974f57ecc0b0400913c6c0d90190630d4332a7994a44982b1ed
     packaging:
       rpm_name: alertmanager
       architectures:
@@ -245,8 +245,8 @@ projects:
       asset_pattern: ^memcached_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 5b82e6579b77fae00683d10d5923329173925a5abd95a799f5489a66136b884c
-        linux-arm64: 609e6d7484f22fd9e405c0022a9e2d7f86eedef1cfa55772231528271082aeae
+        linux-amd64: ec669cdce5258e48e0b3747719bb60c0f91d74a21fd4033ec259e80db6c0b0ed
+        linux-arm64: c3ff12346f47e87b2f8ba35c0ddde5f557851a5a1886b3a2776f9a23209ce0db
     packaging:
       rpm_name: memcached_exporter
       architectures:
@@ -296,11 +296,11 @@ projects:
       project_url: https://github.com/tynany/frr_exporter
     releases:
       type: github-releases
-      asset_pattern: ^frr_exporter-(?P<version>[^.]+)\.linux-(amd64|arm64)\.tar\.gz$
+      asset_pattern: ^frr_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux_amd64: 853d32348a878f607e07d5e84fc9eab082f4472f7c434157f4933ef6e6a2cdae
-        linux_arm64: ac10819d6ab370f48ebc118a1d3ae5012924afe9242321461090e5c72ca9f67c
+        linux_amd64: c5e0522d7f91dfc3660e376dad65bab2b279265467fa7dc15840b07b9dcd66ed
+        linux_arm64: 64cbbc544004b6240a8d66464b8eb8355b8a28b45b3e8020db368ad896fe6d55
     packaging:
       rpm_name: frr_exporter
       architectures:
@@ -443,8 +443,8 @@ projects:
       asset_pattern: ^mongodb_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 5b53b3df79cbef2b9fbbe432002bbbf09905e953b309fa23c52fcfe07bbd405a
-        linux-arm64: d5f44eb975fd81be6cab687adbce5a9d88b9a30ea0f1f1f19c4f8fd9feb8c265
+        linux-amd64: a2da5f66a46a1c9a52667df144d8db8c6a634d2aaa72f5aeeab3d0954e4911c3
+        linux-arm64: dabea42be7f52c03eccf43d6c57b06e90de3c70af46fa86ccc75c4a5919d1a44
     packaging:
       rpm_name: mongodb_exporter
       architectures:
@@ -569,8 +569,8 @@ projects:
       asset_pattern: ^influxdb_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 1b00556c5aebcf70654ef96a0e0fe301dd7867a1864004986188d966a27f4fa1
-        linux-arm64: c85982b1bc8443249de5ca44a900cd23a6ffa392cc4acd70b4b6ac58647de5b6
+        linux-amd64: e460d0159e43180dfcf6e6ca6b8857d9fb763e158b84226aa4cd3ae9c2db8fe7
+        linux-arm64: f8c7ffe9d6cf9f949439900f32932957ea395e9e79561598b9b93baace69371d
     packaging:
       rpm_name: influxdb_exporter
       architectures:
@@ -670,8 +670,8 @@ projects:
       asset_pattern: ^sql_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 1602aff99b8224c7fb8d75e02f856ec4ffef5e8d46721b5c6c8af9957ac53e63
-        linux-arm64: d0d33727534eb8acafc020e8d5de908bc799f52880e1a010dee4c6bf5893b8cc
+        linux-amd64: 2791eadbe347a7dfaa758978f17de151ceb59e39a9065ae1dd3891f3233c12da
+        linux-arm64: 80e03b69108b4cfc2f73501e722b8fb850d2d73bc00a88c4f06fa49420f56d7b
     packaging:
       rpm_name: sql_exporter
       architectures:

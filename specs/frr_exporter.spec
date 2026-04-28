@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           frr_exporter
-Version:        1.10.1
+Version:        1.11.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for FRR metrics
 
@@ -11,10 +11,10 @@ URL:            https://github.com/tynany/frr_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha ac10819d6ab370f48ebc118a1d3ae5012924afe9242321461090e5c72ca9f67c
+%global exporter_sha 64cbbc544004b6240a8d66464b8eb8355b8a28b45b3e8020db368ad896fe6d55
 %else
 %global exporter_arch amd64
-%global exporter_sha 853d32348a878f607e07d5e84fc9eab082f4472f7c434157f4933ef6e6a2cdae
+%global exporter_sha c5e0522d7f91dfc3660e376dad65bab2b279265467fa7dc15840b07b9dcd66ed
 %endif
 
 Source0: https://github.com/tynany/frr_exporter/releases/download/v%{version}/frr_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -80,5 +80,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Apr 09 2026 James Wilson <packages@thesystem.dev> - 1.11.0-1
+- Rebase to upstream version 1.11.0
+
 * Fri Mar 27 2026 James Wilson <packages@thesystem.dev> - 1.10.1-1
 - Initial RPM package

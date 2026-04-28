@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           influxdb_exporter
-Version:        0.12.0
+Version:        0.12.1
 Release:        1%{?dist}
 Summary:        Prometheus exporter that accepts InfluxDB writes
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/influxdb_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha c85982b1bc8443249de5ca44a900cd23a6ffa392cc4acd70b4b6ac58647de5b6
+%global exporter_sha f8c7ffe9d6cf9f949439900f32932957ea395e9e79561598b9b93baace69371d
 %else
 %global exporter_arch amd64
-%global exporter_sha 1b00556c5aebcf70654ef96a0e0fe301dd7867a1864004986188d966a27f4fa1
+%global exporter_sha e460d0159e43180dfcf6e6ca6b8857d9fb763e158b84226aa4cd3ae9c2db8fe7
 %endif
 
 Source0: https://github.com/prometheus/influxdb_exporter/releases/download/v%{version}/influxdb_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -78,5 +78,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Apr 16 2026 James Wilson <packages@thesystem.dev> - 0.12.1-1
+- Rebase to upstream version 0.12.1
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 0.12.0-1
 - Initial RPM package
