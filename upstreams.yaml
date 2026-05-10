@@ -83,8 +83,8 @@ projects:
       asset_pattern: ^alertmanager-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: be72f50f6124ec53d944c0f100f8ec8108d969bade02fcc9f06a3068ff6c726f
-        linux-arm64: 7812e12699694974f57ecc0b0400913c6c0d90190630d4332a7994a44982b1ed
+        linux-amd64: e3ba4a543111dd4bbf436838385cbf88108f0b128a723e61fe97d3569294ad4d
+        linux-arm64: fff322eae493eabdec5c16dfdfb26b37508aaf3ca3238ab1ed1e5bebf3ff4cd9
     packaging:
       rpm_name: alertmanager
       architectures:

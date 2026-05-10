@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           alertmanager
-Version:        0.32.0
+Version:        0.32.1
 Release:        1%{?dist}
 Summary:        Prometheus Alertmanager
 
@@ -11,10 +11,10 @@ URL:            https://prometheus.io/
 
 %ifarch aarch64
 %global am_arch arm64
-%global am_sha 7812e12699694974f57ecc0b0400913c6c0d90190630d4332a7994a44982b1ed
+%global am_sha fff322eae493eabdec5c16dfdfb26b37508aaf3ca3238ab1ed1e5bebf3ff4cd9
 %else
 %global am_arch amd64
-%global am_sha be72f50f6124ec53d944c0f100f8ec8108d969bade02fcc9f06a3068ff6c726f
+%global am_sha e3ba4a543111dd4bbf436838385cbf88108f0b128a723e61fe97d3569294ad4d
 %endif
 
 Source0: https://github.com/prometheus/alertmanager/releases/download/v%{version}/alertmanager-%{version}.linux-%{am_arch}.tar.gz#/%{am_sha}
@@ -106,6 +106,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Apr 30 2026 James Wilson <packages@thesystem.dev> - 0.32.1-1
+- Rebase to upstream version 0.32.1
+
 * Thu Apr 09 2026 James Wilson <packages@thesystem.dev> - 0.32.0-1
 - Rebase to upstream version 0.32.0
 
