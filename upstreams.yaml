@@ -371,8 +371,8 @@ projects:
       asset_pattern: ^redis_exporter-v(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 2d98dd0888f46e206bf3ad1b7c1784934a3a39cd8774cf47615f4c15594547cd
-        linux-arm64: 13aaa6acbb145848cb97ed3bab22747e094b3f0ed22df83c8ace593e3c527c95
+        linux-amd64: ee11744ec08c7126b4f876a1dda2e3a4a0fc818a42365d5cef89576598b0a226
+        linux-arm64: d781559c857f8408a02abfdb7729c676bd6cbde9b2a8597a8e8a424f2eee4a32
     packaging:
       rpm_name: redis_exporter
       architectures:
@@ -443,8 +443,8 @@ projects:
       asset_pattern: ^mongodb_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: a2da5f66a46a1c9a52667df144d8db8c6a634d2aaa72f5aeeab3d0954e4911c3
-        linux-arm64: dabea42be7f52c03eccf43d6c57b06e90de3c70af46fa86ccc75c4a5919d1a44
+        linux-amd64: 01dfae78c737fb48761a715d779cade464a84cce7a2a70357ac4af469bade198
+        linux-arm64: f2f023d2d632c3b9cdc873558f26a8940efc197c1b36bbf96da17416a60eead6
     packaging:
       rpm_name: mongodb_exporter
       architectures:
@@ -670,8 +670,8 @@ projects:
       asset_pattern: ^sql_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 2791eadbe347a7dfaa758978f17de151ceb59e39a9065ae1dd3891f3233c12da
-        linux-arm64: 80e03b69108b4cfc2f73501e722b8fb850d2d73bc00a88c4f06fa49420f56d7b
+        linux-amd64: b23223148d8c78452ff3e2c0c302fa0beaa40071b3b0ed6b62137c0a83b44016
+        linux-arm64: ecd14e1aca0c1b05203c5a37ac66b42d45c14838806c86e9e483ed8432a03776
     packaging:
       rpm_name: sql_exporter
       architectures:
