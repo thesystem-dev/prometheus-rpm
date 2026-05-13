@@ -3,7 +3,7 @@
 
 Name:           restic_repo_exporter
 Version:        0.0.15
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus exporter for Restic repositories
 
 License:        MIT
@@ -77,5 +77,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed May 13 2026 James Wilson <packages@thesystem.dev> - 0.0.15-2
+- Correct systemd unit environment variable handling
+
 * Wed Jan 14 2026 James Wilson <packages@thesystem.dev> - 0.0.15-1
 - Initial RPM package

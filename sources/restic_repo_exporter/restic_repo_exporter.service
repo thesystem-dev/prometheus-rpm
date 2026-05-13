@@ -9,8 +9,8 @@ Type=simple
 User=restic_repo_exporter
 Group=restic_repo_exporter
 
-EnvironmentFile=-/etc/restic_repo_exporter.d/env
-ExecStart=/usr/bin/restic_repo_exporter --repo-path=${RESTIC_REPO_PATH:?unset} ${RESTIC_REPO_EXPORTER_ARGS:-}
+EnvironmentFile=/etc/restic_repo_exporter.d/env
+ExecStart=/usr/bin/restic_repo_exporter --repo-path=${RESTIC_REPO_PATH} $RESTIC_REPO_EXPORTER_ARGS
 
 Restart=on-failure
 RestartSec=5s
