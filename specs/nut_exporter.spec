@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           nut_exporter
-Version:        3.2.5
+Version:        3.3.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Network UPS Tools metrics
 
@@ -13,10 +13,10 @@ URL:            https://github.com/DRuggeri/nut_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha f5fa05294427f154ece133facc23c54a1fdb8ac34765f332f70dad4a3c83280c
+%global exporter_sha 863fc5fecac7176922a799476160afac0ccc2129302f545d3f8db56810c8bf68
 %else
 %global exporter_arch amd64
-%global exporter_sha ee2929c43a910bc16bb0c3cc505c40c7d285fefa8717f4d08895e0c087f52cdf
+%global exporter_sha 8183da720ff547b7be56cc60505a3e0b731ccbf23aa18b3e297159b261500d8a
 %endif
 
 Source0: https://github.com/DRuggeri/nut_exporter/releases/download/v%{version}/nut_exporter-v%{version}-linux-%{exporter_arch}#/%{exporter_sha}
@@ -78,5 +78,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Fri May 15 2026 James Wilson <packages@thesystem.dev> - 3.3.0-1
+- Rebase to upstream version 3.3.0
+
 * Tue Mar 25 2026 James Wilson <packages@thesystem.dev> - 3.2.5-1
 - Initial RPM package

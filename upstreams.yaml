@@ -173,8 +173,8 @@ projects:
       asset_pattern: ^ping_exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux_amd64: e876a1e6d7fa714676635bce6c7d63c1e6760917ae7ce2bb180c90cfae209615
-        linux_arm64: ac4786dc8b2448629e61708a61a57830d12f030d0112856d1be8f0621c2e4fee
+        linux_amd64: e55ab2439d2a92e079ea2ba8db75e2b0899d8b890cde46ea17d6158b8db4e675
+        linux_arm64: 9e8816e3eea465658c57b08d6e3a28ff806d13ef61a63cf19cb1726cd1c8f6ba
     packaging:
       rpm_name: ping_exporter
       architectures:
@@ -281,8 +281,8 @@ projects:
       asset_pattern: ^bird_exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux_amd64: 97a8ea96b6ba2aeb77709c0e12dee66d5b197a6339e624b05f0ccaf1c5f8e5e6
-        linux_arm64: be38216aaa76c9bc13550d52ab254621a5f0c0a2d7599c1632c13e3383a6aa31
+        linux_amd64: 1b7f7850d001f9aad4484ff4a74e68cfef9a578ed86a472b9574e4d3e2d12e20
+        linux_arm64: cfbe0e32408bee3c3707fd46cfc15fe9a5fa8b51f1dad73c594af6bfe21155d0
     packaging:
       rpm_name: bird_exporter
       architectures:
@@ -760,8 +760,8 @@ projects:
       asset_pattern: ^nut_exporter-v(?P<version>[^/]+)-linux-(amd64|arm64)$
       version_from: tag
       checksums:
-        linux-amd64: ee2929c43a910bc16bb0c3cc505c40c7d285fefa8717f4d08895e0c087f52cdf
-        linux-arm64: f5fa05294427f154ece133facc23c54a1fdb8ac34765f332f70dad4a3c83280c
+        linux-amd64: 8183da720ff547b7be56cc60505a3e0b731ccbf23aa18b3e297159b261500d8a
+        linux-arm64: 863fc5fecac7176922a799476160afac0ccc2129302f545d3f8db56810c8bf68
     packaging:
       rpm_name: nut_exporter
       architectures:
