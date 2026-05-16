@@ -12,6 +12,7 @@ runtime/
 ├── repo/             # createrepo_c output + staged repository metadata
 ├── SOURCES/          # spectool cache shared across builds
 ├── gnupg/            # drop exported signing keys/ownertrust here
+├── logs/             # maintainer workflow logs
 └── rpmmacros         # rendered from templates/rpmmacros
 ```
 

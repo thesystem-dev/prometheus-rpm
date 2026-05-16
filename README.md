@@ -33,14 +33,15 @@ Publish tooling and additional documentation will be added in subsequent commits
 
 ## Documentation
 
-- [`docs/version-tracking.md`](docs/version-tracking.md) - explains how `upstreams.yaml` is maintained and how the helper scripts are used to track upstream releases.
+- [`docs/quickstart.md`](docs/quickstart.md) - consumer setup guide (import key, add repo, install packages).
 - [`docs/exporters.md`](docs/exporters.md) - auto-generated exporter inventory with upstream links, licences, and supported architectures.
+- [`docs/service-overrides.md`](docs/service-overrides.md) - describes how to adjust systemd units via drop-in overrides.
+- [`docs/workflows.md`](docs/workflows.md) - short maintainer commands for version refresh, build, signing, verification, and repository metadata.
+- [`docs/version-tracking.md`](docs/version-tracking.md) - explains how `upstreams.yaml` is maintained and how the helper scripts are used to track upstream releases.
 - [`docs/runtime.md`](docs/runtime.md) - describes `scripts/stage-runtime.sh`, the runtime directory layout, and how to prepare GPG material safely.
 - [`docs/build-and-stage.md`](docs/build-and-stage.md) - covers running `docker compose`, invoking `scripts/build.sh`, and staging artefacts for signing.
 - [`docs/signing.md`](docs/signing.md) - covers exporting GPG keys, running `scripts/sign-rpms.sh`, and verifying signed artefacts locally or in CI.
 - [`docs/publishing.md`](docs/publishing.md) - describes creating repository metadata, syncing to remote hosts, and making packages available to consumers.
-- [`docs/quickstart.md`](docs/quickstart.md) - consumer setup guide (import key, add repo, install packages).
-- [`docs/service-overrides.md`](docs/service-overrides.md) - describes how to adjust systemd units via drop-in overrides.
 
 ## Non-Goals
 

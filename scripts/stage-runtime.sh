@@ -143,7 +143,7 @@ if ! check_source_conflicts "$SOURCES_DIR" > /dev/null 2>&1; then
   exit 1
 fi
 
-mkdir -p "$RUNTIME_DIR" "$RUNTIME_DIR/SOURCES" "$RUNTIME_DIR/gnupg" "$RESULTS_DIR" "$REPO_DIR"
+mkdir -p "$RUNTIME_DIR" "$RUNTIME_DIR/SOURCES" "$RUNTIME_DIR/gnupg" "$RUNTIME_DIR/logs" "$RESULTS_DIR" "$REPO_DIR"
 chmod 700 "$RUNTIME_DIR/gnupg"
 
 adjust_runtime_permissions() {
@@ -211,4 +211,5 @@ Runtime prepared:
   GnuPG dir: $RUNTIME_DIR/gnupg
   Results:   $RESULTS_DIR
   Repo:      $REPO_DIR
+  Logs:      $RUNTIME_DIR/logs
 EOF

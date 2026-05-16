@@ -32,7 +32,11 @@ SHA_LINE_RE = re.compile(
 )
 
 
-def run_discover() -> dict:
+def run_discover(cache: Path | None) -> dict:
+    if cache:
+        with cache.open("r", encoding="utf-8") as fh:
+            return yaml.safe_load(fh)
+
     proc = subprocess.run(
         [sys.executable, str(DISCOVER)],
         check=True,
@@ -222,13 +226,21 @@ def main() -> int:
         default=[],
         help="Limit updates to a package/project name (repeatable).",
     )
+    parser.add_argument(
+        "--discover-cache",
+        type=Path,
+        help="Use YAML output from discover_versions.py instead of hitting GitHub.",
+    )
     args = parser.parse_args()
 
     package_filter = set(args.package)
     try:
-        discovery = run_discover()
+        discovery = run_discover(args.discover_cache)
     except subprocess.CalledProcessError as exc:
         print(f"ERROR: discover_versions.py failed: {exc.stderr}", file=sys.stderr)
+        return 1
+    except Exception as exc:
+        print(f"ERROR: failed to load discovery data: {exc}", file=sys.stderr)
         return 1
 
     try:
