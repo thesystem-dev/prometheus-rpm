@@ -71,7 +71,7 @@ Use `rsync` (recommended) or `scp` to copy the entire `runtime/repo/` tree to th
 rsync -av --delete runtime/repo/ user@host:/var/www/repos/prometheus-rpm/
 ```
 
-Adjust the destination path to match your web server or file-share layout. The `--delete` flag keeps the remote tree in sync with your local content; drop it if you prefer manual cleanup.
+Adjust the destination path to match your web server or file-share layout. The `--delete` flag keeps the remote tree in sync with your local content; drop it if you prefer manual clean-up.
 
 ## 5. Publish the GPG public key
 

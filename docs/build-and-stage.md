@@ -12,7 +12,7 @@ This document describes how to build RPMs using mock and how artefacts are stage
 The build process uses `mock` inside a Docker container to produce RPMs for multiple EL versions and architectures.
 Artefacts are written directly to `runtime/artifacts/` on the host via bind mounts, ensuring mock can use its
 native `$HOME/rpmbuild/results` path while the host repository sees files immediately without any post-build copying.
-Static sources are organized in per-package subdirectories under `sources/<package_name>/` to match the spec
+Static sources are organised in per-package subdirectories under `sources/<package_name>/` to match the spec
 file `Source:` references.
 
 ## Prerequisites
@@ -93,7 +93,7 @@ The bind mount ensures these files are immediately available on the host for dow
 
 ## Sources Directory Structure
 
-Static sources (systemd units, config files, etc.) are organized in per-package subdirectories under `sources/<package_name>/`:
+Static sources (systemd units, config files, etc.) are organised in per-package subdirectories under `sources/<package_name>/`:
 
 ```
 sources/
