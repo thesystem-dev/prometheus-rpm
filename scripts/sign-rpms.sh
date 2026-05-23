@@ -417,7 +417,7 @@ sign_rpm() {
     local target_dir="$OUTPUT_DIR/$(dirname "$rel_path")"
     mkdir -p "$target_dir"
     target_rpm="$target_dir/$(basename "$rpm")"
-    cp "$rpm" "$target_rpm"
+    cp --preserve=mode,timestamps "$rpm" "$target_rpm"
   fi
 
   # Skip already-signed RPMs unless forcing

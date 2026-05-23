@@ -72,10 +72,10 @@ copy_rpms() {
 
   if [[ "$rpm_type" == "source" ]]; then
     find "$source_dir" -type f -name "*.src.rpm" -print0 \
-      | xargs -0r cp -t "$target_dir"
+      | xargs -0r cp --preserve=mode,timestamps -t "$target_dir"
   else
     find "$source_dir" -type f -name "*.rpm" ! -name "*.src.rpm" -print0 \
-      | xargs -0r cp -t "$target_dir"
+      | xargs -0r cp --preserve=mode,timestamps -t "$target_dir"
   fi
 }
 
@@ -177,8 +177,8 @@ for distro_dir in "$OUTPUT_DIR"/el*; do
   if [[ ${#noarch_rpms[@]} -gt 0 ]]; then
     echo "Ensuring noarch RPMs are available under both $distro_dir/x86_64 and $distro_dir/aarch64"
     for rpm in "${noarch_rpms[@]}"; do
-      cp -n "$rpm" "$x_dir/" 2>/dev/null || true
-      cp -n "$rpm" "$a_dir/" 2>/dev/null || true
+      cp --preserve=mode,timestamps -n "$rpm" "$x_dir/" 2>/dev/null || true
+      cp --preserve=mode,timestamps -n "$rpm" "$a_dir/" 2>/dev/null || true
     done
 
     # Refresh metadata after noarch propagation
