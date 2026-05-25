@@ -34,13 +34,16 @@ ExecStart=/usr/bin/prometheus \
 
 The first `ExecStart=` line clears the vendor definition; the second defines the full command. Copy the original arguments from `/usr/lib/systemd/system/prometheus.service` and append your changes.
 
+Files referenced by service flags are opened by the service process, not by systemd. If a unit runs as a non-root user, make private configuration files readable by that user or its group, for example `root:<service-group>` with `0640` files and `0750` containing directories.
+
 ## 3. Overriding environment variables
 
 Many exporters support environment variables (e.g., credentials). Use `Environment=` or `EnvironmentFile=` in a drop-in. `node_exporter` does not ship an `/etc/node_exporter` tree, so create it before referencing files there:
 
 ```bash
-sudo install -d -m 0750 /etc/node_exporter
-sudo install -d -m 0750 /etc/node_exporter.d
+sudo install -d -m 0750 -o root -g node_exporter /etc/node_exporter
+sudo install -d -m 0750 -o root -g node_exporter /etc/node_exporter.d
+sudo install -m 0640 -o root -g node_exporter web.yml /etc/node_exporter/web.yml
 ```
 
 Create the drop-in:
@@ -73,6 +76,8 @@ ExecStart=/usr/bin/prometheus \
   --storage.tsdb.path=/srv/prometheus \
   --web.config.file=/etc/prometheus/web.yml
 ```
+
+If `web.yml` references TLS keys or other private files, ensure they are readable by the `prometheus` service user or group, for example `root:prometheus` with `0640` files and `0750` containing directories.
 
 ### node_exporter: listen address
 
