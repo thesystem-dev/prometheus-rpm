@@ -3,7 +3,7 @@
 
 Name:           ipmi_exporter
 Version:        1.10.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus exporter for IPMI metrics
 
 License:        MIT
@@ -20,7 +20,7 @@ URL:            https://github.com/prometheus-community/ipmi_exporter
 Source0: https://github.com/prometheus-community/ipmi_exporter/releases/download/v%{version}/ipmi_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
 Source1: ipmi_exporter.service
 Source2: ipmi_exporter.yml
-Source3: ipmi_exporter_sudoers
+Source3: ipmi_local_sudo.yml
 
 BuildRequires:  systemd-rpm-macros
 
@@ -59,13 +59,12 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/ipmi_exporter.service
 
 install -d %{buildroot}/etc/ipmi_exporter
 install -D -m 0644 %{SOURCE2} %{buildroot}/etc/ipmi_exporter/ipmi_local.yml
+install -D -m 0644 %{SOURCE3} %{buildroot}/etc/ipmi_exporter/ipmi_local_sudo.yml.example
 
 install -d %{buildroot}%{_sysusersdir}
 cat > %{buildroot}%{_sysusersdir}/ipmi_exporter.conf << 'EOF'
 u ipmi_exporter - "Prometheus IPMI Exporter"
 EOF
-
-install -D -m 0440 %{SOURCE3} %{buildroot}%{_sysconfdir}/sudo.d/ipmi_exporter
 
 %post
 %systemd_post ipmi_exporter.service
@@ -81,11 +80,15 @@ install -D -m 0440 %{SOURCE3} %{buildroot}%{_sysconfdir}/sudo.d/ipmi_exporter
 %{_unitdir}/ipmi_exporter.service
 %dir /etc/ipmi_exporter
 /etc/ipmi_exporter/ipmi_local.yml
-%{_sysconfdir}/sudo.d/ipmi_exporter
+%config(noreplace) /etc/ipmi_exporter/ipmi_local_sudo.yml.example
 %{_sysusersdir}/ipmi_exporter.conf
 %license %{_licensedir}/%{name}/LICENSE
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Mon May 25 2026 James Wilson <packages@thesystem.dev> - 1.10.1-2
+- Make sudo-based local scraping opt-in via upstream example config
+- Remove packaged sudoers policy from the default install
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 1.10.1-1
 - Initial RPM package

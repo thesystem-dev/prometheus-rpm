@@ -90,6 +90,38 @@ ExecStart=/usr/bin/node_exporter \
   --web.config.file=/etc/node_exporter/web.yml
 ```
 
+### ipmi_exporter: opt-in sudo scraping
+
+`ipmi_exporter` ships the upstream local IPMI config as the active default and keeps the unit hardened. The package also ships the upstream sudo example as `/etc/ipmi_exporter/ipmi_local_sudo.yml.example`, but it is not enabled by default and the RPM does not install sudoers rules.
+
+If your hardware requires sudo for local IPMI scraping, copy and review the example first:
+
+```bash
+sudo cp /etc/ipmi_exporter/ipmi_local_sudo.yml.example /etc/ipmi_exporter/ipmi_local_sudo.yml
+```
+
+Create sudoers rules that match the collector commands in the config you actually use. The upstream sudo example calls `/usr/sbin/ipmimonitoring` and `/usr/sbin/ipmi-sel`; adjust the rules if you change those paths.
+
+Sudo mode also requires relaxing the default service hardening. Start with a drop-in like this, then tighten it again for your hardware if possible:
+
+```ini
+# /etc/systemd/system/ipmi_exporter.service.d/local-sudo.conf
+[Service]
+ExecStart=
+ExecStart=/usr/bin/ipmi_exporter \
+  --config.file=/etc/ipmi_exporter/ipmi_local_sudo.yml \
+  --web.listen-address=0.0.0.0:9290
+NoNewPrivileges=no
+ProtectKernelTunables=no
+ProtectKernelModules=no
+PrivateDevices=no
+LockPersonality=no
+MemoryDenyWriteExecute=no
+RestrictRealtime=no
+```
+
+This privileged mode is intentionally opt-in. Test it on the target host and keep the sudoers rules limited to the exact commands used by the selected collectors.
+
 ### thanos-sidecar: TSDB ownership
 
 In this package, `thanos-sidecar.service` runs as `prometheus:prometheus` with `SupplementaryGroups=thanos`.
