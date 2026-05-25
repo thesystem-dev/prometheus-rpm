@@ -3,7 +3,7 @@
 
 Name:           restic_repo_exporter
 Version:        0.0.15
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Prometheus exporter for Restic repositories
 
 License:        MIT
@@ -17,13 +17,18 @@ URL:            https://github.com/Worty/restic-repo-exporter
 
 Source0: https://github.com/Worty/restic-repo-exporter/releases/download/v%{version}/restic-repo-exporter_%{version}_linux_%{archive_arch}.tar.gz#/restic-repo-exporter-%{version}.linux-%{archive_arch}.tar.gz
 Source1: restic_repo_exporter.service
+Source2: restic_repo_exporter.sysusers
 
 BuildRequires:  systemd-rpm-macros
 
 ExclusiveArch: x86_64 aarch64
 
 %{?systemd_requires}
+%if 0%{?rhel} == 8
+Requires(pre):  shadow-utils
+%else
 %{?sysusers_requires_compat}
+%endif
 
 Requires:       restic
 
@@ -54,10 +59,15 @@ fi
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/restic_repo_exporter.service
 install -d -m 0750 %{buildroot}%{_sysconfdir}/restic_repo_exporter.d
 
-install -d %{buildroot}%{_sysusersdir}
-cat > %{buildroot}%{_sysusersdir}/restic_repo_exporter.conf << 'EOF'
-u restic_repo_exporter - "Restic Repository Exporter"
-EOF
+install -D -m 0644 %{SOURCE2} %{buildroot}%{_sysusersdir}/restic_repo_exporter.conf
+
+%pre
+%if 0%{?rhel} == 8
+getent group restic_repo_exporter >/dev/null 2>&1 || groupadd -r restic_repo_exporter >/dev/null 2>&1 || :
+getent passwd restic_repo_exporter >/dev/null 2>&1 || useradd -r -g restic_repo_exporter -M -s /sbin/nologin -c "Restic Repository Exporter" restic_repo_exporter >/dev/null 2>&1 || :
+%else
+%sysusers_create_compat %{SOURCE2}
+%endif
 
 %post
 %systemd_post restic_repo_exporter.service
@@ -71,12 +81,15 @@ EOF
 %files
 %{_bindir}/restic_repo_exporter
 %{_unitdir}/restic_repo_exporter.service
-%dir %attr(0750,root,root) %{_sysconfdir}/restic_repo_exporter.d
+%dir %attr(0750,root,restic_repo_exporter) %{_sysconfdir}/restic_repo_exporter.d
 %{_sysusersdir}/restic_repo_exporter.conf
 %license %{_licensedir}/%{name}/LICENSE
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Mon May 25 2026 James Wilson <packages@thesystem.dev> - 0.0.15-3
+- Allow restic_repo_exporter to read credential files under /etc/restic_repo_exporter.d
+
 * Wed May 13 2026 James Wilson <packages@thesystem.dev> - 0.0.15-2
 - Correct systemd unit environment variable handling
 

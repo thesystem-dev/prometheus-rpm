@@ -167,8 +167,8 @@ sudo systemctl restart restic_exporter.service
 `restic_repo_exporter` requires an environment file at `/etc/restic_repo_exporter.d/env` (referenced by the vendor unit). Create it with restricted permissions:
 
 ```bash
-sudo install -d -m 0750 /etc/restic_repo_exporter.d
-sudo install -m 0640 /dev/null /etc/restic_repo_exporter.d/env
+sudo install -d -m 0750 -o root -g restic_repo_exporter /etc/restic_repo_exporter.d
+sudo install -m 0640 -o root -g restic_repo_exporter /dev/null /etc/restic_repo_exporter.d/env
 ```
 
 Populate `/etc/restic_repo_exporter.d/env` with at least the base repo path and a default password. You can supply per-repo overrides by appending the directory name:
@@ -181,6 +181,8 @@ RESTIC_PASSWORD_repo2=secret2
 MAX_SIMULTANEOUS_RESTIC_PROCESSES=4
 RESTIC_REPO_EXPORTER_ARGS=--listen-address=:9200 --scrape-interval=60
 ```
+
+If you place separate credential files under `/etc/restic_repo_exporter.d`, make them readable by the `restic_repo_exporter` group, for example `0640 root:restic_repo_exporter`.
 
 The vendor unit passes `RESTIC_REPO_PATH` as the single `--repo-path` argument and expands `RESTIC_REPO_EXPORTER_ARGS` as optional additional arguments. If `/etc/restic_repo_exporter.d/env` is missing, the service will fail to start until configured. Restart the service after editing.
 
