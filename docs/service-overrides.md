@@ -110,25 +110,52 @@ Failure to meet these requirements will prevent `thanos-sidecar` from starting o
 
 ### restic_exporter: repository credentials
 
-`restic_exporter` reads its configuration from environment variables (the unit already references `/etc/restic_exporter.d/env`). Create the directory and env file with restricted permissions:
+`restic_exporter` is configured through environment variables, so the vendor unit includes `EnvironmentFile=-/etc/restic_exporter.d/env`. The file is optional at install time, but the service needs a populated env file before it can read a real repository.
+
+Create the env file and password file with restricted permissions. The directory and files must be readable by the `restic_exporter` group because the exporter runs as the `restic_exporter` user and the `restic` child process reads `RESTIC_PASSWORD_FILE` directly:
 
 ```bash
-sudo install -d -m 0750 /etc/restic_exporter.d
-sudo install -m 0640 /etc/restic_exporter.d/env
+sudo install -d -m 0750 -o root -g restic_exporter /etc/restic_exporter.d
+sudo install -m 0640 -o root -g restic_exporter /dev/null /etc/restic_exporter.d/env
+sudo install -m 0640 -o root -g restic_exporter /dev/null /etc/restic_exporter.d/password
 ```
 
-Populate `/etc/restic_exporter.d/env`:
+Populate `/etc/restic_exporter.d/env` with the repository location, restic password file, and cache path:
 
 ```
-RESTIC_REPOSITORY=s3:https://objects.example.com/backups
+RESTIC_REPOSITORY=/srv/restic
 RESTIC_PASSWORD_FILE=/etc/restic_exporter.d/password
-RESTIC_BIN=/usr/bin/restic
-LISTEN_ADDRESS=0.0.0.0
-LISTEN_PORT=8001
-REFRESH_INTERVAL=600
+RESTIC_CACHE_DIR=/var/cache/restic_exporter
 ```
 
-If you keep secrets outside the env file, point the variables to those paths (for example, `RESTIC_PASSWORD_FILE` above). No additional drop-in is required—the vendor unit already includes `EnvironmentFile=-/etc/restic_exporter.d/env`. Reload and restart after editing as usual.
+Use `RESTIC_PASSWORD_FILE` instead of `RESTIC_PASSWORD` so the restic repository password is not stored directly in the systemd environment file. Other exporter settings use the upstream `restic-exporter` environment variables.
+
+`RESTIC_CACHE_DIR` is a restic setting rather than a restic-exporter setting. It provides the package equivalent of upstream's Docker cache-volume recommendation. The unit uses `CacheDirectory=restic_exporter`, so `/var/cache/restic_exporter` is writable by the service even with systemd filesystem hardening enabled.
+
+Prefer separate credentials for monitoring:
+
+- Create a separate restic repository key for the exporter with `restic key add`. This avoids reusing the backup job password, but it is not a read-only role; a valid restic key can decrypt repository data.
+- For remote backends, use a separate backend credential for the exporter where the backend supports it. Start with read/list-style access for monitoring and only broaden it if your chosen exporter options require more access.
+
+For remote object-storage repositories, exporter refreshes can create storage transactions and retrieval traffic. If backups run daily, consider using a higher refresh interval and disabling expensive optional collectors:
+
+```
+REFRESH_INTERVAL=86400
+NO_CHECK=True
+NO_GLOBAL_STATS=True
+NO_LEGACY_STATS=True
+NO_LOCKS=True
+INCLUDE_PATHS=False
+```
+
+These options are intentionally not the baseline example. They trade metric depth and freshness for lower cost.
+
+Reload and restart after editing:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart restic_exporter.service
+```
 
 ### restic_repo_exporter: multi-repo scanning
 

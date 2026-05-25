@@ -3,7 +3,7 @@
 
 Name:           restic_exporter
 Version:        2.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus exporter for Restic backup metrics
 
 License:        MIT
@@ -11,6 +11,7 @@ URL:            https://github.com/ngosang/restic-exporter
 
 Source0: https://github.com/ngosang/restic-exporter/archive/refs/tags/%{version}.tar.gz#/restic-exporter-%{version}.tar.gz
 Source1: restic_exporter.service
+Source2: restic_exporter.sysusers
 
 BuildRequires:  systemd-rpm-macros
 BuildRequires:  python3
@@ -18,7 +19,11 @@ BuildRequires:  python3
 BuildArch:      noarch
 
 %{?systemd_requires}
+%if 0%{?rhel} == 8
+Requires(pre):  shadow-utils
+%else
 %{?sysusers_requires_compat}
+%endif
 
 Requires:       (python3.12 or python3.11 or python3.10)
 Requires:       python3dist(prometheus-client) >= 0.13.1
@@ -77,11 +82,15 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/restic_exporter.service
 # configuration directory for environment file
 install -d -m 0750 %{buildroot}%{_sysconfdir}/restic_exporter.d
 
-# sysusers (EL8+)
-install -d %{buildroot}%{_sysusersdir}
-cat > %{buildroot}%{_sysusersdir}/restic_exporter.conf << 'EOF'
-u restic_exporter - "Prometheus Restic Exporter"
-EOF
+install -D -m 0644 %{SOURCE2} %{buildroot}%{_sysusersdir}/restic_exporter.conf
+
+%pre
+%if 0%{?rhel} == 8
+getent group restic_exporter >/dev/null 2>&1 || groupadd -r restic_exporter >/dev/null 2>&1 || :
+getent passwd restic_exporter >/dev/null 2>&1 || useradd -r -g restic_exporter -M -s /sbin/nologin -c "Prometheus Restic Exporter" restic_exporter >/dev/null 2>&1 || :
+%else
+%sysusers_create_compat %{SOURCE2}
+%endif
 
 %post
 %systemd_post restic_exporter.service
@@ -95,13 +104,16 @@ EOF
 %files
 %{_bindir}/restic_exporter
 %{_libexecdir}/restic_exporter/exporter.py
-%dir %attr(0750,root,root) %{_sysconfdir}/restic_exporter.d
+%dir %attr(0750,root,restic_exporter) %{_sysconfdir}/restic_exporter.d
 %{_unitdir}/restic_exporter.service
 %{_sysusersdir}/restic_exporter.conf
 %license %{_licensedir}/%{name}/NOTICE
 %license %{_licensedir}/%{name}/LICENSE
 
 %changelog
+* Mon May 25 2026 James Wilson <packages@thesystem.dev> - 2.0.2-2
+- Allow restic_exporter to read credential files and use a writable cache directory
+
 * Tue Mar 03 2026 James Wilson <packages@thesystem.dev> - 2.0.2-1
 - Rebase to upstream version 2.0.2
 

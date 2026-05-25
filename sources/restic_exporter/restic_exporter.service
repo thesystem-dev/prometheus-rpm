@@ -15,6 +15,7 @@ ExecStart=/usr/bin/restic_exporter
 Restart=on-failure
 RestartSec=5s
 LimitNOFILE=65536
+CacheDirectory=restic_exporter
 
 # --- Hardening ---
 NoNewPrivileges=yes
