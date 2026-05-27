@@ -3,7 +3,7 @@
 
 Name:           sql_exporter
 Version:        0.24.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Configuration-driven SQL metrics exporter
 
 License:        MIT
@@ -83,13 +83,16 @@ EOF
 %{_unitdir}/sql_exporter.service
 %{_sysusersdir}/sql_exporter.conf
 %dir /etc/sql_exporter
-/etc/sql_exporter/sql_exporter.yml
-/etc/sql_exporter/postgres_database.yml
-/etc/sql_exporter/postgres_server.yml
+%config(noreplace) /etc/sql_exporter/sql_exporter.yml
+%config(noreplace) /etc/sql_exporter/postgres_database.yml
+%config(noreplace) /etc/sql_exporter/postgres_server.yml
 %license %{_licensedir}/%{name}/LICENSE
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed May 27 2026 James Wilson <packages@thesystem.dev> - 0.24.0-2
+- Preserve local SQL exporter config changes on upgrade
+
 * Wed May 20 2026 James Wilson <packages@thesystem.dev> - 0.24.0-1
 - Rebase to upstream version 0.24.0
 
