@@ -3,13 +3,11 @@
 
 Name:           nut_exporter
 Version:        3.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus exporter for Network UPS Tools metrics
 
 License:        Apache-2.0
 URL:            https://github.com/DRuggeri/nut_exporter
-
-%global license_sha256 ecaa994a1672a71d6511ab8686c1452ef9e3114f08f6355e36640dc66ae3ced9
 
 %ifarch aarch64
 %global exporter_arch arm64
@@ -20,7 +18,7 @@ URL:            https://github.com/DRuggeri/nut_exporter
 %endif
 
 Source0: https://github.com/DRuggeri/nut_exporter/releases/download/v%{version}/nut_exporter-v%{version}-linux-%{exporter_arch}#/%{exporter_sha}
-Source1: https://raw.githubusercontent.com/DRuggeri/nut_exporter/v%{version}/LICENSE#/%{license_sha256}
+Source1: nut_exporter_LICENSE
 Source2: nut_exporter.service
 
 BuildRequires:  systemd-rpm-macros
@@ -78,6 +76,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed May 27 2026 James Wilson <packages@thesystem.dev> - 3.3.0-2
+- Vendor upstream licence file
+
 * Fri May 15 2026 James Wilson <packages@thesystem.dev> - 3.3.0-1
 - Rebase to upstream version 3.3.0
 
