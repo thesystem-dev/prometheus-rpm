@@ -3,7 +3,7 @@
 
 Name:           squid_exporter
 Version:        1.13.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus exporter for Squid proxy metrics
 
 License:        MIT
@@ -18,7 +18,7 @@ URL:            https://github.com/boynux/squid-exporter
 %endif
 
 Source0: https://github.com/boynux/squid-exporter/releases/download/v%{version}/squid-exporter-linux-%{exporter_arch}#/%{exporter_sha}
-Source1: https://raw.githubusercontent.com/boynux/squid-exporter/v%{version}/LICENSE
+Source1: squid_exporter_LICENSE
 Source2: squid_exporter.service
 
 BuildRequires:  systemd-rpm-macros
@@ -80,6 +80,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed May 27 2026 James Wilson <packages@thesystem.dev> - 1.13.0-2
+- Vendor upstream licence file
+
 * Tue Jan 13 2026 James Wilson <packages@thesystem.dev> - 1.13.0-1
 - Rebase to upstream version 1.13.0
 

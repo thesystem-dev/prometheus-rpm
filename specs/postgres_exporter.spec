@@ -3,7 +3,7 @@
 
 Name:           postgres_exporter
 Version:        0.19.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus exporter for PostgreSQL metrics
 
 License:        Apache-2.0
@@ -19,7 +19,7 @@ URL:            https://github.com/prometheus-community/postgres_exporter
 
 Source0: https://github.com/prometheus-community/postgres_exporter/releases/download/v%{version}/postgres_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
 Source1: postgres_exporter.service
-Source2: https://raw.githubusercontent.com/prometheus-community/postgres_exporter/v%{version}/queries.yaml
+Source2: postgres_exporter_queries.yaml
 
 BuildRequires:  systemd-rpm-macros
 
@@ -83,6 +83,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed May 27 2026 James Wilson <packages@thesystem.dev> - 0.19.1-2
+- Vendor upstream queries config
+
 * Sun Mar 01 2026 James Wilson <packages@thesystem.dev> - 0.19.1-1
 - Rebase to upstream version 0.19.1
 
