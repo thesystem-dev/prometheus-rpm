@@ -3,19 +3,21 @@
 
 Name:           restic_repo_exporter
 Version:        0.0.15
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Prometheus exporter for Restic repositories
 
 License:        MIT
 URL:            https://github.com/Worty/restic-repo-exporter
 
 %ifarch aarch64
-%global archive_arch arm64
+%global exporter_arch arm64
+%global exporter_sha 092106337103cc5a2b3af241cf54c1a07c5f8fb49553bd66773496753ef29080
 %else
-%global archive_arch amd64
+%global exporter_arch amd64
+%global exporter_sha b9775658358835852150d2f3a091b27e8998e808b79a2604f9bbdfc300280be0
 %endif
 
-Source0: https://github.com/Worty/restic-repo-exporter/releases/download/v%{version}/restic-repo-exporter_%{version}_linux_%{archive_arch}.tar.gz#/restic-repo-exporter-%{version}.linux-%{archive_arch}.tar.gz
+Source0: https://github.com/Worty/restic-repo-exporter/releases/download/v%{version}/restic-repo-exporter_%{version}_linux_%{exporter_arch}.tar.gz#/%{exporter_sha}
 Source1: restic_repo_exporter.service
 Source2: restic_repo_exporter.sysusers
 
@@ -87,6 +89,9 @@ getent passwd restic_repo_exporter >/dev/null 2>&1 || useradd -r -g restic_repo_
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed May 27 2026 James Wilson <packages@thesystem.dev> - 0.0.15-4
+- Pin upstream release asset checksums
+
 * Mon May 25 2026 James Wilson <packages@thesystem.dev> - 0.0.15-3
 - Allow restic_repo_exporter to read credential files under /etc/restic_repo_exporter.d
 

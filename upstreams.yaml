@@ -620,6 +620,9 @@ projects:
       type: github-releases
       asset_pattern: ^restic-repo-exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
+      checksums:
+        linux-amd64: b9775658358835852150d2f3a091b27e8998e808b79a2604f9bbdfc300280be0
+        linux-arm64: 092106337103cc5a2b3af241cf54c1a07c5f8fb49553bd66773496753ef29080
     packaging:
       rpm_name: restic_repo_exporter
       architectures:
