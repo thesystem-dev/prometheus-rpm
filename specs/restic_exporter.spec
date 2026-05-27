@@ -1,15 +1,16 @@
 %global debug_package %{nil}
 %global _missing_build_ids_terminate_build 0
+%global source_sha 4764ad4a4bebf891677a175c798554046b2de5f81a6bb00fd5a73397ea20f8ff
 
 Name:           restic_exporter
 Version:        2.0.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Prometheus exporter for Restic backup metrics
 
 License:        MIT
 URL:            https://github.com/ngosang/restic-exporter
 
-Source0: https://github.com/ngosang/restic-exporter/archive/refs/tags/%{version}.tar.gz#/restic-exporter-%{version}.tar.gz
+Source0: https://github.com/ngosang/restic-exporter/archive/refs/tags/%{version}.tar.gz#/%{source_sha}
 Source1: restic_exporter.service
 Source2: restic_exporter.sysusers
 
@@ -111,6 +112,9 @@ getent passwd restic_exporter >/dev/null 2>&1 || useradd -r -g restic_exporter -
 %license %{_licensedir}/%{name}/LICENSE
 
 %changelog
+* Wed May 27 2026 James Wilson <packages@thesystem.dev> - 2.0.2-3
+- Pin upstream source archive checksum
+
 * Mon May 25 2026 James Wilson <packages@thesystem.dev> - 2.0.2-2
 - Allow restic_exporter to read credential files and use a writable cache directory
 

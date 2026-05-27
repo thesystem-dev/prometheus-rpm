@@ -6,7 +6,7 @@ Upstream releases are tracked using a simple metadata model and helper scripts. 
 
 | Script | Purpose |
 | --- | --- |
-| `scripts/discover_versions.py` | Calls the upstream release API (GitHub for now) and prints the latest version, or the latest release matching a configured series/tag filter, plus the artefacts that match the regex in `upstreams.yaml`. |
+| `scripts/discover_versions.py` | Calls the upstream release API (GitHub for now) and prints the latest version, or the latest release matching a configured series/tag filter, plus the artefacts that match the regex in `upstreams.yaml`. Packages that build from GitHub tag archives can set `source_archive: true` to track the tag archive as the source artefact. |
 | `scripts/plan-version-bumps.py` | Reads the discovery output, compares it with the `Version:` field in each spec, and prints the `rpmdev-bumpspec` commands needed to catch up. Use `--write-script` to emit a helper shell script. |
 | `scripts/sync-source-checksums.py` | Updates `upstreams.yaml` and spec `%global *_sha` values from discovered asset digests. It prefers upstream GitHub asset digests and falls back to a locally computed SHA256 only when no upstream digest is available. |
 | `scripts/generate_exporter_inventory.py` | Builds `docs/exporters.md`, a table that summarises package names, upstream project URLs, licences, and supported architectures. |
@@ -121,7 +121,7 @@ docker run --rm -e GITHUB_TOKEN -e PIP_DISABLE_PIP_VERSION_CHECK=1 -v "$PWD":/wo
 
 The helper scripts revolve around `upstreams.yaml`. When upstream releases move, follow this order to keep the metadata and docs aligned:
 
-1. Update `upstreams.yaml` whenever you add an exporter or change its release artefact naming/checksum scheme.
+1. Update `upstreams.yaml` whenever you add an exporter or change its release artefact naming/checksum scheme. Use `source_archive: true` only when the spec builds from the GitHub tag archive instead of uploaded release artefacts.
 2. Run `scripts/discover_versions.py` to ensure the metadata still matches upstream. For filtered packages such as `prometheus-lts`, this validates the configured `series` or `tag_regex`.
 3. Use `scripts/plan-version-bumps.py` to generate the bump commands for any outdated specs. Then apply the changes as described in 'Apply version bumps (container-only)' above.
 4. Run `scripts/sync-source-checksums.py` so the recorded SHA256 values match the selected upstream assets.

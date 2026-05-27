@@ -602,8 +602,10 @@ projects:
       project_url: https://github.com/ngosang/restic-exporter
     releases:
       type: github-releases
-      asset_pattern: ^restic[-_]exporter[_-](?P<version>[^_\-]+)[_-]linux[_-](amd64|arm64)\.tar\.gz$
+      source_archive: true
       version_from: tag
+      checksums:
+        source: 4764ad4a4bebf891677a175c798554046b2de5f81a6bb00fd5a73397ea20f8ff
     packaging:
       rpm_name: restic_exporter
       architectures:

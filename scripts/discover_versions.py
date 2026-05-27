@@ -24,6 +24,7 @@ import yaml
 UPSTREAMS_FILE = Path("upstreams.yaml")
 GITHUB_LATEST_RELEASE_API = "https://api.github.com/repos/{repo}/releases/latest"
 GITHUB_RELEASES_API = "https://api.github.com/repos/{repo}/releases"
+GITHUB_TAG_ARCHIVE_URL = "https://github.com/{repo}/archive/refs/tags/{tag}.tar.gz"
 
 
 def load_upstreams(path: Path) -> dict:
@@ -165,14 +166,15 @@ def main() -> int:
             continue
 
         asset_pattern_raw = releases.get("asset_pattern")
-        if not asset_pattern_raw:
+        source_archive = releases.get("source_archive") is True
+        if not asset_pattern_raw and not source_archive:
             results[project_name] = {
                 "display_name": display_name,
-                "error": "missing releases.asset_pattern",
+                "error": "missing releases.asset_pattern or releases.source_archive",
             }
             continue
 
-        asset_pattern = re.compile(asset_pattern_raw)
+        asset_pattern = re.compile(asset_pattern_raw) if asset_pattern_raw else None
 
         try:
             if releases.get("series") or releases.get("tag_regex"):
@@ -190,19 +192,30 @@ def main() -> int:
         assets = release.get("assets", [])
 
         matched_assets = []
-        for asset in assets:
-            name = asset.get("name")
-            match = asset_pattern.match(name)
-            if not match:
-                continue
+        if asset_pattern:
+            for asset in assets:
+                name = asset.get("name")
+                match = asset_pattern.match(name)
+                if not match:
+                    continue
 
-            digest = asset.get("digest")
+                digest = asset.get("digest")
+                matched_assets.append(
+                    {
+                        "name": name,
+                        "url": asset.get("browser_download_url"),
+                        "version": match.groupdict().get("version", tag),
+                        "digest": digest,
+                    }
+                )
+
+        if source_archive and tag:
             matched_assets.append(
                 {
-                    "name": name,
-                    "url": asset.get("browser_download_url"),
-                    "version": match.groupdict().get("version", tag),
-                    "digest": digest,
+                    "name": "source",
+                    "url": GITHUB_TAG_ARCHIVE_URL.format(repo=repo, tag=tag),
+                    "version": normalise_tag(tag),
+                    "digest": None,
                 }
             )
 
