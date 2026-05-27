@@ -18,7 +18,7 @@ Stages:
 Requirements:
   build   runtime/ prepared by ./scripts/stage-runtime.sh
   sign    runtime/gnupg/private.asc and runtime/rpmmacros
-  verify  runtime/artifacts plus staged signing material
+  verify  runtime/artifacts plus staged public key material
   repo    runtime/artifacts plus staged public key material
   prune   runtime/repo or the selected --root path exists
 
@@ -79,6 +79,13 @@ require_public_key_material() {
   compgen -G "runtime/gnupg/RPM-GPG-KEY-*" >/dev/null || die "public GPG key not found under runtime/gnupg"
 }
 
+has_public_key_arg() {
+  for arg in "$@"; do
+    [[ "$arg" == "--public-key" ]] && return 0
+  done
+  return 1
+}
+
 require_artifacts() {
   require_dir runtime/artifacts "runtime/artifacts not found; build packages first"
 }
@@ -119,7 +126,9 @@ case "$COMMAND" in
   verify)
     require_docker
     require_artifacts
-    require_signing_material
+    if ! has_public_key_arg "$@"; then
+      require_public_key_material
+    fi
     stage "Verify RPM signatures"
     run docker compose -f docker/docker-compose.yml run --rm sign --verify "$@"
     ;;

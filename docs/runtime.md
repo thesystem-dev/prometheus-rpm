@@ -68,8 +68,8 @@ gpg --armor --export ABCDEF1234567890 > runtime/gnupg/RPM-GPG-KEY-thesystem-dev 
 gpg --export-ownertrust > runtime/gnupg/ownertrust.txt
 ```
 
-The signing script (`scripts/sign-rpms.sh`) imports these files into an ephemeral `GNUPGHOME`
-when signing RPMs. The verification mode (`--verify`) also auto-imports the ASCII-armoured public key into a
+The signing script (`scripts/sign-rpms.sh`) imports the private key into an ephemeral `GNUPGHOME`
+when signing RPMs. Verification mode (`--verify`) only needs the ASCII-armoured public key; it imports that key into a
 temporary RPM database for signature validation. Never copy your entire `~/.gnupg` directory into the repo.
 
 **Security:** Add `runtime/gnupg/*.asc` to `.gitignore` and treat `runtime/` as disposable state.

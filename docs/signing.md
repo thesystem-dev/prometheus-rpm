@@ -17,6 +17,7 @@ RPM signatures are embedded in the package header and verified during installati
 - Run all commands from the repository root.
 - Run `./scripts/stage-runtime.sh --key-id <GPG_KEY> --packager '<Name <email>>'` before exporting keys so the `runtime/` tree exists.
 - A usable GPG key pair for signing (see `gpg --list-secret-keys`).
+- The ASCII-armoured public key for verification and repository creation.
 - Docker with Compose; always pass `-f docker/docker-compose.yml`.
 
 ### GPG Key
@@ -49,11 +50,11 @@ After staging the runtime tree, export your key into `runtime/gnupg/`:
 ```bash
 KEY_ID="<YOUR_KEY_ID>"
 
-# Private key (required)
+# Private key (required for signing)
 gpg --export-secret-keys "$KEY_ID" > runtime/gnupg/private.asc
 chmod 600 runtime/gnupg/private.asc
 
-# Public key (required for verification; ASCII-armoured)
+# Public key (required for verification and repository creation; ASCII-armoured)
 gpg --armor --export "$KEY_ID" > runtime/gnupg/RPM-GPG-KEY-thesystem-dev
 
 # Ownertrust (optional; only if you have trust assignments to retain)
@@ -180,15 +181,24 @@ docker compose -f docker/docker-compose.yml run --rm sign --dry-run --input-dir 
    ```bash
    docker compose -f docker/docker-compose.yml run --rm sign --verify
    ```
-   The script imports `runtime/gnupg/RPM-GPG-KEY-thesystem-dev` into a temporary RPM database and prints `[OK] SIGNED`, `[?] SIGNED*`, or `[!!] UNSIGNED` per file:
+   The script imports `runtime/gnupg/public.asc`, the first `runtime/gnupg/RPM-GPG-KEY-*`, or a key passed with `--public-key` into a temporary RPM database. Private key material, `runtime/rpmmacros`, and `GPG_PASSPHRASE` are not required for verification.
+
+   It prints `[OK] SIGNED`, `[!!] SIGNED*`, or `[!!] UNSIGNED` per file:
    ```
    [OK] SIGNED:      prometheus-2.45.0-1.el9.x86_64.rpm
-   [?] SIGNED*:      node_exporter-1.6.1-1.el9.x86_64.rpm (missing public key)
+   [!!] SIGNED*:     node_exporter-1.6.1-1.el9.x86_64.rpm (signature not trusted by imported public key)
    [!!] UNSIGNED:    alertmanager-0.25.0-1.el9.x86_64.rpm
 
-   Summary: 1 signed, 1 signed (missing key), 1 unsigned
+   Summary: 1 signed, 1 signed (untrusted), 1 unsigned or invalid
    ```
-   `SIGNED*` indicates the public key was not available when verification ran; confirm the armoured key exists in `runtime/gnupg/`.
+   `SIGNED*` indicates the RPM has a signature, but it was not trusted by the imported public key. Verification exits non-zero for `SIGNED*`, unsigned, or invalid RPMs.
+
+   To verify with a key outside the runtime tree:
+
+   ```bash
+   docker compose -f docker/docker-compose.yml run --rm sign --verify \
+     --public-key /work/path/to/RPM-GPG-KEY
+   ```
 
 2. **Inspect a single RPM**
    ```bash
@@ -199,8 +209,8 @@ docker compose -f docker/docker-compose.yml run --rm sign --dry-run --input-dir 
 
 ### Troubleshooting
 
-- **`SIGNED*` output:** Ensure `runtime/gnupg/RPM-GPG-KEY-thesystem-dev` (ASCII-armoured) exists; rerun `sign --verify`.
-- **`ERROR: GPG_PASSPHRASE not set and no TTY available`:** set `GPG_PASSPHRASE` before invoking the container.
+- **`SIGNED*` output:** Ensure the ASCII-armoured public key under `runtime/gnupg/` matches the key used to sign the RPMs, or pass `--public-key`.
+- **`ERROR: GPG_PASSPHRASE not set and no TTY available`:** set `GPG_PASSPHRASE` before signing in a headless environment. Verification does not need `GPG_PASSPHRASE`.
 - **Unexpected failures:** inspect `runtime/artifacts/signing.log` for per-RPM details.
 
 ## 5. Publish (create repository metadata)

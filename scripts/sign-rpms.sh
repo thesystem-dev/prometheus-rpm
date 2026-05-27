@@ -14,6 +14,7 @@ OWNERTRUST_FILE=""
 LOG_FILE=""
 PUBLIC_KEY_FILE=""
 RPM_DB_DIR=""
+GPG_KEY_ID=""
 
 # Signing configuration
 MODE="sign"
@@ -49,10 +50,13 @@ Options:
   --input-dir DIR     Input directory (default: <runtime>/artifacts)
   --output-dir DIR    Copy signed RPMs here (default: sign in-place)
   --runtime DIR       Runtime directory (default: runtime/)
+  --public-key FILE   Public key for --verify (default: runtime/gnupg/public.asc
+                      or runtime/gnupg/RPM-GPG-KEY-*)
   -h, --help          Show this help text
 
 Environment Variables:
   GPG_PASSPHRASE      GPG key passphrase (prompts if not set)
+  PUBLIC_KEY_FILE     Public key path for --verify
   RUNTIME_DIR         Override default runtime directory
 
 Examples:
@@ -119,6 +123,10 @@ while [[ $# -gt 0 ]]; do
       RUNTIME_DIR="$2"
       shift 2
       ;;
+    --public-key)
+      PUBLIC_KEY_FILE="$2"
+      shift 2
+      ;;
     -h|--help)
       usage
       exit 0
@@ -147,7 +155,7 @@ if [[ "$INPUT_DIR_SET" == false ]]; then
   INPUT_DIR="$RUNTIME_DIR/artifacts"
 fi
 
-# Locate a public key we can import for verification
+# Locate a public key we can import for verification.
 if [[ -z "${PUBLIC_KEY_FILE:-}" ]]; then
   if [[ -f "$GNUPG_DIR/public.asc" ]]; then
     PUBLIC_KEY_FILE="$GNUPG_DIR/public.asc"
@@ -167,15 +175,19 @@ esac
 
 # Pre-flight checks
 [[ -d "$INPUT_DIR" ]] || die "Input directory not found: $INPUT_DIR"
-[[ -d "$GNUPG_DIR" ]] || die "GPG directory not found: $GNUPG_DIR (run scripts/stage-runtime.sh first)"
-[[ -f "$KEY_FILE" ]] || die "GPG key file not found: $KEY_FILE"
-[[ -f "$RPMMACROS" ]] || die "RPM macros file not found: $RPMMACROS"
+if [[ "$MODE" == "verify" ]]; then
+  [[ -n "$PUBLIC_KEY_FILE" && -f "$PUBLIC_KEY_FILE" ]] || die "Public key file not found; export one under $GNUPG_DIR or pass --public-key FILE"
+else
+  [[ -d "$GNUPG_DIR" ]] || die "GPG directory not found: $GNUPG_DIR (run scripts/stage-runtime.sh first)"
+  [[ -f "$KEY_FILE" ]] || die "GPG key file not found: $KEY_FILE"
+  [[ -f "$RPMMACROS" ]] || die "RPM macros file not found: $RPMMACROS"
 
-# Extract GPG key ID from rpmmacros
-if ! GPG_KEY_ID=$(grep '^%_gpg_name' "$RPMMACROS" | awk '{print $2}'); then
-  die "Failed to extract %_gpg_name from $RPMMACROS"
+  # Extract GPG key ID from rpmmacros.
+  if ! GPG_KEY_ID=$(grep '^%_gpg_name' "$RPMMACROS" | awk '{print $2}'); then
+    die "Failed to extract %_gpg_name from $RPMMACROS"
+  fi
+  [[ -n "$GPG_KEY_ID" ]] || die "Empty %_gpg_name in $RPMMACROS"
 fi
-[[ -n "$GPG_KEY_ID" ]] || die "Empty %_gpg_name in $RPMMACROS"
 
 # Ensure log directory exists before writing
 mkdir -p "$(dirname "$LOG_FILE")"
@@ -185,7 +197,11 @@ log "RPM Signing - $(date)"
 log "=========================================="
 log "Mode: $MODE"
 log "Input: $INPUT_DIR"
-log "GPG Key ID: $GPG_KEY_ID"
+if [[ "$MODE" == "verify" ]]; then
+  log "Public key: $PUBLIC_KEY_FILE"
+else
+  log "GPG Key ID: $GPG_KEY_ID"
+fi
 log "RPM Types: $RPM_TYPES"
 [[ "$FORCE" == true ]] && log "Force: enabled"
 [[ "$IN_PLACE" == false ]] && log "Output: $OUTPUT_DIR"
@@ -217,21 +233,35 @@ fi
 
 log "Found ${#RPMS[@]} RPM(s) to process"
 
+cleanup_rpm_db() {
+  if [[ -n "$RPM_DB_DIR" && -d "$RPM_DB_DIR" ]]; then
+    rm -rf "$RPM_DB_DIR"
+  fi
+}
+
 import_public_key() {
   local key_file="$1"
-  [[ -n "$key_file" && -f "$key_file" ]] || return 0
+  local strict="${2:-false}"
+  if [[ -z "$key_file" || ! -f "$key_file" ]]; then
+    [[ "$strict" == true ]] && die "Public key file not found: ${key_file:-<unset>}"
+    return 0
+  fi
 
   RPM_DB_DIR="$(mktemp -d)"
+  trap cleanup_rpm_db EXIT
 
   local import_log
   import_log="$(mktemp)"
   if rpm --dbpath "$RPM_DB_DIR" --import "$key_file" &>"$import_log"; then
     log "Imported public key from $key_file into $RPM_DB_DIR"
   else
-    warn "Failed to import public key from $key_file (verification may show SIGNED*)"
+    warn "Failed to import public key from $key_file"
     while IFS= read -r line; do
       warn "  rpm: $line"
     done <"$import_log"
+    rm -f "$import_log"
+    [[ "$strict" == true ]] && die "Cannot verify signatures without importing the public key"
+    return 0
   fi
   rm -f "$import_log"
 }
@@ -271,7 +301,7 @@ if [[ "$MODE" == "verify" ]]; then
   log "Verifying signatures..."
   log ""
 
-  import_public_key "$PUBLIC_KEY_FILE"
+  import_public_key "$PUBLIC_KEY_FILE" true
 
   for rpm in "${RPMS[@]}"; do
     rpm_name="$(basename "$rpm")"
@@ -282,7 +312,7 @@ if [[ "$MODE" == "verify" ]]; then
         ((++SIGNED_COUNT))
         ;;
       missing-key)
-        echo "[?] SIGNED*:     $rpm_name (missing public key)"
+        echo "[!!] SIGNED*:    $rpm_name (signature not trusted by imported public key)"
         ((++UNTRUSTED_COUNT))
         ;;
       *)
@@ -293,8 +323,8 @@ if [[ "$MODE" == "verify" ]]; then
   done
   
   log ""
-  log "Summary: ${SIGNED_COUNT} signed, ${UNTRUSTED_COUNT} signed (missing key), ${FAILED_COUNT} unsigned"
-  if [[ $FAILED_COUNT -gt 0 ]]; then
+  log "Summary: ${SIGNED_COUNT} signed, ${UNTRUSTED_COUNT} signed (untrusted), ${FAILED_COUNT} unsigned or invalid"
+  if [[ $FAILED_COUNT -gt 0 || $UNTRUSTED_COUNT -gt 0 ]]; then
     exit 1
   fi
   exit 0
