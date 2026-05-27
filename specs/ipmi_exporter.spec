@@ -3,7 +3,7 @@
 
 Name:           ipmi_exporter
 Version:        1.10.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Prometheus exporter for IPMI metrics
 
 License:        MIT
@@ -79,13 +79,16 @@ EOF
 %{_bindir}/ipmi_exporter
 %{_unitdir}/ipmi_exporter.service
 %dir /etc/ipmi_exporter
-/etc/ipmi_exporter/ipmi_local.yml
+%config(noreplace) /etc/ipmi_exporter/ipmi_local.yml
 %config(noreplace) /etc/ipmi_exporter/ipmi_local_sudo.yml.example
 %{_sysusersdir}/ipmi_exporter.conf
 %license %{_licensedir}/%{name}/LICENSE
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed May 27 2026 James Wilson <packages@thesystem.dev> - 1.10.1-3
+- Preserve local IPMI config changes on upgrade
+
 * Mon May 25 2026 James Wilson <packages@thesystem.dev> - 1.10.1-2
 - Make sudo-based local scraping opt-in via upstream example config
 - Remove packaged sudoers policy from the default install
