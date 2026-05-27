@@ -1,12 +1,35 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-INPUT_DIR="${1:-runtime/artifacts}"
-OUTPUT_DIR="${2:-runtime/repo}"
+SCRIPT_NAME="$(basename "$0")"
+INPUT_DIR="runtime/artifacts"
+OUTPUT_DIR="runtime/repo"
 RUNTIME_DIR="${RUNTIME_DIR:-runtime}"
 PUBLIC_KEY_FILE="${PUBLIC_KEY_FILE:-}"
 RPM_DB_DIR=""
 SKIP_SIGNATURE_CHECK=false
+ALLOW_UNSIGNED=false
+
+usage() {
+  cat <<EOF
+Usage: $SCRIPT_NAME [options] [INPUT_DIR] [OUTPUT_DIR]
+
+Create local DNF repository metadata from signed RPM artefacts.
+
+Arguments:
+  INPUT_DIR           RPM artefact tree (default: runtime/artifacts)
+  OUTPUT_DIR          Repository output tree (default: runtime/repo)
+
+Options:
+  --public-key FILE   Public key used for rpm -K validation
+                      (default: runtime/gnupg/public.asc or first
+                      runtime/gnupg/RPM-GPG-KEY-*)
+  --allow-unsigned    Local-only bypass: create repo metadata without rpm -K
+                      signature validation
+  --runtime DIR       Runtime directory (default: runtime)
+  -h, --help          Show this help text
+EOF
+}
 
 die() {
   echo "ERROR: $*" >&2
@@ -24,14 +47,126 @@ cleanup() {
 }
 trap cleanup EXIT
 
+require_arg() {
+  local option="$1"
+  local value="${2:-}"
+  [[ -n "$value" && "$value" != --* ]] || die "$option requires an argument"
+}
+
+positional=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --public-key)
+      require_arg "$1" "${2:-}"
+      PUBLIC_KEY_FILE="$2"
+      shift 2
+      ;;
+    --public-key=*)
+      PUBLIC_KEY_FILE="${1#*=}"
+      [[ -n "$PUBLIC_KEY_FILE" ]] || die "--public-key requires an argument"
+      shift
+      ;;
+    --allow-unsigned)
+      ALLOW_UNSIGNED=true
+      SKIP_SIGNATURE_CHECK=true
+      shift
+      ;;
+    --runtime)
+      require_arg "$1" "${2:-}"
+      RUNTIME_DIR="$2"
+      shift 2
+      ;;
+    --runtime=*)
+      RUNTIME_DIR="${1#*=}"
+      [[ -n "$RUNTIME_DIR" ]] || die "--runtime requires an argument"
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      while [[ $# -gt 0 ]]; do
+        positional+=("$1")
+        shift
+      done
+      ;;
+    --*)
+      usage >&2
+      die "Unknown option: $1"
+      ;;
+    *)
+      positional+=("$1")
+      shift
+      ;;
+  esac
+done
+
+if [[ ${#positional[@]} -gt 2 ]]; then
+  usage >&2
+  die "Too many positional arguments"
+fi
+[[ ${#positional[@]} -ge 1 ]] && INPUT_DIR="${positional[0]}"
+[[ ${#positional[@]} -ge 2 ]] && OUTPUT_DIR="${positional[1]}"
+
 if [[ -d "$RUNTIME_DIR" ]]; then
-  RUNTIME_DIR="$(cd "$RUNTIME_DIR" && pwd)"
+  RUNTIME_DIR="$(cd "$RUNTIME_DIR" && pwd -P)"
 else
   die "Runtime directory '$RUNTIME_DIR' not found (set RUNTIME_DIR to override)"
 fi
 
+if [[ ! -d "$INPUT_DIR" ]]; then
+  die "Input directory '$INPUT_DIR' not found"
+fi
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
+INPUT_ABS="$(cd "$INPUT_DIR" && pwd -P)"
+
+resolve_output_path() {
+  local output="$1"
+  local parent
+  local base
+
+  if [[ -e "$output" ]]; then
+    [[ -d "$output" ]] || die "Output path exists and is not a directory: $output"
+    (cd "$output" && pwd -P)
+    return
+  fi
+
+  parent="$(dirname "$output")"
+  base="$(basename "$output")"
+  [[ -d "$parent" ]] || die "Output parent directory not found: $parent"
+  parent="$(cd "$parent" && pwd -P)"
+  printf '%s/%s\n' "$parent" "$base"
+}
+
+path_is_within() {
+  local child="$1"
+  local parent="$2"
+  [[ "$child" == "$parent"/* ]]
+}
+
+OUTPUT_ABS="$(resolve_output_path "$OUTPUT_DIR")"
+
+validate_output_path() {
+  [[ -n "$OUTPUT_ABS" ]] || die "Resolved output path is empty"
+  [[ "$OUTPUT_ABS" != "/" ]] || die "Refusing to replace /"
+  [[ "$OUTPUT_ABS" != "$ROOT_DIR" ]] || die "Refusing to replace repository root: $OUTPUT_ABS"
+  [[ "$OUTPUT_ABS" != "$RUNTIME_DIR" ]] || die "Refusing to replace runtime directory: $OUTPUT_ABS"
+  [[ "$OUTPUT_ABS" != "$INPUT_ABS" ]] || die "Output directory must differ from input directory"
+  if path_is_within "$INPUT_ABS" "$OUTPUT_ABS"; then
+    die "Refusing output directory that contains input directory: $OUTPUT_ABS"
+  fi
+  if path_is_within "$OUTPUT_ABS" "$INPUT_ABS"; then
+    die "Refusing output directory inside input directory: $OUTPUT_ABS"
+  fi
+}
+
+validate_output_path
+
 GNUPG_DIR="$RUNTIME_DIR/gnupg"
-if [[ -z "$PUBLIC_KEY_FILE" ]]; then
+if [[ "$SKIP_SIGNATURE_CHECK" != true && -z "$PUBLIC_KEY_FILE" ]]; then
   if [[ -d "$GNUPG_DIR" && -f "$GNUPG_DIR/public.asc" ]]; then
     PUBLIC_KEY_FILE="$GNUPG_DIR/public.asc"
   elif [[ -d "$GNUPG_DIR" ]]; then
@@ -44,15 +179,6 @@ if [[ -z "$PUBLIC_KEY_FILE" ]]; then
   fi
 fi
 
-if [[ -z "$PUBLIC_KEY_FILE" ]]; then
-  warn "Public key not found under $GNUPG_DIR (signature validation will be skipped)"
-  SKIP_SIGNATURE_CHECK=true
-fi
-
-if [[ ! -d "$INPUT_DIR" ]]; then
-  die "Input directory '$INPUT_DIR' not found"
-fi
-
 CREATEREPO_BIN=""
 if command -v createrepo_c >/dev/null 2>&1; then
   CREATEREPO_BIN="createrepo_c"
@@ -62,8 +188,9 @@ else
   die "Neither createrepo_c nor createrepo is installed"
 fi
 
-rm -rf "$OUTPUT_DIR"
-mkdir -p "$OUTPUT_DIR"
+if [[ "$ALLOW_UNSIGNED" == true ]]; then
+  warn "--allow-unsigned set; rpm -K signature validation is disabled"
+fi
 
 copy_rpms() {
   local source_dir="$1"
@@ -84,20 +211,21 @@ setup_rpm_db() {
     return
   fi
 
+  if [[ -z "$PUBLIC_KEY_FILE" ]]; then
+    die "Public key not found under $GNUPG_DIR (use --public-key FILE or --allow-unsigned for local-only testing)"
+  fi
+
   if [[ ! -f "$PUBLIC_KEY_FILE" ]]; then
-    warn "Public key file '$PUBLIC_KEY_FILE' not found or not readable (skipping rpm -K validation)"
-    SKIP_SIGNATURE_CHECK=true
-    return
+    die "Public key file '$PUBLIC_KEY_FILE' not found or not readable"
   fi
 
   RPM_DB_DIR="$(mktemp -d)"
   if rpm --dbpath "$RPM_DB_DIR" --import "$PUBLIC_KEY_FILE" &>/dev/null; then
     echo "Imported public key from $PUBLIC_KEY_FILE for integrity checks"
   else
-    warn "Failed to import public key from $PUBLIC_KEY_FILE (skipping rpm -K validation)"
     rm -rf "$RPM_DB_DIR"
     RPM_DB_DIR=""
-    SKIP_SIGNATURE_CHECK=true
+    die "Failed to import public key from $PUBLIC_KEY_FILE"
   fi
 }
 
@@ -106,7 +234,7 @@ validate_rpms() {
   local rpm_glob="$2"
 
   if [[ "$SKIP_SIGNATURE_CHECK" == true ]]; then
-    echo "Skipping rpm -K validation for $target_dir (no public key available)"
+    echo "Skipping rpm -K validation for $target_dir (--allow-unsigned)"
     return
   fi
 
@@ -121,11 +249,14 @@ validate_rpms() {
   if [[ ${#failed_rpms[@]} -gt 0 ]]; then
     echo "ERROR: RPM integrity check failed for:" >&2
     printf '  %s\n' "${failed_rpms[@]}" >&2
-    die "Cannot proceed with corrupted RPMs"
+    die "Cannot proceed with unsigned, invalid, or untrusted RPMs"
   fi
 }
 
 setup_rpm_db
+
+rm -rf "$OUTPUT_ABS"
+mkdir -p "$OUTPUT_ABS"
 
 for distro_dir in "$INPUT_DIR"/el*; do
   [[ -d "$distro_dir" ]] || continue
@@ -134,7 +265,7 @@ for distro_dir in "$INPUT_DIR"/el*; do
   for arch_dir in "$distro_dir"/*; do
     [[ -d "$arch_dir" ]] || continue
     arch_name="$(basename "$arch_dir")"
-    target_dir="$OUTPUT_DIR/$distro_name/$arch_name"
+    target_dir="$OUTPUT_ABS/$distro_name/$arch_name"
     mkdir -p "$target_dir"
 
     rpm_glob="*.rpm"
@@ -164,7 +295,7 @@ done
 
 # Propagate noarch RPMs into both arch repos per EL so consumers on any arch
 # can resolve them even if only one arch was built.
-for distro_dir in "$OUTPUT_DIR"/el*; do
+for distro_dir in "$OUTPUT_ABS"/el*; do
   [[ -d "$distro_dir" ]] || continue
   x_dir="$distro_dir/x86_64"
   a_dir="$distro_dir/aarch64"
@@ -193,4 +324,4 @@ for distro_dir in "$OUTPUT_DIR"/el*; do
   fi
 done
 
-echo "Repository content available in '$OUTPUT_DIR'"
+echo "Repository content available in '$OUTPUT_ABS'"

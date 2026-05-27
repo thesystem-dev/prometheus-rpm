@@ -4,14 +4,27 @@ This guide explains how to turn the signed RPMs under `runtime/artifacts/` into 
 
 ## 1. Generate repository metadata
 
-Run the helper inside the builder container so `createrepo_c` is available:
+Run the package workflow so `create-repo.sh` runs inside the builder container where `createrepo_c` is available:
 
 ```bash
-docker compose -f docker/docker-compose.yml run --rm builder \
-  ./scripts/create-repo.sh
+./scripts/package-workflow.sh repo
 ```
 
-This copies all signed RPMs/SRPMs into `runtime/repo/el<EL>/<arch>/` and runs `createrepo_c --update` for each architecture. Expect to see directories such as:
+This copies all signed RPMs/SRPMs into `runtime/repo/el<EL>/<arch>/`, validates signatures with the staged public key, and runs `createrepo_c --update` for each architecture. Repository creation fails if the public key is missing, cannot be imported, or any copied RPM fails `rpm -K`.
+
+The underlying container command is:
+
+```bash
+docker compose -f docker/docker-compose.yml run --rm builder ./scripts/create-repo.sh
+```
+
+For throwaway local testing only, pass `--allow-unsigned` to bypass signature validation explicitly:
+
+```bash
+./scripts/package-workflow.sh repo --allow-unsigned
+```
+
+Expect to see directories such as:
 
 ```
 runtime/repo/

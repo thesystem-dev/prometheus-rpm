@@ -65,7 +65,7 @@ Stage requirements:
 | `build` | Docker Compose and `runtime/` prepared by `stage-runtime.sh`; see [runtime.md](runtime.md) and [build-and-stage.md](build-and-stage.md) |
 | `sign` | Built RPMs under `runtime/artifacts/`, `runtime/gnupg/private.asc`, and `runtime/rpmmacros`; see [signing.md](signing.md) |
 | `verify` | Built RPMs under `runtime/artifacts/` plus a public key under `runtime/gnupg/public.asc` or `runtime/gnupg/RPM-GPG-KEY-*`; private key material is not required; see [signing.md](signing.md) |
-| `repo` | Built RPMs under `runtime/artifacts/` plus a public key under `runtime/gnupg/public.asc` or `runtime/gnupg/RPM-GPG-KEY-*`; see [publishing.md](publishing.md) |
+| `repo` | Built RPMs under `runtime/artifacts/` plus a public key under `runtime/gnupg/public.asc` or `runtime/gnupg/RPM-GPG-KEY-*`, unless using the explicit local-only `--allow-unsigned` bypass; see [publishing.md](publishing.md) |
 | `prune` | Existing `runtime/repo` or the selected `--root` path; dry-run first; see [publishing.md](publishing.md) |
 
 Environment:
@@ -107,6 +107,8 @@ Create the local repository:
 
 This creates the local DNF repository tree under `runtime/repo/` by copying RPMs from `runtime/artifacts/` and generating `repodata/`. It does not publish or upload the repository.
 
+Repository creation validates copied RPMs with the staged public key and fails closed if validation cannot run. Use `--allow-unsigned` only for local throwaway testing.
+
 Dry-run pruning before deleting old RPMs:
 
 ```bash
@@ -120,7 +122,7 @@ Supported stages and arguments:
 | `build` | `--all`, `--package <name>`, `--el <8\|9\|10>`, `--arch <x86_64\|aarch64>`, `--list`, `--check-sources`, `--dry-run`, `-h`, `--help` |
 | `sign` | `--force`, `--rpm-types <binary\|source\|both>` (default: `both`), `--input-dir <dir>` (default: `runtime/artifacts`), `--output-dir <dir>` (default: sign in place), `--runtime <dir>` (default: `runtime`), `--dry-run`, `-h`, `--help` |
 | `verify` | `--rpm-types <binary\|source\|both>` (default: `both`), `--input-dir <dir>` (default: `runtime/artifacts`), `--runtime <dir>` (default: `runtime`), `--public-key <file>` (default: first staged public key), `-h`, `--help` |
-| `repo` | Optional positional arguments: `[INPUT_DIR] [OUTPUT_DIR]` where defaults are `runtime/artifacts` and `runtime/repo` |
+| `repo` | `--public-key <file>` (default: first staged public key), `--allow-unsigned` (local-only validation bypass), `--runtime <dir>` (default: `runtime`), optional positional arguments: `[INPUT_DIR] [OUTPUT_DIR]` where defaults are `runtime/artifacts` and `runtime/repo` |
 | `prune` | `--root <path>` (default: `runtime/repo`), `--keep <N>` (default: `3`), `--dry-run`, `--create-repo`, `-h`, `--help` |
 
 Examples:
@@ -128,6 +130,7 @@ Examples:
 ```bash
 ./scripts/package-workflow.sh sign --rpm-types binary
 ./scripts/package-workflow.sh repo runtime/artifacts runtime/repo-test
+./scripts/package-workflow.sh repo --allow-unsigned runtime/artifacts runtime/repo-test
 ./scripts/package-workflow.sh prune --root runtime/repo --keep 3
 ```
 

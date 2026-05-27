@@ -19,7 +19,7 @@ Requirements:
   build   runtime/ prepared by ./scripts/stage-runtime.sh
   sign    runtime/gnupg/private.asc and runtime/rpmmacros
   verify  runtime/artifacts plus staged public key material
-  repo    runtime/artifacts plus staged public key material
+  repo    runtime/artifacts plus staged public key material, unless explicitly using --allow-unsigned
   prune   runtime/repo or the selected --root path exists
 
 Examples:
@@ -81,7 +81,14 @@ require_public_key_material() {
 
 has_public_key_arg() {
   for arg in "$@"; do
-    [[ "$arg" == "--public-key" ]] && return 0
+    [[ "$arg" == "--public-key" || "$arg" == --public-key=* ]] && return 0
+  done
+  return 1
+}
+
+has_allow_unsigned_arg() {
+  for arg in "$@"; do
+    [[ "$arg" == "--allow-unsigned" ]] && return 0
   done
   return 1
 }
@@ -135,7 +142,9 @@ case "$COMMAND" in
   repo)
     require_docker
     require_artifacts
-    require_public_key_material
+    if ! has_public_key_arg "$@" && ! has_allow_unsigned_arg "$@"; then
+      require_public_key_material
+    fi
     stage "Create local DNF repository tree"
     run docker compose -f docker/docker-compose.yml run --rm builder ./scripts/create-repo.sh "$@"
     ;;
