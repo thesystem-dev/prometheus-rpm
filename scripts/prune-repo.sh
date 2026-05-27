@@ -4,14 +4,13 @@ set -euo pipefail
 ROOT="runtime/repo"
 KEEP=3
 DRY_RUN=0
-CREATE_REPO=0
 CREATEREPO_BIN=""
 REPO_MANAGE_DNF=()
 REPO_MANAGE_PLAIN=()
 
 usage() {
   cat <<'EOF'
-Usage: scripts/prune-repo.sh [--root PATH] [--keep N] [--dry-run] [--create-repo]
+Usage: scripts/prune-repo.sh [--root PATH] [--keep N] [--dry-run]
 
 Prunes old RPM/SRPM files per directory. If a directory already contains
 repodata/, refreshes repository metadata after deleting old packages.
@@ -20,7 +19,6 @@ Options:
   --root PATH   Repo root (default: runtime/repo)
   --keep N      Keep latest N versions per package (default: 3)
   --dry-run     Show what would be deleted; do not delete or update metadata
-  --create-repo Run ./scripts/create-repo.sh after pruning
   -h, --help    Show this help
 EOF
 }
@@ -37,10 +35,6 @@ while [[ $# -gt 0 ]]; do
       ;;
     --dry-run)
       DRY_RUN=1
-      shift
-      ;;
-    --create-repo)
-      CREATE_REPO=1
       shift
       ;;
     -h|--help)
@@ -148,8 +142,3 @@ for dir in "${repo_dirs[@]}"; do
 done
 
 echo "Done."
-
-if [[ "$DRY_RUN" -eq 0 && "$CREATE_REPO" -eq 1 ]]; then
-  echo "Rebuilding repository metadata via ./scripts/create-repo.sh ..."
-  ./scripts/create-repo.sh
-fi

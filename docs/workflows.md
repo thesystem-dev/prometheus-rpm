@@ -123,7 +123,7 @@ Supported stages and arguments:
 | `sign` | `--force`, `--rpm-types <binary\|source\|both>` (default: `both`), `--input-dir <dir>` (default: `runtime/artifacts`), `--output-dir <dir>` (default: sign in place), `--runtime <dir>` (default: `runtime`), `--dry-run`, `-h`, `--help` |
 | `verify` | `--rpm-types <binary\|source\|both>` (default: `both`), `--input-dir <dir>` (default: `runtime/artifacts`), `--runtime <dir>` (default: `runtime`), `--public-key <file>` (default: first staged public key), `-h`, `--help` |
 | `repo` | `--public-key <file>` (default: first staged public key), `--allow-unsigned` (local-only validation bypass), `--runtime <dir>` (default: `runtime`), optional positional arguments: `[INPUT_DIR] [OUTPUT_DIR]` where defaults are `runtime/artifacts` and `runtime/repo` |
-| `prune` | `--root <path>` (default: `runtime/repo`), `--keep <N>` (default: `3`), `--dry-run`, `--create-repo`, `-h`, `--help` |
+| `prune` | `--root <path>` (default: `runtime/repo`), `--keep <N>` (default: `3`), `--dry-run`, `-h`, `--help` |
 
 Examples:
 
