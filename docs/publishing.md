@@ -63,18 +63,20 @@ Before publishing, review the repo tree:
 
 If you want to limit retained history in the published repository (for example, to control storage usage in S3/R2-backed repositories), prune `runtime/repo` carefully. Retained metadata can still reference older RPM files. If you prune those RPMs while clients or proxies may still use old metadata, those clients can fetch metadata successfully and then receive 404s for package files.
 
-Avoid pruning `runtime/repo` during the metadata retention window after publishing unless you accept that bounded inconsistency. Prefer pruning after the retention window has passed, or prune the persistent artefact cache before regenerating `runtime/repo`.
+When pruning `runtime/repo`, keep `--min-age` at least as long as the metadata retention window. `--keep` controls how many versions are retained per package; `--min-age` prevents deletion of package files that may still be referenced by retained metadata. `prune-repo.sh` defaults both values to 2 hours.
+
+`--keep` decides which package versions are prune candidates. `--min-age` is a second safety gate: for example, `--keep 2` may mark a third older version for deletion, but if that RPM was staged less than 2 hours ago it is kept so retained metadata can still resolve it.
 
 Dry-run first:
 
 ```bash
-./scripts/package-workflow.sh prune --root runtime/repo --keep 3 --dry-run
+./scripts/package-workflow.sh prune --root runtime/repo --keep 3 --min-age 2h --dry-run
 ```
 
-Apply pruning (keeps latest 3 per package in each repo directory and updates `repodata`):
+Apply pruning (keeps latest 3 per package in each repo directory, avoids deleting RPMs newer than 2 hours, and updates `repodata`):
 
 ```bash
-./scripts/package-workflow.sh prune --root runtime/repo --keep 3
+./scripts/package-workflow.sh prune --root runtime/repo --keep 3 --min-age 2h
 ```
 
 If you keep a persistent local cache of historical build artefacts, prune that cache before explicitly regenerating `runtime/repo`:
@@ -87,6 +89,8 @@ If you keep a persistent local cache of historical build artefacts, prune that c
 
 This `runtime/artifacts` form is for a history-bearing local artefact store. It is not a general CI retention workflow for ephemeral runners that only contain the current job's outputs. Repository creation remains a separate step so signature validation and output path checks stay explicit.
 
+The default `--min-age 2h` also applies when pruning `runtime/artifacts`. Use `--no-min-age` only when you intentionally want immediate aggressive clean-up of old artefact candidates.
+
 `prune-repo.sh` selects the appropriate `repomanage` variant automatically: repo directories with `repodata/` use `dnf repomanage` when available, while plain artefact directories use standalone `repomanage`.
 
 Repository creation updates only EL/architecture directories that still exist under `runtime/artifacts`; if an EL or architecture is removed from the artefact tree entirely, remove the corresponding `runtime/repo/` directory manually.
@@ -94,7 +98,7 @@ Repository creation updates only EL/architecture directories that still exist un
 The underlying prune command is:
 
 ```bash
-docker compose -f docker/docker-compose.yml run --rm builder ./scripts/prune-repo.sh --root runtime/repo --keep 3 --dry-run
+docker compose -f docker/docker-compose.yml run --rm builder ./scripts/prune-repo.sh --root runtime/repo --keep 3 --min-age 2h --dry-run
 ```
 
 ## 4. Copy the repository to your host

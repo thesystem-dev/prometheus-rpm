@@ -5,33 +5,157 @@ ROOT="runtime/repo"
 KEEP=3
 DRY_RUN=0
 CREATEREPO_BIN=""
+MIN_AGE="2h"
+MIN_AGE_SECONDS=0
+RETAIN_OLD_MD_BY_AGE="2h"
+RETENTION_EXPLICIT=false
+NO_RETAIN_OLD_MD=false
 REPO_MANAGE_DNF=()
 REPO_MANAGE_PLAIN=()
 
 usage() {
   cat <<'EOF'
-Usage: scripts/prune-repo.sh [--root PATH] [--keep N] [--dry-run]
+Usage: scripts/prune-repo.sh [--root PATH] [--keep N] [--min-age AGE] [--dry-run]
 
 Prunes old RPM/SRPM files per directory. If a directory already contains
 repodata/, refreshes repository metadata after deleting old packages.
 
 Options:
-  --root PATH   Repo root (default: runtime/repo)
-  --keep N      Keep latest N versions per package (default: 3)
-  --dry-run     Show what would be deleted; do not delete or update metadata
-  -h, --help    Show this help
+  --root PATH             Repo root (default: runtime/repo)
+  --keep N                Keep latest N versions per package (default: 3)
+  --min-age AGE           Do not delete packages newer than AGE
+                          (default: 2h; examples: 30m, 4h, 1d)
+  --no-min-age            Delete old package candidates regardless of age
+  --retain-old-md-by-age AGE
+                          Retain old createrepo_c metadata after pruning
+                          (default: 2h)
+  --no-retain-old-md      Do not retain old repository metadata
+  --dry-run               Show what would be deleted; do not delete or update metadata
+  -h, --help              Show this help
 EOF
+}
+
+die() {
+  echo "ERROR: $*" >&2
+  exit 1
+}
+
+warn() {
+  echo "WARNING: $*" >&2
+}
+
+require_arg() {
+  local option="$1"
+  local value="${2:-}"
+  [[ -n "$value" && "$value" != --* ]] || die "$option requires an argument"
+}
+
+age_to_seconds() {
+  local age="$1"
+  local value
+  local unit
+
+  if [[ "$age" =~ ^([0-9]+)([mhd])$ ]]; then
+    value="${BASH_REMATCH[1]}"
+    unit="${BASH_REMATCH[2]}"
+  else
+    die "Invalid age '$age' (use Nm, Nh, or Nd)"
+  fi
+
+  case "$unit" in
+    m) echo $((value * 60)) ;;
+    h) echo $((value * 60 * 60)) ;;
+    d) echo $((value * 24 * 60 * 60)) ;;
+  esac
+}
+
+file_mtime() {
+  local path="$1"
+
+  if stat -c %Y "$path" >/dev/null 2>&1; then
+    stat -c %Y "$path"
+  else
+    stat -f %m "$path"
+  fi
+}
+
+should_keep_for_age() {
+  local pkg="$1"
+
+  [[ "$MIN_AGE_SECONDS" -gt 0 ]] || return 1
+
+  local now
+  local mtime
+  now="$(date +%s)"
+  mtime="$(file_mtime "$pkg")"
+  (( now - mtime < MIN_AGE_SECONDS ))
+}
+
+createrepo_update() {
+  local dir="$1"
+  local -a args=(--update)
+
+  if [[ "$CREATEREPO_BIN" == "createrepo_c" && "$NO_RETAIN_OLD_MD" != true ]]; then
+    args+=(--retain-old-md-by-age "$RETAIN_OLD_MD_BY_AGE")
+  fi
+
+  "$CREATEREPO_BIN" "${args[@]}" "$dir" >/dev/null
 }
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --root)
+      require_arg "$1" "${2:-}"
       ROOT="$2"
       shift 2
       ;;
+    --root=*)
+      ROOT="${1#*=}"
+      [[ -n "$ROOT" ]] || die "--root requires an argument"
+      shift
+      ;;
     --keep)
+      require_arg "$1" "${2:-}"
       KEEP="$2"
       shift 2
+      ;;
+    --keep=*)
+      KEEP="${1#*=}"
+      [[ -n "$KEEP" ]] || die "--keep requires an argument"
+      shift
+      ;;
+    --min-age)
+      require_arg "$1" "${2:-}"
+      MIN_AGE="$2"
+      shift 2
+      ;;
+    --min-age=*)
+      MIN_AGE="${1#*=}"
+      [[ -n "$MIN_AGE" ]] || die "--min-age requires an argument"
+      shift
+      ;;
+    --no-min-age)
+      MIN_AGE=""
+      shift
+      ;;
+    --retain-old-md-by-age)
+      require_arg "$1" "${2:-}"
+      RETAIN_OLD_MD_BY_AGE="$2"
+      RETENTION_EXPLICIT=true
+      NO_RETAIN_OLD_MD=false
+      shift 2
+      ;;
+    --retain-old-md-by-age=*)
+      RETAIN_OLD_MD_BY_AGE="${1#*=}"
+      [[ -n "$RETAIN_OLD_MD_BY_AGE" ]] || die "--retain-old-md-by-age requires an argument"
+      RETENTION_EXPLICIT=true
+      NO_RETAIN_OLD_MD=false
+      shift
+      ;;
+    --no-retain-old-md)
+      NO_RETAIN_OLD_MD=true
+      RETENTION_EXPLICIT=true
+      shift
       ;;
     --dry-run)
       DRY_RUN=1
@@ -50,13 +174,15 @@ while [[ $# -gt 0 ]]; do
 done
 
 if ! [[ "$KEEP" =~ ^[0-9]+$ ]] || [[ "$KEEP" -lt 1 ]]; then
-  echo "--keep must be a positive integer" >&2
-  exit 1
+  die "--keep must be a positive integer"
+fi
+
+if [[ -n "$MIN_AGE" ]]; then
+  MIN_AGE_SECONDS="$(age_to_seconds "$MIN_AGE")"
 fi
 
 if [[ ! -d "$ROOT" ]]; then
-  echo "Repo root not found: $ROOT" >&2
-  exit 1
+  die "Repo root not found: $ROOT"
 fi
 
 if dnf repomanage --help >/dev/null 2>&1; then
@@ -68,11 +194,10 @@ if command -v repomanage >/dev/null 2>&1; then
 fi
 
 if [[ ${#REPO_MANAGE_DNF[@]} -eq 0 && ${#REPO_MANAGE_PLAIN[@]} -eq 0 ]]; then
-  echo "repomanage is not available (dnf plugin or standalone command)" >&2
-  exit 1
+  die "repomanage is not available (dnf plugin or standalone command)"
 fi
 
-echo "Pruning repo root: $ROOT (keep=$KEEP dry_run=$DRY_RUN)"
+echo "Pruning repo root: $ROOT (keep=$KEEP min_age=${MIN_AGE:-none} dry_run=$DRY_RUN)"
 
 declare -A seen_dirs=()
 while IFS= read -r -d '' pkg_file; do
@@ -101,6 +226,15 @@ if [[ "$DRY_RUN" -eq 0 ]]; then
   done
 fi
 
+if [[ -n "$CREATEREPO_BIN" && "$CREATEREPO_BIN" != "createrepo_c" ]]; then
+  if [[ "$RETENTION_EXPLICIT" == true && "$NO_RETAIN_OLD_MD" != true ]]; then
+    die "--retain-old-md-by-age requires createrepo_c"
+  fi
+  if [[ "$NO_RETAIN_OLD_MD" != true ]]; then
+    warn "createrepo_c not found; old metadata retention is unavailable with $CREATEREPO_BIN"
+  fi
+fi
+
 for dir in "${repo_dirs[@]}"; do
   repo_manage_cmd=()
   if [[ -d "$dir/repodata" ]]; then
@@ -123,20 +257,38 @@ for dir in "${repo_dirs[@]}"; do
     continue
   fi
 
+  delete_pkgs=()
+  age_skipped=()
+  for pkg in "${old_pkgs[@]}"; do
+    if should_keep_for_age "$pkg"; then
+      age_skipped+=("$pkg")
+    else
+      delete_pkgs+=("$pkg")
+    fi
+  done
+
   if [[ "$DRY_RUN" -eq 1 ]]; then
-    for pkg in "${old_pkgs[@]}"; do
+    for pkg in "${delete_pkgs[@]}"; do
       echo "[DRY] $pkg"
+    done
+    for pkg in "${age_skipped[@]}"; do
+      echo "[KEEP-AGE] $pkg"
     done
     continue
   fi
 
-  for pkg in "${old_pkgs[@]}"; do
+  if [[ ${#delete_pkgs[@]} -eq 0 ]]; then
+    echo "[SKIP] $dir (all ${#age_skipped[@]} prune candidates newer than min-age)"
+    continue
+  fi
+
+  for pkg in "${delete_pkgs[@]}"; do
     rm -f -- "$pkg"
   done
-  echo "[PRUNE] $dir (${#old_pkgs[@]} files removed)"
+  echo "[PRUNE] $dir (${#delete_pkgs[@]} files removed, ${#age_skipped[@]} kept by min-age)"
 
   if [[ -d "$dir/repodata" ]]; then
-    "$CREATEREPO_BIN" --update "$dir" >/dev/null
+    createrepo_update "$dir"
     echo "[REPO]  $dir metadata updated"
   fi
 done
