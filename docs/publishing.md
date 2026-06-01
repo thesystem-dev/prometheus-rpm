@@ -10,7 +10,19 @@ Run the package workflow so `create-repo.sh` runs inside the builder container w
 ./scripts/package-workflow.sh repo
 ```
 
-This copies all signed RPMs/SRPMs into `runtime/repo/el<EL>/<arch>/`, validates signatures with the staged public key, and runs `createrepo_c --update` for each architecture. Repository creation fails if the public key is missing, cannot be imported, or any copied RPM fails `rpm -K`.
+This copies all signed RPMs/SRPMs into `runtime/repo/el<EL>/<arch>/`, validates signatures with the staged public key, and runs `createrepo_c --update --retain-old-md-by-age 2h` for each architecture. Repository creation fails if the public key is missing, cannot be imported, or any copied RPM fails `rpm -K`.
+
+Old repository metadata is retained for two hours by default. This avoids transient client failures where a cached `repodata/repomd.xml` still points at older checksum-named metadata files after a new publish. Override the window when needed:
+
+```bash
+./scripts/package-workflow.sh repo --retain-old-md-by-age 4h
+```
+
+For a deliberate cold reset, disable metadata retention:
+
+```bash
+./scripts/package-workflow.sh repo --no-retain-old-md
+```
 
 The underlying container command is:
 
@@ -49,7 +61,9 @@ Before publishing, review the repo tree:
 
 ## 3. Optional: prune old package versions
 
-If you want to limit retained history in the published repository (for example, to control storage usage in S3/R2-backed repositories), prune `runtime/repo` after creating repository metadata.
+If you want to limit retained history in the published repository (for example, to control storage usage in S3/R2-backed repositories), prune `runtime/repo` carefully. Retained metadata can still reference older RPM files. If you prune those RPMs while clients or proxies may still use old metadata, those clients can fetch metadata successfully and then receive 404s for package files.
+
+Avoid pruning `runtime/repo` during the metadata retention window after publishing unless you accept that bounded inconsistency. Prefer pruning after the retention window has passed, or prune the persistent artefact cache before regenerating `runtime/repo`.
 
 Dry-run first:
 
@@ -75,6 +89,8 @@ This `runtime/artifacts` form is for a history-bearing local artefact store. It 
 
 `prune-repo.sh` selects the appropriate `repomanage` variant automatically: repo directories with `repodata/` use `dnf repomanage` when available, while plain artefact directories use standalone `repomanage`.
 
+Repository creation updates only EL/architecture directories that still exist under `runtime/artifacts`; if an EL or architecture is removed from the artefact tree entirely, remove the corresponding `runtime/repo/` directory manually.
+
 The underlying prune command is:
 
 ```bash
@@ -89,7 +105,9 @@ Use `rsync` (recommended) or `scp` to copy the entire `runtime/repo/` tree to th
 rsync -av --delete runtime/repo/ user@host:/var/www/repos/prometheus-rpm/
 ```
 
-Adjust the destination path to match your web server or file-share layout. The `--delete` flag keeps the remote tree in sync with your local content; drop it if you prefer manual clean-up.
+Adjust the destination path to match your web server or file-share layout. The `--delete` flag keeps the remote tree in sync with your local content. It is safe with retained metadata only when your local `runtime/repo/` still contains the retained `repodata/` files. Do not run a sync mode that deletes old `repodata/` objects earlier than the retention window.
+
+For object storage or CDN-backed publishing, make sure upload/delete behaviour preserves retained `repodata/` files for the same window. CDN cache invalidation for `repodata/repomd.xml` is a separate concern; retained metadata protects clients and proxies that still use an older `repomd.xml`.
 
 ## 5. Publish the GPG public key
 

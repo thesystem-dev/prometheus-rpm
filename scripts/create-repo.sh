@@ -9,6 +9,9 @@ PUBLIC_KEY_FILE="${PUBLIC_KEY_FILE:-}"
 RPM_DB_DIR=""
 SKIP_SIGNATURE_CHECK=false
 ALLOW_UNSIGNED=false
+RETAIN_OLD_MD_BY_AGE="2h"
+RETENTION_EXPLICIT=false
+NO_RETAIN_OLD_MD=false
 
 usage() {
   cat <<EOF
@@ -26,6 +29,10 @@ Options:
                       runtime/gnupg/RPM-GPG-KEY-*)
   --allow-unsigned    Local-only bypass: create repo metadata without rpm -K
                       signature validation
+  --retain-old-md-by-age AGE
+                      Retain old createrepo_c metadata for AGE
+                      (default: 2h)
+  --no-retain-old-md  Do not retain old repository metadata
   --runtime DIR       Runtime directory (default: runtime)
   -h, --help          Show this help text
 EOF
@@ -69,6 +76,25 @@ while [[ $# -gt 0 ]]; do
     --allow-unsigned)
       ALLOW_UNSIGNED=true
       SKIP_SIGNATURE_CHECK=true
+      shift
+      ;;
+    --retain-old-md-by-age)
+      require_arg "$1" "${2:-}"
+      RETAIN_OLD_MD_BY_AGE="$2"
+      RETENTION_EXPLICIT=true
+      NO_RETAIN_OLD_MD=false
+      shift 2
+      ;;
+    --retain-old-md-by-age=*)
+      RETAIN_OLD_MD_BY_AGE="${1#*=}"
+      [[ -n "$RETAIN_OLD_MD_BY_AGE" ]] || die "--retain-old-md-by-age requires an argument"
+      RETENTION_EXPLICIT=true
+      NO_RETAIN_OLD_MD=false
+      shift
+      ;;
+    --no-retain-old-md)
+      NO_RETAIN_OLD_MD=true
+      RETENTION_EXPLICIT=true
       shift
       ;;
     --runtime)
@@ -188,6 +214,15 @@ else
   die "Neither createrepo_c nor createrepo is installed"
 fi
 
+if [[ "$CREATEREPO_BIN" != "createrepo_c" ]]; then
+  if [[ "$RETENTION_EXPLICIT" == true && "$NO_RETAIN_OLD_MD" != true ]]; then
+    die "--retain-old-md-by-age requires createrepo_c"
+  fi
+  if [[ "$NO_RETAIN_OLD_MD" != true ]]; then
+    warn "createrepo_c not found; old metadata retention is unavailable with $CREATEREPO_BIN"
+  fi
+fi
+
 if [[ "$ALLOW_UNSIGNED" == true ]]; then
   warn "--allow-unsigned set; rpm -K signature validation is disabled"
 fi
@@ -204,6 +239,36 @@ copy_rpms() {
     find "$source_dir" -type f -name "*.rpm" ! -name "*.src.rpm" -print0 \
       | xargs -0r cp --preserve=mode,timestamps -t "$target_dir"
   fi
+}
+
+sync_target_rpms() {
+  local target_dir="$1"
+  local rpm_type="$2"
+
+  if [[ "$rpm_type" == "source" ]]; then
+    find "$target_dir" -maxdepth 1 -type f -name "*.src.rpm" -delete
+  else
+    find "$target_dir" -maxdepth 1 -type f -name "*.rpm" ! -name "*.src.rpm" -delete
+  fi
+}
+
+createrepo_update() {
+  local target_dir="$1"
+  local -a args=(--update)
+
+  if [[ "$CREATEREPO_BIN" == "createrepo_c" && "$NO_RETAIN_OLD_MD" != true ]]; then
+    args+=(--retain-old-md-by-age "$RETAIN_OLD_MD_BY_AGE")
+  fi
+
+  "$CREATEREPO_BIN" "${args[@]}" "$target_dir"
+}
+
+remove_target_dir() {
+  local target_dir="$1"
+
+  [[ "$target_dir" != "$OUTPUT_ABS" ]] || die "Refusing to remove output root: $target_dir"
+  path_is_within "$target_dir" "$OUTPUT_ABS" || die "Refusing to remove path outside output root: $target_dir"
+  rm -rf "$target_dir"
 }
 
 setup_rpm_db() {
@@ -254,8 +319,6 @@ validate_rpms() {
 }
 
 setup_rpm_db
-
-rm -rf "$OUTPUT_ABS"
 mkdir -p "$OUTPUT_ABS"
 
 for distro_dir in "$INPUT_DIR"/el*; do
@@ -277,6 +340,7 @@ for distro_dir in "$INPUT_DIR"/el*; do
       rpm_type="source"
     fi
 
+    sync_target_rpms "$target_dir" "$rpm_type"
     copy_rpms "$arch_dir" "$target_dir" "$rpm_type"
 
     if compgen -G "$target_dir/$rpm_glob" >/dev/null; then
@@ -285,10 +349,10 @@ for distro_dir in "$INPUT_DIR"/el*; do
       validate_rpms "$target_dir" "$rpm_glob"
 
       echo "Generating repo metadata for $distro_name/$arch_name"
-      "$CREATEREPO_BIN" --update "$target_dir"
+      createrepo_update "$target_dir"
     else
       echo "No $rpm_label found for $distro_name/$arch_name; removing empty directory"
-      rmdir "$target_dir"
+      remove_target_dir "$target_dir"
     fi
   done
 done
@@ -299,13 +363,14 @@ for distro_dir in "$OUTPUT_ABS"/el*; do
   [[ -d "$distro_dir" ]] || continue
   x_dir="$distro_dir/x86_64"
   a_dir="$distro_dir/aarch64"
-  mkdir -p "$x_dir" "$a_dir"
 
   # Collect unique noarch RPMs already copied for this EL
   # They may originate from either arch's build output.
   mapfile -t noarch_rpms < <(find "$distro_dir" -type f -name "*.noarch.rpm" -print 2>/dev/null | sort -u)
 
   if [[ ${#noarch_rpms[@]} -gt 0 ]]; then
+    mkdir -p "$x_dir" "$a_dir"
+
     echo "Ensuring noarch RPMs are available under both $distro_dir/x86_64 and $distro_dir/aarch64"
     for rpm in "${noarch_rpms[@]}"; do
       cp --preserve=mode,timestamps -n "$rpm" "$x_dir/" 2>/dev/null || true
@@ -315,11 +380,11 @@ for distro_dir in "$OUTPUT_ABS"/el*; do
     # Refresh metadata after noarch propagation
     if compgen -G "$x_dir/*.rpm" >/dev/null; then
       echo "Updating metadata for ${distro_dir}/x86_64 (after noarch propagation)"
-      "$CREATEREPO_BIN" --update "$x_dir"
+      createrepo_update "$x_dir"
     fi
     if compgen -G "$a_dir/*.rpm" >/dev/null; then
       echo "Updating metadata for ${distro_dir}/aarch64 (after noarch propagation)"
-      "$CREATEREPO_BIN" --update "$a_dir"
+      createrepo_update "$a_dir"
     fi
   fi
 done
