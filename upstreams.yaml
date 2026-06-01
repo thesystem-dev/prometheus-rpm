@@ -10,8 +10,8 @@ projects:
       asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 9479af67673316278958cda1f39b88a09f8921084e039c65acca060d0447bb38
-        linux-arm64: d2ec0a96259afde955ad1560ced303cef99cac4dac676bd4dd7614d76adb708a
+        linux-amd64: 20da47f8e5303f74aecb78edd7f7e39041dac08ac4939dba75efd7a900ae8867
+        linux-arm64: 281492bf04ed171cb09d24377e9777f56e55ccb6445ef197b66bd1693bd9b7f1
     packaging:
       rpm_name: prometheus
       architectures:
@@ -191,8 +191,8 @@ projects:
       asset_pattern: ^statsd_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 46e39d834247fcd6219b9076a1c1065973859b70f7316b5159f158ce2da9c2b6
-        linux-arm64: ed66d0fc603e59b9381d9e489a9ec51e759da31be7554a28ac71d289980c13d9
+        linux-amd64: df0c1b640384e0495b5127f3d92a012aea39add175320219b5818380421a863b
+        linux-arm64: 386f6808df1c0a8de1ddf79a1c25e13517f37a1c508b4a8bd53f3b5d02aed0df
     packaging:
       rpm_name: statsd_exporter
       architectures:
@@ -227,8 +227,8 @@ projects:
       asset_pattern: ^pushgateway-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 2ec72315e150dda071fdeef09360780a386a67e5207ebaa53bb18f2f1a3b89cf
-        linux-arm64: b3fb835dbb0a29b1d6f9cd7ae3568a5615e59b96f8787965248cea67163d4db1
+        linux-amd64: bb0a44dee0953df9e8cd3c082981ff50327de56d965d83bdd9b0957d83921e38
+        linux-arm64: 727ff0098943657b44c21a029be9d9fcc4f249ec72dcb9f0a34aa66b2d5f1ecc
     packaging:
       rpm_name: pushgateway
       architectures:
@@ -819,8 +819,8 @@ projects:
       asset_pattern: ^prometheus-nats-exporter-v(?P<version>[^/]+)-linux-(x86_64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-x86_64: cacb1215b65b807242dafc1ac097923246dce72b35e829117849ad88f5b5201f
-        linux-arm64: aec0f1d4ceeb99f5d2a40b6a2eb1802c14eb536dc1c644e161ae02a94b4cf488
+        linux-x86_64: a8798bee71effc2473e48f6b166e63e207a7bb7a7e93ffbb643a1d840607b8ae
+        linux-arm64: ab9af0a192c0845ab96f85bc0637f359a168ecfb2894128ea227ae47b4b83855
     packaging:
       rpm_name: nats_exporter
       architectures:

@@ -2,8 +2,8 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           pushgateway
-Version:        1.11.2
-Release:        3%{?dist}
+Version:        1.11.3
+Release:        1%{?dist}
 Summary:        Prometheus push acceptor for batch and ephemeral jobs
 
 License:        Apache-2.0
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/pushgateway
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha b3fb835dbb0a29b1d6f9cd7ae3568a5615e59b96f8787965248cea67163d4db1
+%global exporter_sha 727ff0098943657b44c21a029be9d9fcc4f249ec72dcb9f0a34aa66b2d5f1ecc
 %else
 %global exporter_arch amd64
-%global exporter_sha 2ec72315e150dda071fdeef09360780a386a67e5207ebaa53bb18f2f1a3b89cf
+%global exporter_sha bb0a44dee0953df9e8cd3c082981ff50327de56d965d83bdd9b0957d83921e38
 %endif
 
 Source0: https://github.com/prometheus/pushgateway/releases/download/v%{version}/pushgateway-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -97,6 +97,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Mon Jun 01 2026 James Wilson <packages@thesystem.dev> - 1.11.3-1
+- Rebase to upstream version 1.11.3
+
 * Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 1.11.2-3
 - Fix EL8 PREIN regression; create pushgateway account in %pre on EL8 and use sysusers compat on EL9-EL10
 

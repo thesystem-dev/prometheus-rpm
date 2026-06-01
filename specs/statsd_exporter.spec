@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           statsd_exporter
-Version:        0.29.0
+Version:        0.30.0
 Release:        1%{?dist}
 Summary:        Export StatsD metrics in Prometheus format
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/statsd_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha ed66d0fc603e59b9381d9e489a9ec51e759da31be7554a28ac71d289980c13d9
+%global exporter_sha 386f6808df1c0a8de1ddf79a1c25e13517f37a1c508b4a8bd53f3b5d02aed0df
 %else
 %global exporter_arch amd64
-%global exporter_sha 46e39d834247fcd6219b9076a1c1065973859b70f7316b5159f158ce2da9c2b6
+%global exporter_sha df0c1b640384e0495b5127f3d92a012aea39add175320219b5818380421a863b
 %endif
 
 Source0: https://github.com/prometheus/statsd_exporter/releases/download/v%{version}/statsd_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -79,6 +79,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Mon Jun 01 2026 James Wilson <packages@thesystem.dev> - 0.30.0-1
+- Rebase to upstream version 0.30.0
+
 * Tue Mar 03 2026 James Wilson <packages@thesystem.dev> - 0.29.0-1
 - Rebase to upstream version 0.29.0
 
