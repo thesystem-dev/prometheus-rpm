@@ -79,6 +79,34 @@ ExecStart=/usr/bin/prometheus \
 
 If `web.yml` references TLS keys or other private files, ensure they are readable by the `prometheus` service user or group, for example `root:prometheus` with `0640` files and `0750` containing directories.
 
+### Prometheus: user-supplied console templates
+
+Prometheus still supports console templates, but Prometheus 3.x no longer ships the example `consoles/` and `console_libraries/` assets. The upstream [console templates documentation](https://prometheus.io/docs/visualization/consoles/) covers this behaviour and notes that the historical Prometheus 2.x libraries are no longer maintained. This repository does not reintroduce those removed assets.
+
+For normal dashboards, use Grafana. If you maintain your own console templates, create local directories for them:
+
+```bash
+sudo install -d -m 0755 /etc/prometheus/consoles
+sudo install -d -m 0755 /etc/prometheus/console_libraries
+```
+
+Then add the console paths with a systemd drop-in:
+
+```ini
+# /etc/systemd/system/prometheus.service.d/consoles.conf
+[Service]
+ExecStart=
+ExecStart=/usr/bin/prometheus \
+  --config.file=/etc/prometheus/prometheus.yml \
+  --storage.tsdb.path=/var/lib/prometheus \
+  --web.console.templates=/etc/prometheus/consoles \
+  --web.console.libraries=/etc/prometheus/console_libraries
+```
+
+The empty `ExecStart=` line clears the vendor command, so preserve the existing packaged arguments when adding the console flags. The same pattern applies to `prometheus-lts`.
+
+If the console templates or libraries contain site-private content, use tighter permissions such as `root:prometheus` ownership, `0750` directories, and group-readable files.
+
 ### node_exporter: listen address
 
 ```ini
