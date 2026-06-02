@@ -14,14 +14,20 @@ sudo rpm --import https://rpms.thesystem.dev/RPM-GPG-KEY-thesystem-dev
 
 ```bash
 sudo tee /etc/yum.repos.d/prometheus-rpm.repo > /dev/null <<'EOF'
+# Repository: https://rpms.thesystem.dev/
+# Project:    https://github.com/thesystem-dev/prometheus-rpm
+
 [prometheus-rpm]
-name=Prometheus RPM Repository
+name=thesystem Prometheus RPM Repository for Enterprise Linux $releasever - $basearch
 baseurl=https://rpms.thesystem.dev/prometheus-rpm/el$releasever/$basearch/
 enabled=1
 gpgcheck=1
 gpgkey=https://rpms.thesystem.dev/RPM-GPG-KEY-thesystem-dev
+priority=50
 EOF
 ```
+
+DNF repository priorities use lower numbers as higher priority. The default is `99`; `priority=50` makes this repository win over default-priority repositories such as EPEL when the same package exists in both places. Remove or adjust this value if you want the distribution or EPEL package to be preferred for overlapping package names.
 
 ## 3. Refresh metadata and install packages
 
