@@ -86,6 +86,8 @@ Build selected packages:
 ./scripts/package-workflow.sh build --package prometheus --package node_exporter --el 9 --arch x86_64
 ```
 
+For `BuildArch: noarch` packages, one architecture is enough per EL release. Repository creation copies noarch RPMs into both architecture trees.
+
 Sign built RPMs:
 
 ```bash

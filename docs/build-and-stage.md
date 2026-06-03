@@ -86,10 +86,10 @@ The bind mount ensures these files are immediately available on the host for dow
 
 > **Noarch packages**
 >
-> Specs marked `BuildArch: noarch` (for example, `restic_exporter`) build once per EL release regardless of the `--arch`
-> flags passed to `scripts/build.sh`. During repository creation, `scripts/create-repo.sh` automatically copies those `*.noarch.rpm`
-> files into both `x86_64/` and `aarch64/` repo directories so consumers on either architecture can install them even if you only
-> ran one arch build.
+> Specs marked `BuildArch: noarch` build once per EL release on the first requested architecture. Passing both `--arch x86_64` and
+> `--arch aarch64` is harmless but redundant for those packages.
+> During repository creation, `scripts/create-repo.sh` automatically copies those `*.noarch.rpm` files into both `x86_64/` and
+> `aarch64/` repo directories so consumers on either architecture can install them even if you only ran one arch build.
 
 ## Sources Directory Structure
 
