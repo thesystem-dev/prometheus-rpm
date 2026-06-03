@@ -4,7 +4,7 @@ This repository provides Prometheus and exporter RPM packages for Enterprise Lin
 
 ---
 
-💡 **Just want to install the packages?** See [`docs/quickstart.md`](docs/quickstart.md) for key import and repo configuration instructions.
+💡 **Just want to install the packages?** See [`docs/quickstart.md`](docs/quickstart.md) for repository setup and installation instructions.
 
 ## Goals
 
@@ -33,7 +33,7 @@ Publish tooling and additional documentation will be added in subsequent commits
 
 ## Documentation
 
-- [`docs/quickstart.md`](docs/quickstart.md) - consumer setup guide (import key, add repo, install packages).
+- [`docs/quickstart.md`](docs/quickstart.md) - consumer setup guide (install the repository package or configure the repo manually).
 - [`docs/exporters.md`](docs/exporters.md) - auto-generated exporter inventory with upstream links, licences, and supported architectures.
 - [`docs/service-overrides.md`](docs/service-overrides.md) - describes how to adjust systemd units via drop-in overrides.
 - [`docs/workflows.md`](docs/workflows.md) - short maintainer commands for version refresh, build, signing, verification, and repository metadata.

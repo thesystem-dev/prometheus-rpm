@@ -124,7 +124,21 @@ scp runtime/gnupg/RPM-GPG-KEY-thesystem-dev user@host:/var/www/repos/prometheus-
 
 Expose this key via HTTPS so consumers can import it before enabling the repo.
 
-## 6. Serve the repository
+## 6. Optional: publish repository bootstrap packages
+
+This repository ships `thesystem-release` as its own bootstrap package. If you maintain a fork or private repository, use the same pattern with your own release package, repository file, and signing key rather than reusing this package name or key.
+
+Keep the bootstrap package in the EL repo trees so existing users receive updates through `dnf upgrade`. For first-time installs, also expose stable bootstrap URLs at the root of the hosted repository:
+
+```
+thesystem-release-latest-8.noarch.rpm
+thesystem-release-latest-9.noarch.rpm
+thesystem-release-latest-10.noarch.rpm
+```
+
+After syncing `runtime/repo/`, point each stable root URL at the current signed release RPM for that EL major. Copies, symlinks, or web server redirects are all valid; the full NVR RPMs under `el*/` remain the packages used for normal upgrades.
+
+## 7. Serve the repository
 
 Configure your HTTP server (nginx, Apache, etc.) to serve the published directory, for example:
 
@@ -134,10 +148,10 @@ https://packages.example.com/repos/prometheus-rpm/el9/x86_64/
 
 Verify that `repodata/repomd.xml` is accessible via the browser or `curl`.
 
-## 7. Consumer configuration
+## 8. Consumer configuration
 
-Direct users to [`docs/quickstart.md`](quickstart.md) for instructions on importing the key and adding the repository.
+Direct users to [`docs/quickstart.md`](quickstart.md) for instructions on installing the repository package or configuring the repository manually.
 
-## 8. Future automation
+## 9. Future automation
 
 The current workflow relies on manual `rsync`/`scp`. When you are ready to automate publishing (for example, via CI or Cloudflare R2), hook into the same `runtime/repo/` output and reuse the steps above.
