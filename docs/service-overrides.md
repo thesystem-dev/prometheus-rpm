@@ -258,5 +258,5 @@ sudo systemctl restart <unit>.service  # e.g. prometheus.service
 Repeat for each service you customise. Document your overrides alongside infrastructure configuration so they can be recreated on new hosts.
 
 Further reading:
-- [Red Hat Enterprise Linux 9 documentation: Managing systemd unit files](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_basic_system_settings/managing-systemd-unit-files_configuring-basic_system_settings) (applies to EL 8/9/10)
+- Red Hat Enterprise Linux documentation: Working with systemd unit files ([EL 8](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/using_systemd_unit_files_to_customize_and_optimize_your_system/assembly_working-with-systemd-unit-files_working-with-systemd), [EL 9](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/using_systemd_unit_files_to_customize_and_optimize_your_system/assembly_working-with-systemd-unit-files_working-with-systemd), [EL 10](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/using_systemd_unit_files_to_customize_and_optimize_your_system/working-with-systemd-unit-files))
 - Man pages: systemd.unit(5), systemd.service(5), systemd.exec(5)
