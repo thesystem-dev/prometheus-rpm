@@ -83,8 +83,8 @@ projects:
       asset_pattern: ^alertmanager-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: e3ba4a543111dd4bbf436838385cbf88108f0b128a723e61fe97d3569294ad4d
-        linux-arm64: fff322eae493eabdec5c16dfdfb26b37508aaf3ca3238ab1ed1e5bebf3ff4cd9
+        linux-amd64: 842f30671734e9920327aa8308e19aea7bb79c2b9905e941d83236267f87b13d
+        linux-arm64: 1f223735c43bd60d4f6d5663169b8ecbb07282751431e19a64f6afa29616b66d
     packaging:
       rpm_name: alertmanager
       architectures:
@@ -371,8 +371,8 @@ projects:
       asset_pattern: ^redis_exporter-v(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 2271d4d1433341f8c4c77df21fd626781d71e3b221e6e362203c96eed74c928c
-        linux-arm64: 154f5d08c4375325f151b527465b930641a8ac3c89bf50e789dafa865467a0d0
+        linux-amd64: 20a97421cabceb8156aad227002ee813781e318d7c2192a439c86a91b5ef70ea
+        linux-arm64: a4ecc3bc631713835c1016ad5d6fb3dee8a05a9fbd7a90d4f0e00655bce6d5f3
     packaging:
       rpm_name: redis_exporter
       architectures:
@@ -675,8 +675,8 @@ projects:
       asset_pattern: ^sql_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: eb5de25689a441ada2671be54bf3a2871e81ae6a186bcd220f71bd0013b0debf
-        linux-arm64: ffc0a38f2351ee0b4c29fe0e24c08a0cc7d46776b3af8b5df80f9e17d398c82c
+        linux-amd64: 49702f987f65af5ddc0850944e25a95f2cbdc5e7d09dbb8219a74eddece55da7
+        linux-arm64: 6a1bfa88e6eafd81603901981d7322a6f00c7285146c2a32ae5a3e11f578e046
     packaging:
       rpm_name: sql_exporter
       architectures:
