@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           apache_exporter
-Version:        1.0.12
+Version:        1.1.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Apache HTTP Server
 
@@ -11,10 +11,10 @@ URL:            https://github.com/Lusitaniae/apache_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 92e0cc13c3f8c43394931760d0ea9e6072aa94e2fd24dd245b2d1d1763296b0d
+%global exporter_sha 075721901e3e4e562a5368c0cd2a2fd2fdce5d4cae1ba6c0ad04fea233574548
 %else
 %global exporter_arch amd64
-%global exporter_sha 2f0d6127ad704f40ab14e9409595e9a497b9057caf60a493bac600e6e9868824
+%global exporter_sha 6d48b8a9ee9b734d496467d5d1b4dddedb6162fb765820616272eca0f3aab2a0
 %endif
 
 Source0: https://github.com/Lusitaniae/apache_exporter/releases/download/v%{version}/apache_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -78,6 +78,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Sun Jun 21 2026 James Wilson <packages@thesystem.dev> - 1.1.0-1
+- Rebase to upstream version 1.1.0
+
 * Tue Jan 13 2026 James Wilson <packages@thesystem.dev> - 1.0.12-1
 - Rebase to upstream version 1.0.12
 
