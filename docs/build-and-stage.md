@@ -126,6 +126,18 @@ During the build, `scripts/build.sh` copies the per-package directories into `$H
 accidental cross-package conflicts. Run `./scripts/build.sh --check-sources` to audit the tree before starting a build; the script
 aborts if two packages ship files with the same basename.
 
+### License Sources
+
+Most exporter specs install `LICENSE` from the upstream `Source0` archive. Add
+a package-local `sources/<package>/<package>_LICENSE` only when the upstream
+release artifact being packaged does not contain an installable license file,
+for example when upstream publishes a bare binary instead of an archive.
+
+When vendoring a license file this way, keep the filename package-prefixed so it
+survives the flattened `SOURCES` layout, reference it as an additional `Source`
+entry in the spec, and document the package release with a changelog entry such
+as `Vendor upstream licence file`.
+
 ## Signing RPMs
 
 After builds complete, sign the artefacts inside the builder container:
