@@ -3,10 +3,10 @@
 
 Name:           apache_exporter
 Version:        1.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus exporter for Apache HTTP Server
 
-License:        Apache-2.0
+License:        MIT
 URL:            https://github.com/Lusitaniae/apache_exporter
 
 %ifarch aarch64
@@ -78,6 +78,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Sun Jun 21 2026 James Wilson <packages@thesystem.dev> - 1.1.0-2
+- Correct license metadata
+
 * Sun Jun 21 2026 James Wilson <packages@thesystem.dev> - 1.1.0-1
 - Rebase to upstream version 1.1.0
 
