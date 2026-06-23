@@ -2,8 +2,8 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           apache_exporter
-Version:        1.1.0
-Release:        2%{?dist}
+Version:        1.1.1
+Release:        1%{?dist}
 Summary:        Prometheus exporter for Apache HTTP Server
 
 License:        MIT
@@ -11,10 +11,10 @@ URL:            https://github.com/Lusitaniae/apache_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 075721901e3e4e562a5368c0cd2a2fd2fdce5d4cae1ba6c0ad04fea233574548
+%global exporter_sha 1373ed217d325344436e5fea8084466e571fff422c5d8b6b23d1e4e645eea655
 %else
 %global exporter_arch amd64
-%global exporter_sha 6d48b8a9ee9b734d496467d5d1b4dddedb6162fb765820616272eca0f3aab2a0
+%global exporter_sha e3e62891e817f1b257893d9d5f94921fb9bb30dcffedb031b1c100374078500c
 %endif
 
 Source0: https://github.com/Lusitaniae/apache_exporter/releases/download/v%{version}/apache_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -78,6 +78,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Tue Jun 23 2026 James Wilson <packages@thesystem.dev> - 1.1.1-1
+- Rebase to upstream version 1.1.1
+
 * Sun Jun 21 2026 James Wilson <packages@thesystem.dev> - 1.1.0-2
 - Correct license metadata
 

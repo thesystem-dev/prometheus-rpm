@@ -137,8 +137,8 @@ projects:
       asset_pattern: ^apache_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 6d48b8a9ee9b734d496467d5d1b4dddedb6162fb765820616272eca0f3aab2a0
-        linux-arm64: 075721901e3e4e562a5368c0cd2a2fd2fdce5d4cae1ba6c0ad04fea233574548
+        linux-amd64: e3e62891e817f1b257893d9d5f94921fb9bb30dcffedb031b1c100374078500c
+        linux-arm64: 1373ed217d325344436e5fea8084466e571fff422c5d8b6b23d1e4e645eea655
     packaging:
       rpm_name: apache_exporter
       architectures:
