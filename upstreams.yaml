@@ -605,7 +605,7 @@ projects:
       source_archive: true
       version_from: tag
       checksums:
-        source: 4764ad4a4bebf891677a175c798554046b2de5f81a6bb00fd5a73397ea20f8ff
+        source: cc1b1259d5e7c3fcff596aaf07e66ea707760107f2fe25685c1631687507bed7
     packaging:
       rpm_name: restic_exporter
       architectures:
@@ -621,8 +621,8 @@ projects:
       asset_pattern: ^restic-repo-exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: b9775658358835852150d2f3a091b27e8998e808b79a2604f9bbdfc300280be0
-        linux-arm64: 092106337103cc5a2b3af241cf54c1a07c5f8fb49553bd66773496753ef29080
+        linux-amd64: 1f388d2b6a5c886df8fe64cf4b34e3187bd9f91d56f2defa1c022cac44f0d588
+        linux-arm64: 570c757712134bd863a7fcdf5bb2f6cf7a998cb8943e02152f550e14c02a4621
     packaging:
       rpm_name: restic_repo_exporter
       architectures:
