@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           pgbouncer_exporter
-Version:        0.12.0
+Version:        0.12.1
 Release:        1%{?dist}
 Summary:        Prometheus exporter for PgBouncer
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus-community/pgbouncer_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha a5ce7e1d9b94afbcf28b1ee0e15a939076f8e86bd687699ad087d5dad44928f0
+%global exporter_sha 0abb808ae8e251126c854ebdce382993876df629b34c0401816d3818db92c700
 %else
 %global exporter_arch amd64
-%global exporter_sha 987a16715835470a08251945648f5c51043baabfa48a8b18af77b336e548a6d7
+%global exporter_sha fa391b513d3a3f03843a6e0d64e711fda1f057dc43133db5c1b130ba38767857
 %endif
 
 Source0: https://github.com/prometheus-community/pgbouncer_exporter/releases/download/v%{version}/pgbouncer_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -78,6 +78,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Sat Jun 27 2026 James Wilson <packages@thesystem.dev> - 0.12.1-1
+- Rebase to upstream version 0.12.1
+
 * Tue Mar 10 2026 James Wilson <packages@thesystem.dev> - 0.12.0-1
 - Rebase to upstream version 0.12.0
 
