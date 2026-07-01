@@ -353,8 +353,8 @@ projects:
       asset_pattern: ^postgres_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 229096c7988df6ca41fe5b4bf66865089971535e7f0d819c12c920ec64dd2bd0
-        linux-arm64: 0ac6fe8c1f66f13b12adb8da282d248d9e1a48df6684e453ca232fd8fd62a11a
+        linux-amd64: dd7113313b2d9d191fe022e4e8d9fc53a9d1c241894eb61ebe8953d140306e12
+        linux-arm64: 89d47d4fe37843c9105953f38268189ad894e06f685ae91a6af0ada1ad56e0b7
     packaging:
       rpm_name: postgres_exporter
       architectures:
