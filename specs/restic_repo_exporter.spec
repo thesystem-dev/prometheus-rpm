@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           restic_repo_exporter
-Version:        0.0.16
+Version:        0.0.17
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Restic repositories
 
@@ -11,10 +11,10 @@ URL:            https://github.com/Worty/restic-repo-exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 570c757712134bd863a7fcdf5bb2f6cf7a998cb8943e02152f550e14c02a4621
+%global exporter_sha c6d32a2c16f6472bf7593d3ad2e8d7909d002565fbdf09858e694316c8f29724
 %else
 %global exporter_arch amd64
-%global exporter_sha 1f388d2b6a5c886df8fe64cf4b34e3187bd9f91d56f2defa1c022cac44f0d588
+%global exporter_sha 3a05810312dfd926b695cca73e6cf98f6dcb29e2e48c3ff4b07b380fb6fad58e
 %endif
 
 Source0: https://github.com/Worty/restic-repo-exporter/releases/download/v%{version}/restic-repo-exporter_%{version}_linux_%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -89,6 +89,9 @@ getent passwd restic_repo_exporter >/dev/null 2>&1 || useradd -r -g restic_repo_
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Sun Jul 05 2026 James Wilson <packages@thesystem.dev> - 0.0.17-1
+- Rebase to upstream version 0.0.17
+
 * Thu Jun 25 2026 James Wilson <packages@thesystem.dev> - 0.0.16-1
 - Rebase to upstream version 0.0.16
 

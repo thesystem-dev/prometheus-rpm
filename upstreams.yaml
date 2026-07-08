@@ -10,8 +10,8 @@ projects:
       asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 20da47f8e5303f74aecb78edd7f7e39041dac08ac4939dba75efd7a900ae8867
-        linux-arm64: 281492bf04ed171cb09d24377e9777f56e55ccb6445ef197b66bd1693bd9b7f1
+        linux-amd64: 744d93324cc024d82089921737bd797474d7f1e5dbbfd1c6b387bad258538cb9
+        linux-arm64: c11fbff0fde0e357e4cfcf2ec74b83d5475301da7e6777c6d7b6aa6d06a410f7
     packaging:
       rpm_name: prometheus
       architectures:
@@ -83,8 +83,8 @@ projects:
       asset_pattern: ^alertmanager-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 8ce11c42e8a6dfbbf93a59c0b193cb1329210b36d0c7ef3df7b745608675a1d1
-        linux-arm64: d01853efe9c61a7009e55d8df98f0f4c9e9b9c58130be177c5812203fd7bfa81
+        linux-amd64: 93d802cba6a8d27239d747ce117df7648d326ab67394e32247540b030e9842ba
+        linux-arm64: 50b32a346c3c29da411643dfa84990440e8fd03800380d7e664f22a863b7a0cf
     packaging:
       rpm_name: alertmanager
       architectures:
@@ -353,8 +353,8 @@ projects:
       asset_pattern: ^postgres_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: dd7113313b2d9d191fe022e4e8d9fc53a9d1c241894eb61ebe8953d140306e12
-        linux-arm64: 89d47d4fe37843c9105953f38268189ad894e06f685ae91a6af0ada1ad56e0b7
+        linux-amd64: 89d4f7e7920cad48fdc3133f789556ef5253c330a9f5fdace3bdb6344c0a8b5a
+        linux-arm64: d5d86fb98bb1f26b088d1a6fda07fd6b6f035cb5d40492f75ec3bfebb5ddfe9d
     packaging:
       rpm_name: postgres_exporter
       architectures:
@@ -621,8 +621,8 @@ projects:
       asset_pattern: ^restic-repo-exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 1f388d2b6a5c886df8fe64cf4b34e3187bd9f91d56f2defa1c022cac44f0d588
-        linux-arm64: 570c757712134bd863a7fcdf5bb2f6cf7a998cb8943e02152f550e14c02a4621
+        linux-amd64: 3a05810312dfd926b695cca73e6cf98f6dcb29e2e48c3ff4b07b380fb6fad58e
+        linux-arm64: c6d32a2c16f6472bf7593d3ad2e8d7909d002565fbdf09858e694316c8f29724
     packaging:
       rpm_name: restic_repo_exporter
       architectures:
@@ -675,8 +675,8 @@ projects:
       asset_pattern: ^sql_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 49702f987f65af5ddc0850944e25a95f2cbdc5e7d09dbb8219a74eddece55da7
-        linux-arm64: 6a1bfa88e6eafd81603901981d7322a6f00c7285146c2a32ae5a3e11f578e046
+        linux-amd64: ad92c73019b9b5c5913b23fa509ad8347474c0fc68234ea8cb8e762c90549967
+        linux-arm64: c5f4afc67dc3803017228f1eddc3048a34d9aad14d6ad867d032abc286258b5e
     packaging:
       rpm_name: sql_exporter
       architectures:

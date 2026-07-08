@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           postgres_exporter
-Version:        0.20.0
+Version:        0.20.1
 Release:        1%{?dist}
 Summary:        Prometheus exporter for PostgreSQL metrics
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus-community/postgres_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 89d47d4fe37843c9105953f38268189ad894e06f685ae91a6af0ada1ad56e0b7
+%global exporter_sha d5d86fb98bb1f26b088d1a6fda07fd6b6f035cb5d40492f75ec3bfebb5ddfe9d
 %else
 %global exporter_arch amd64
-%global exporter_sha dd7113313b2d9d191fe022e4e8d9fc53a9d1c241894eb61ebe8953d140306e12
+%global exporter_sha 89d4f7e7920cad48fdc3133f789556ef5253c330a9f5fdace3bdb6344c0a8b5a
 %endif
 
 Source0: https://github.com/prometheus-community/postgres_exporter/releases/download/v%{version}/postgres_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -83,6 +83,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Jul 08 2026 James Wilson <packages@thesystem.dev> - 0.20.1-1
+- Rebase to upstream version 0.20.1
+
 * Wed Jul 01 2026 James Wilson <packages@thesystem.dev> - 0.20.0-1
 - Rebase to upstream version 0.20.0
 
