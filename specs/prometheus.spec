@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           prometheus
-Version:        3.13.0
+Version:        3.13.1
 Release:        1%{?dist}
 Summary:        Prometheus monitoring system and time series database
 
@@ -11,10 +11,10 @@ URL:            https://prometheus.io/
 
 %ifarch aarch64
 %global prom_arch arm64
-%global prom_sha c11fbff0fde0e357e4cfcf2ec74b83d5475301da7e6777c6d7b6aa6d06a410f7
+%global prom_sha fbd8e5e0f6ad2e7d053e717739186caee4fd0cab2cf9335bfc86c292fe2a2bfe
 %else
 %global prom_arch amd64
-%global prom_sha 744d93324cc024d82089921737bd797474d7f1e5dbbfd1c6b387bad258538cb9
+%global prom_sha 962b812371aff838d152b6ff2d56fdb7a6396f5542f48ebf73421b9721f0d103
 %endif
 
 Source0: https://github.com/prometheus/prometheus/releases/download/v%{version}/prometheus-%{version}.linux-%{prom_arch}.tar.gz#/%{prom_sha}
@@ -111,6 +111,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Jul 15 2026 James Wilson <packages@thesystem.dev> - 3.13.1-1
+- Rebase to upstream version 3.13.1
+
 * Sun Jul 05 2026 James Wilson <packages@thesystem.dev> - 3.13.0-1
 - Rebase to upstream version 3.13.0
 

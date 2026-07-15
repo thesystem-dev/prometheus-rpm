@@ -2,8 +2,8 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           thanos
-Version:        0.41.0
-Release:        2%{?dist}
+Version:        0.42.0
+Release:        1%{?dist}
 Summary:        Highly available Prometheus setup with long-term storage
 
 License:        Apache-2.0
@@ -11,10 +11,10 @@ URL:            https://thanos.io/
 
 %ifarch aarch64
 %global thanos_arch arm64
-%global thanos_sha 7bdf4e7e8134b075e4c8666625de82cd1b93b7bb45906cc12e602485dc26b346
+%global thanos_sha 2f0f55501d30ecdf7ebe59ed5de82d09f646d2f775647af936122855a35aa9fd
 %else
 %global thanos_arch amd64
-%global thanos_sha 6bcd47f53e1665ba7faf4920f8bc39ef134b8b7a7d4b8122475bcdbacef349ed
+%global thanos_sha e2c696c146f477db344e72ea22256a0921fa87ea9c4bcfbd1dae4eccc9d2b6ad
 %endif
 
 Source0: https://github.com/thanos-io/thanos/releases/download/v%{version}/thanos-%{version}.linux-%{thanos_arch}.tar.gz#/%{thanos_sha}
@@ -157,6 +157,9 @@ fi
 %{_sysusersdir}/thanos.conf
 
 %changelog
+* Wed Jul 15 2026 James Wilson <packages@thesystem.dev> - 0.42.0-1
+- Rebase to upstream version 0.42.0
+
 * Thu Feb 26 2026 James Wilson <packages@thesystem.dev> - 0.41.0-2
 - Add ExecReload with SIGHUP support to thanos-rule.service
 

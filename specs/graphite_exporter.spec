@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           graphite_exporter
-Version:        0.16.0
+Version:        0.17.0
 Release:        1%{?dist}
 Summary:        Bridge Graphite metrics into Prometheus
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/graphite_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha bcdd1eb0ff0b974c93bc4d5c6b2c92140f63215c98aafb0379dff9bf82c776db
+%global exporter_sha 95d49e7fa0117eb6a87d2e55409aa57e82ee6161154a6c63a9a3cfc603c3f435
 %else
 %global exporter_arch amd64
-%global exporter_sha 129acf14bb62dc32596ff8aed40a526a66260b2736801bc546be407436dd32d8
+%global exporter_sha 109c1f946b1798fe1c9c697d1c6f5d939f5b3c21f43408c14be54b9f3e60c469
 %endif
 
 Source0: https://github.com/prometheus/graphite_exporter/releases/download/v%{version}/graphite_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -80,5 +80,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Jul 15 2026 James Wilson <packages@thesystem.dev> - 0.17.0-1
+- Rebase to upstream version 0.17.0
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 0.16.0-1
 - Initial RPM package

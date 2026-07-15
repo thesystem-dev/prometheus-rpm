@@ -2,8 +2,8 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           promlens
-Version:        0.3.0
-Release:        3%{?dist}
+Version:        0.4.0
+Release:        1%{?dist}
 Summary:        PromQL query analyzer UI
 
 License:        Apache-2.0
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/promlens
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 7a23434c73b22fb2ca5a9564d3014795a57182c6880a79c9a666504e2a8a3c67
+%global exporter_sha 913764fef214dc3e13170dfcbabbf613e314c6d9e0e8287b6b38303bfb418676
 %else
 %global exporter_arch amd64
-%global exporter_sha 8fdcc621cf559b7e55c0e3cf334b8662ae8f53cf999cdf5d7d303d2841f62ef0
+%global exporter_sha 1919dad57809ea5eab28522ed5cab1ac0adfeb0acb19c82e2ff4abfedc35b14c
 %endif
 
 Source0: https://github.com/prometheus/promlens/releases/download/v%{version}/promlens-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -97,6 +97,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Jul 15 2026 James Wilson <packages@thesystem.dev> - 0.4.0-1
+- Rebase to upstream version 0.4.0
+
 * Thu Feb 12 2026 James Wilson <packages@thesystem.dev> - 0.3.0-3
 - Fix EL8 PREIN regression; create promlens account in %pre on EL8 and use sysusers compat on EL9-EL10
 

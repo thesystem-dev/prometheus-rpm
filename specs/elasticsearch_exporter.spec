@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           elasticsearch_exporter
-Version:        1.10.0
+Version:        1.11.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Elasticsearch stats
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus-community/elasticsearch_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 0ff4753a975eb5611c03123d565e8aaa84e4c05f698ce0a2d6c0f437a14bfe34
+%global exporter_sha 7020d10e29896d329cecc7bfe2e90dcc376d68fc0c75ac27014af3747870ce1f
 %else
 %global exporter_arch amd64
-%global exporter_sha 1dcf288082a25b2741e98da6c9fc012b6c821696a26c6ac57c20042f24714a74
+%global exporter_sha 2bebc50d6980578ad37a376000bc039485ceea129ae229f78baed3379db4f61c
 %endif
 
 Source0: https://github.com/prometheus-community/elasticsearch_exporter/releases/download/v%{version}/elasticsearch_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -78,5 +78,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Jul 15 2026 James Wilson <packages@thesystem.dev> - 1.11.0-1
+- Rebase to upstream version 1.11.0
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 1.10.0-1
 - Initial RPM package

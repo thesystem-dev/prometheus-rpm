@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           prometheus-lts
-Version:        3.5.4
+Version:        3.5.5
 Release:        1%{?dist}
 Summary:        Prometheus monitoring system and time series database (LTS)
 
@@ -11,10 +11,10 @@ URL:            https://prometheus.io/
 
 %ifarch aarch64
 %global prom_arch arm64
-%global prom_sha 97634b9b6ed9ef18689e3b3572f1b277714650657516494fd164dcc53c1d3f48
+%global prom_sha b4676dba3271deea2a92a3e85ac31cde67be707fdff54c5dbf48c9f2ecac5085
 %else
 %global prom_arch amd64
-%global prom_sha be64e1cf657e6e7d132aca022f6135abedd660db053952e3f69e8affa3b9cc9e
+%global prom_sha 64d0beab873272b861a91df41668bc852c7e2e5b23f75c16059fb15b5630c577
 %endif
 
 %global prom_srcdir prometheus-%{version}.linux-%{prom_arch}
@@ -117,6 +117,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Jul 15 2026 James Wilson <packages@thesystem.dev> - 3.5.5-1
+- Rebase to upstream version 3.5.5
+
 * Sun Jun 21 2026 James Wilson <packages@thesystem.dev> - 3.5.4-1
 - Rebase to upstream version 3.5.4
 

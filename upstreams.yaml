@@ -10,8 +10,8 @@ projects:
       asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 744d93324cc024d82089921737bd797474d7f1e5dbbfd1c6b387bad258538cb9
-        linux-arm64: c11fbff0fde0e357e4cfcf2ec74b83d5475301da7e6777c6d7b6aa6d06a410f7
+        linux-amd64: 962b812371aff838d152b6ff2d56fdb7a6396f5542f48ebf73421b9721f0d103
+        linux-arm64: fbd8e5e0f6ad2e7d053e717739186caee4fd0cab2cf9335bfc86c292fe2a2bfe
     packaging:
       rpm_name: prometheus
       architectures:
@@ -29,8 +29,8 @@ projects:
       asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: be64e1cf657e6e7d132aca022f6135abedd660db053952e3f69e8affa3b9cc9e
-        linux-arm64: 97634b9b6ed9ef18689e3b3572f1b277714650657516494fd164dcc53c1d3f48
+        linux-amd64: 64d0beab873272b861a91df41668bc852c7e2e5b23f75c16059fb15b5630c577
+        linux-arm64: b4676dba3271deea2a92a3e85ac31cde67be707fdff54c5dbf48c9f2ecac5085
     packaging:
       rpm_name: prometheus-lts
       architectures:
@@ -47,8 +47,8 @@ projects:
       asset_pattern: ^node_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 9f5ea48e5bc7b656f8a91a32e7d7deb89f70f73dabd0d974418aca15f37d6810
-        linux-arm64: ba1886efbd76cb96b0087c695ea8d1b9cb6e8aa946c996d744e9ee16c8e3591a
+        linux-amd64: b51d8a76aa2a9156a55d501aca6276fae09e262259a5e4e831d2c2222f084e63
+        linux-arm64: ad35b605f9954b9f1ffddf5ba054bdc5a98d790b9eae5291e1eeb83f1ecbd0e7
     packaging:
       rpm_name: node_exporter
       architectures:
@@ -65,8 +65,8 @@ projects:
       asset_pattern: ^thanos-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 6bcd47f53e1665ba7faf4920f8bc39ef134b8b7a7d4b8122475bcdbacef349ed
-        linux-arm64: 7bdf4e7e8134b075e4c8666625de82cd1b93b7bb45906cc12e602485dc26b346
+        linux-amd64: e2c696c146f477db344e72ea22256a0921fa87ea9c4bcfbd1dae4eccc9d2b6ad
+        linux-arm64: 2f0f55501d30ecdf7ebe59ed5de82d09f646d2f775647af936122855a35aa9fd
     packaging:
       rpm_name: thanos
       architectures:
@@ -209,8 +209,8 @@ projects:
       asset_pattern: ^graphite_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 129acf14bb62dc32596ff8aed40a526a66260b2736801bc546be407436dd32d8
-        linux-arm64: bcdd1eb0ff0b974c93bc4d5c6b2c92140f63215c98aafb0379dff9bf82c776db
+        linux-amd64: 109c1f946b1798fe1c9c697d1c6f5d939f5b3c21f43408c14be54b9f3e60c469
+        linux-arm64: 95d49e7fa0117eb6a87d2e55409aa57e82ee6161154a6c63a9a3cfc603c3f435
     packaging:
       rpm_name: graphite_exporter
       architectures:
@@ -407,8 +407,8 @@ projects:
       asset_pattern: ^elasticsearch_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 1dcf288082a25b2741e98da6c9fc012b6c821696a26c6ac57c20042f24714a74
-        linux-arm64: 0ff4753a975eb5611c03123d565e8aaa84e4c05f698ce0a2d6c0f437a14bfe34
+        linux-amd64: 2bebc50d6980578ad37a376000bc039485ceea129ae229f78baed3379db4f61c
+        linux-arm64: 7020d10e29896d329cecc7bfe2e90dcc376d68fc0c75ac27014af3747870ce1f
     packaging:
       rpm_name: elasticsearch_exporter
       architectures:
@@ -587,8 +587,8 @@ projects:
       asset_pattern: ^promlens-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 8fdcc621cf559b7e55c0e3cf334b8662ae8f53cf999cdf5d7d303d2841f62ef0
-        linux-arm64: 7a23434c73b22fb2ca5a9564d3014795a57182c6880a79c9a666504e2a8a3c67
+        linux-amd64: 1919dad57809ea5eab28522ed5cab1ac0adfeb0acb19c82e2ff4abfedc35b14c
+        linux-arm64: 913764fef214dc3e13170dfcbabbf613e314c6d9e0e8287b6b38303bfb418676
     packaging:
       rpm_name: promlens
       architectures:
@@ -675,8 +675,8 @@ projects:
       asset_pattern: ^sql_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: ad92c73019b9b5c5913b23fa509ad8347474c0fc68234ea8cb8e762c90549967
-        linux-arm64: c5f4afc67dc3803017228f1eddc3048a34d9aad14d6ad867d032abc286258b5e
+        linux-amd64: c043f4b3723064721bd7ecaa6200a85e41790ecea057fcab48be5558dbe9ffe8
+        linux-arm64: ca36fdd5b51e0dee6f63faeadbbb439bdb514befcfb8eec6823cc7eaf27b5c43
     packaging:
       rpm_name: sql_exporter
       architectures:
