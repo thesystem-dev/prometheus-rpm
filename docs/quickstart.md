@@ -88,6 +88,6 @@ sudo dnf install prometheus
 
 Replace `prometheus` with any package listed in [`docs/exporters.md`](exporters.md).
 
-## 5. Service overrides (optional)
+## 5. Service configuration (optional)
 
-All services ship with systemd units. Customise flags or environment variables using drop-in overrides under `/etc/systemd/system/<service>.d/*.conf`. See [`docs/service-overrides.md`](service-overrides.md) for examples.
+All services ship with systemd units. Customise flags or environment variables using drop-in overrides under `/etc/systemd/system/<service>.d/*.conf`. See [Service Overrides](service-overrides.md) for the drop-in mechanism and [Service Guides](service-guides.md) for package-specific requirements and operational caveats.

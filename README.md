@@ -36,6 +36,7 @@ Publish tooling and additional documentation will be added in subsequent commits
 - [`docs/quickstart.md`](docs/quickstart.md) - consumer setup guide (install the repository package or configure the repo manually).
 - [`docs/exporters.md`](docs/exporters.md) - auto-generated exporter inventory with upstream links, licences, and supported architectures.
 - [`docs/service-overrides.md`](docs/service-overrides.md) - describes how to adjust systemd units via drop-in overrides.
+- [`docs/service-guides.md`](docs/service-guides.md) - package-specific service requirements, configuration, permissions, and operational caveats.
 - [`docs/workflows.md`](docs/workflows.md) - short maintainer commands for version refresh, build, signing, verification, and repository metadata.
 - [`docs/version-tracking.md`](docs/version-tracking.md) - explains how `upstreams.yaml` is maintained and how the helper scripts are used to track upstream releases.
 - [`docs/runtime.md`](docs/runtime.md) - describes `scripts/stage-runtime.sh`, the runtime directory layout, and how to prepare GPG material safely.
