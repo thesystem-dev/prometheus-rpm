@@ -3,7 +3,7 @@
 
 Name:           restic_repo_exporter
 Version:        0.0.17
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus exporter for Restic repositories
 
 License:        MIT
@@ -59,7 +59,7 @@ EOF
 fi
 
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/restic_repo_exporter.service
-install -d -m 0750 %{buildroot}%{_sysconfdir}/restic_repo_exporter.d
+install -d -m 0750 %{buildroot}%{_sysconfdir}/restic_repo_exporter
 
 install -D -m 0644 %{SOURCE2} %{buildroot}%{_sysusersdir}/restic_repo_exporter.conf
 
@@ -83,12 +83,15 @@ getent passwd restic_repo_exporter >/dev/null 2>&1 || useradd -r -g restic_repo_
 %files
 %{_bindir}/restic_repo_exporter
 %{_unitdir}/restic_repo_exporter.service
-%dir %attr(0750,root,restic_repo_exporter) %{_sysconfdir}/restic_repo_exporter.d
+%dir %attr(0750,root,restic_repo_exporter) %{_sysconfdir}/restic_repo_exporter
 %{_sysusersdir}/restic_repo_exporter.conf
 %license %{_licensedir}/%{name}/LICENSE
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Jul 29 2026 James Wilson <packages@thesystem.dev> - 0.0.17-2
+- Configure the service through /etc/restic_repo_exporter/service.conf
+
 * Sun Jul 05 2026 James Wilson <packages@thesystem.dev> - 0.0.17-1
 - Rebase to upstream version 0.0.17
 

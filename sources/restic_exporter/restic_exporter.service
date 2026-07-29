@@ -9,7 +9,7 @@ Type=simple
 User=restic_exporter
 Group=restic_exporter
 
-EnvironmentFile=-/etc/restic_exporter.d/env
+EnvironmentFile=-/etc/restic_exporter/service.conf
 ExecStart=/usr/bin/restic_exporter
 
 Restart=on-failure

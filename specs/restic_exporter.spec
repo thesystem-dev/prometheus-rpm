@@ -4,7 +4,7 @@
 
 Name:           restic_exporter
 Version:        2.1.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus exporter for Restic backup metrics
 
 License:        MIT
@@ -80,8 +80,8 @@ fi
 # systemd unit
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/restic_exporter.service
 
-# configuration directory for environment file
-install -d -m 0750 %{buildroot}%{_sysconfdir}/restic_exporter.d
+# configuration directory for service settings and credentials
+install -d -m 0750 %{buildroot}%{_sysconfdir}/restic_exporter
 
 install -D -m 0644 %{SOURCE2} %{buildroot}%{_sysusersdir}/restic_exporter.conf
 
@@ -105,13 +105,16 @@ getent passwd restic_exporter >/dev/null 2>&1 || useradd -r -g restic_exporter -
 %files
 %{_bindir}/restic_exporter
 %{_libexecdir}/restic_exporter/exporter.py
-%dir %attr(0750,root,restic_exporter) %{_sysconfdir}/restic_exporter.d
+%dir %attr(0750,root,restic_exporter) %{_sysconfdir}/restic_exporter
 %{_unitdir}/restic_exporter.service
 %{_sysusersdir}/restic_exporter.conf
 %license %{_licensedir}/%{name}/NOTICE
 %license %{_licensedir}/%{name}/LICENSE
 
 %changelog
+* Wed Jul 29 2026 James Wilson <packages@thesystem.dev> - 2.1.2-2
+- Configure the service through /etc/restic_exporter/service.conf
+
 * Thu Jun 25 2026 James Wilson <packages@thesystem.dev> - 2.1.2-1
 - Rebase to upstream version 2.1.2
 

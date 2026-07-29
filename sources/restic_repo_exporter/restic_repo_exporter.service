@@ -9,7 +9,7 @@ Type=simple
 User=restic_repo_exporter
 Group=restic_repo_exporter
 
-EnvironmentFile=/etc/restic_repo_exporter.d/env
+EnvironmentFile=/etc/restic_repo_exporter/service.conf
 ExecStart=/usr/bin/restic_repo_exporter --repo-path=${RESTIC_REPO_PATH} $RESTIC_REPO_EXPORTER_ARGS
 
 Restart=on-failure

@@ -87,21 +87,21 @@ Failure to meet these requirements will prevent `thanos-sidecar` from starting o
 
 ## restic_exporter: repository credentials
 
-`restic_exporter` is configured through environment variables, so the vendor unit includes `EnvironmentFile=-/etc/restic_exporter.d/env`. The file is optional at install time, but the service needs a populated env file before it can read a real repository.
+`restic_exporter` is configured through environment variables, so the vendor unit includes `EnvironmentFile=-/etc/restic_exporter/service.conf`. The file is optional at install time, but the service needs populated configuration before it can read a real repository.
 
-Create the env file and password file with restricted permissions. The directory and files must be readable by the `restic_exporter` group because the exporter runs as the `restic_exporter` user and the `restic` child process reads `RESTIC_PASSWORD_FILE` directly:
+Create the service configuration and password files with restricted permissions. The directory and files must be readable by the `restic_exporter` group because the exporter runs as the `restic_exporter` user and the `restic` child process reads `RESTIC_PASSWORD_FILE` directly:
 
 ```bash
-sudo install -d -m 0750 -o root -g restic_exporter /etc/restic_exporter.d
-sudo install -m 0640 -o root -g restic_exporter /dev/null /etc/restic_exporter.d/env
-sudo install -m 0640 -o root -g restic_exporter /dev/null /etc/restic_exporter.d/password
+sudo install -d -m 0750 -o root -g restic_exporter /etc/restic_exporter
+sudo install -m 0640 -o root -g restic_exporter /dev/null /etc/restic_exporter/service.conf
+sudo install -m 0640 -o root -g restic_exporter /dev/null /etc/restic_exporter/password
 ```
 
-Populate `/etc/restic_exporter.d/env` with the repository location, restic password file, and cache path:
+Populate `/etc/restic_exporter/service.conf` with the repository location, restic password file, and cache path using systemd `EnvironmentFile=` syntax:
 
 ```
 RESTIC_REPOSITORY=/srv/restic
-RESTIC_PASSWORD_FILE=/etc/restic_exporter.d/password
+RESTIC_PASSWORD_FILE=/etc/restic_exporter/password
 RESTIC_CACHE_DIR=/var/cache/restic_exporter
 ```
 
@@ -136,14 +136,14 @@ sudo systemctl restart restic_exporter.service
 
 ## restic_repo_exporter: multi-repo scanning
 
-`restic_repo_exporter` requires an environment file at `/etc/restic_repo_exporter.d/env` (referenced by the vendor unit). Create it with restricted permissions:
+`restic_repo_exporter` requires a service configuration file at `/etc/restic_repo_exporter/service.conf` (referenced by the vendor unit). Create it with restricted permissions:
 
 ```bash
-sudo install -d -m 0750 -o root -g restic_repo_exporter /etc/restic_repo_exporter.d
-sudo install -m 0640 -o root -g restic_repo_exporter /dev/null /etc/restic_repo_exporter.d/env
+sudo install -d -m 0750 -o root -g restic_repo_exporter /etc/restic_repo_exporter
+sudo install -m 0640 -o root -g restic_repo_exporter /dev/null /etc/restic_repo_exporter/service.conf
 ```
 
-Populate `/etc/restic_repo_exporter.d/env` with at least the base repo path and a default password. You can supply per-repo overrides by appending the directory name:
+Populate `/etc/restic_repo_exporter/service.conf` with at least the base repo path and a default password using systemd `EnvironmentFile=` syntax. You can supply per-repo overrides by appending the directory name:
 
 ```
 RESTIC_REPO_PATH=/srv/restic
@@ -154,9 +154,9 @@ MAX_SIMULTANEOUS_RESTIC_PROCESSES=4
 RESTIC_REPO_EXPORTER_ARGS=--listen-address=:9200 --scrape-interval=60
 ```
 
-If you place separate credential files under `/etc/restic_repo_exporter.d`, make them readable by the `restic_repo_exporter` group, for example `0640 root:restic_repo_exporter`.
+If you place separate credential files under `/etc/restic_repo_exporter`, make them readable by the `restic_repo_exporter` group, for example `0640 root:restic_repo_exporter`.
 
-The vendor unit passes `RESTIC_REPO_PATH` as the single `--repo-path` argument and expands `RESTIC_REPO_EXPORTER_ARGS` as optional additional arguments. If `/etc/restic_repo_exporter.d/env` is missing, the service will fail to start until configured. Restart the service after editing.
+The vendor unit passes `RESTIC_REPO_PATH` as the single `--repo-path` argument and expands `RESTIC_REPO_EXPORTER_ARGS` as optional additional arguments. If `/etc/restic_repo_exporter/service.conf` is missing, the service will fail to start until configured. Restart the service after editing.
 
 ## prometheus-paperless-exporter: credentials and collectors
 
