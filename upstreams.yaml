@@ -65,8 +65,8 @@ projects:
       asset_pattern: ^thanos-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: e2c696c146f477db344e72ea22256a0921fa87ea9c4bcfbd1dae4eccc9d2b6ad
-        linux-arm64: 2f0f55501d30ecdf7ebe59ed5de82d09f646d2f775647af936122855a35aa9fd
+        linux-amd64: 9152f2afac5b5d88cb5659cedea58c6154c396048fe7647cd9247d9a0afcbedf
+        linux-arm64: b8bf777efee0c2c142295e766400ddd10405d0b873a85da9a17641924505dcfa
     packaging:
       rpm_name: thanos
       architectures:
@@ -299,8 +299,8 @@ projects:
       asset_pattern: ^frr_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux_amd64: c5e0522d7f91dfc3660e376dad65bab2b279265467fa7dc15840b07b9dcd66ed
-        linux_arm64: 64cbbc544004b6240a8d66464b8eb8355b8a28b45b3e8020db368ad896fe6d55
+        linux_amd64: 5279e275ec23e32902dd5c2cfac0c3ebf2f5673184bab367151dacf740888428
+        linux_arm64: aad52c19e759ce85d7f3bc490eba630a49d91e48dab23f9066cc665de11402c9
     packaging:
       rpm_name: frr_exporter
       architectures:
@@ -371,8 +371,8 @@ projects:
       asset_pattern: ^redis_exporter-v(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: f9d7b1d432a7f67fff5510de7b20ae1afae7490630749835b171d5c016c6b959
-        linux-arm64: e1b2bf3be908b25f66f4191a72199271ba3b13bef0b86f7d23983e0635a1fb04
+        linux-amd64: 7c0997561b1e431ec3f6a00740e94b2b9a7b0ab20c3e54ad60fdf66d5cdaac22
+        linux-arm64: 17bdf527b2ae1e74dcccf46e6bb3e7085ea0834bac3aa83c2e9a53e450d54bd8
     packaging:
       rpm_name: redis_exporter
       architectures:

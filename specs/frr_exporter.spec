@@ -2,8 +2,8 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           frr_exporter
-Version:        1.11.0
-Release:        2%{?dist}
+Version:        1.12.0
+Release:        1%{?dist}
 Summary:        Prometheus exporter for FRR metrics
 
 License:        MIT
@@ -11,10 +11,10 @@ URL:            https://github.com/tynany/frr_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 64cbbc544004b6240a8d66464b8eb8355b8a28b45b3e8020db368ad896fe6d55
+%global exporter_sha aad52c19e759ce85d7f3bc490eba630a49d91e48dab23f9066cc665de11402c9
 %else
 %global exporter_arch amd64
-%global exporter_sha c5e0522d7f91dfc3660e376dad65bab2b279265467fa7dc15840b07b9dcd66ed
+%global exporter_sha 5279e275ec23e32902dd5c2cfac0c3ebf2f5673184bab367151dacf740888428
 %endif
 
 Source0: https://github.com/tynany/frr_exporter/releases/download/v%{version}/frr_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -80,6 +80,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Jul 29 2026 James Wilson <packages@thesystem.dev> - 1.12.0-1
+- Rebase to upstream version 1.12.0
+
 * Wed May 27 2026 James Wilson <packages@thesystem.dev> - 1.11.0-2
 - Vendor upstream licence file
 
