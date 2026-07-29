@@ -826,3 +826,21 @@ projects:
       architectures:
       - amd64
       - arm64
+  prometheus-paperless-exporter:
+    display_name: Prometheus Paperless Exporter
+    upstream:
+      vcs: github
+      repo: hansmi/prometheus-paperless-exporter
+      project_url: https://github.com/hansmi/prometheus-paperless-exporter
+    releases:
+      type: github-releases
+      asset_pattern: ^prometheus-paperless-exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
+      version_from: tag
+      checksums:
+        linux-amd64: 6f3335f821651a24b5e0599a1d8e304f542f9918b690e4c2eee2ed789b898276
+        linux-arm64: 596775fcb3d6e211838a64a2e6e5a219c155cb3403eb3fe4181c6e76035fac91
+    packaging:
+      rpm_name: prometheus-paperless-exporter
+      architectures:
+      - amd64
+      - arm64

@@ -157,3 +157,73 @@ RESTIC_REPO_EXPORTER_ARGS=--listen-address=:9200 --scrape-interval=60
 If you place separate credential files under `/etc/restic_repo_exporter.d`, make them readable by the `restic_repo_exporter` group, for example `0640 root:restic_repo_exporter`.
 
 The vendor unit passes `RESTIC_REPO_PATH` as the single `--repo-path` argument and expands `RESTIC_REPO_EXPORTER_ARGS` as optional additional arguments. If `/etc/restic_repo_exporter.d/env` is missing, the service will fail to start until configured. Restart the service after editing.
+
+## prometheus-paperless-exporter: credentials and collectors
+
+`prometheus-paperless-exporter` requires a Paperless-ngx URL before it can start and normally needs credentials to collect metrics. The vendor unit references `/etc/prometheus-paperless-exporter/service.conf` as a required service configuration file; the RPM creates the containing directory but does not install a configuration file, token, or example URL.
+
+Create the environment and token files with restricted permissions:
+
+```bash
+sudo install -d -m 0750 -o root -g prometheus-paperless-exporter /etc/prometheus-paperless-exporter
+sudo install -m 0640 -o root -g prometheus-paperless-exporter /dev/null /etc/prometheus-paperless-exporter/service.conf
+sudo install -m 0640 -o root -g prometheus-paperless-exporter /dev/null /etc/prometheus-paperless-exporter/token
+```
+
+Populate the service configuration file with the Paperless-ngx base URL and a file-backed API token using systemd `EnvironmentFile=` syntax:
+
+```text
+PAPERLESS_URL=https://paperless.example.com
+PAPERLESS_AUTH_TOKEN_FILE=/etc/prometheus-paperless-exporter/token
+```
+
+Place only the token value in `/etc/prometheus-paperless-exporter/token`. File-backed credentials are preferable to storing `PAPERLESS_AUTH_TOKEN` directly in the systemd environment. For Paperless installations using a private certificate authority, the exporter also supports `PAPERLESS_TRUSTED_CA_FILE`.
+
+The exporter interprets Paperless timestamps using the local timezone by default. Set an IANA timezone when the service host and Paperless server do not use the same timezone, for example:
+
+```text
+PAPERLESS_SERVER_TIMEZONE=Europe/London
+```
+
+### Paperless permissions
+
+Use a dedicated Paperless account and token for monitoring. Upstream documents view permissions for Admin, Correspondent, Document, DocumentType, Group, PaperlessTask, StoragePath, Tag, and User. Admin access is used for log analysis. Paperless API behavior may require broader Admin or Superuser access for whole-system status and statistics; [upstream issue #127](https://github.com/hansmi/prometheus-paperless-exporter/issues/127) tracks work to reduce those requirements.
+
+Grant only the permissions needed by the collectors you enable, and verify the resulting metrics against the Paperless version you run. Do not assume the token is read-only merely because it belongs to a monitoring account.
+
+### Collector selection
+
+When `--collectors` is omitted, all standard collectors are enabled. The available collector IDs are `tag`, `correspondent`, `document_type`, `storage_path`, `task`, `log`, `group`, `user`, `document`, `status`, `statistics`, and `remote_version`. Remote version checks remain disabled unless `--enable-remote-network` is also set.
+
+The `task` collector can create a large number of series on installations with substantial task history; [upstream issue #100](https://github.com/hansmi/prometheus-paperless-exporter/issues/100) documents this behavior. Select only the collectors you need when cardinality or API load is a concern:
+
+```ini
+# /etc/systemd/system/prometheus-paperless-exporter.service.d/collectors.conf
+[Service]
+ExecStart=
+ExecStart=/usr/bin/prometheus-paperless-exporter \
+  --collectors=status,statistics,document,tag
+```
+
+### Listener security
+
+The exporter follows its upstream default and listens on all interfaces on port `8081`. Its metrics can contain Paperless-derived names, identifiers, and document or task metadata, so restrict access to trusted monitoring networks with host or network firewall policy.
+
+To bind only to loopback, replace `ExecStart` with a systemd drop-in:
+
+```ini
+# /etc/systemd/system/prometheus-paperless-exporter.service.d/listen.conf
+[Service]
+ExecStart=
+ExecStart=/usr/bin/prometheus-paperless-exporter \
+  --web.listen-address=127.0.0.1:8081
+```
+
+The exporter also supports TLS and HTTP basic authentication through the Prometheus exporter toolkit using `--web.config.file`. Keep that configuration under `/etc/prometheus-paperless-exporter` with `root:prometheus-paperless-exporter` ownership and group-readable permissions.
+
+After creating the required files or changing a drop-in, reload systemd and restart the service:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart prometheus-paperless-exporter.service
+```
