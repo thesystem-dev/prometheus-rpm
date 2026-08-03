@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           prometheus-paperless-exporter
-Version:        0.0.9
+Version:        0.0.10
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Paperless-ngx
 
@@ -11,10 +11,10 @@ URL:            https://github.com/hansmi/prometheus-paperless-exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 596775fcb3d6e211838a64a2e6e5a219c155cb3403eb3fe4181c6e76035fac91
+%global exporter_sha d6bea7e871b8e42b1332607ea09d00896981ecf2369b4560406c8ba50d670649
 %else
 %global exporter_arch amd64
-%global exporter_sha 6f3335f821651a24b5e0599a1d8e304f542f9918b690e4c2eee2ed789b898276
+%global exporter_sha 8c3441b1fcd192da596080206957ac6b9c8ff9a173bd00034e1712f6b045bd96
 %endif
 
 Source0: https://github.com/hansmi/prometheus-paperless-exporter/releases/download/v%{version}/prometheus-paperless-exporter_%{version}_linux_%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -81,5 +81,8 @@ getent passwd prometheus-paperless-exporter >/dev/null 2>&1 || useradd -r -g pro
 %doc %{_pkgdocdir}/README.md
 
 %changelog
+* Mon Aug 03 2026 James Wilson <packages@thesystem.dev> - 0.0.10-1
+- Rebase to upstream version 0.0.10
+
 * Thu Jul 16 2026 James Wilson <packages@thesystem.dev> - 0.0.9-1
 - Initial RPM package

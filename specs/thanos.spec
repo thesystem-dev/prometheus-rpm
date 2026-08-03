@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           thanos
-Version:        0.42.3
+Version:        0.42.4
 Release:        1%{?dist}
 Summary:        Highly available Prometheus setup with long-term storage
 
@@ -11,10 +11,10 @@ URL:            https://thanos.io/
 
 %ifarch aarch64
 %global thanos_arch arm64
-%global thanos_sha b8bf777efee0c2c142295e766400ddd10405d0b873a85da9a17641924505dcfa
+%global thanos_sha a30ca307c1daf231cb7deb69708e327f722fff3b90f61a04921cdb60ed1a5d8b
 %else
 %global thanos_arch amd64
-%global thanos_sha 9152f2afac5b5d88cb5659cedea58c6154c396048fe7647cd9247d9a0afcbedf
+%global thanos_sha 5292f95f6f18199fe90cd24a5bf8eaca51ce48812a24f8778a3b9148c8fb71e1
 %endif
 
 Source0: https://github.com/thanos-io/thanos/releases/download/v%{version}/thanos-%{version}.linux-%{thanos_arch}.tar.gz#/%{thanos_sha}
@@ -157,6 +157,9 @@ fi
 %{_sysusersdir}/thanos.conf
 
 %changelog
+* Mon Aug 03 2026 James Wilson <packages@thesystem.dev> - 0.42.4-1
+- Rebase to upstream version 0.42.4
+
 * Wed Jul 29 2026 James Wilson <packages@thesystem.dev> - 0.42.3-1
 - Rebase to upstream version 0.42.3
 

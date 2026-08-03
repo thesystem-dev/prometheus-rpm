@@ -10,8 +10,8 @@ projects:
       asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 962b812371aff838d152b6ff2d56fdb7a6396f5542f48ebf73421b9721f0d103
-        linux-arm64: fbd8e5e0f6ad2e7d053e717739186caee4fd0cab2cf9335bfc86c292fe2a2bfe
+        linux-amd64: 0e8c4d46101bd025ea8265e377d2caabc57f488fc1be1c367f37db69ea41be6f
+        linux-arm64: 7cecb17a6f41d59814e1a0581a1f81f79051ad5973d1ecf39e23a9f747d6572a
     packaging:
       rpm_name: prometheus
       architectures:
@@ -65,8 +65,8 @@ projects:
       asset_pattern: ^thanos-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 9152f2afac5b5d88cb5659cedea58c6154c396048fe7647cd9247d9a0afcbedf
-        linux-arm64: b8bf777efee0c2c142295e766400ddd10405d0b873a85da9a17641924505dcfa
+        linux-amd64: 5292f95f6f18199fe90cd24a5bf8eaca51ce48812a24f8778a3b9148c8fb71e1
+        linux-arm64: a30ca307c1daf231cb7deb69708e327f722fff3b90f61a04921cdb60ed1a5d8b
     packaging:
       rpm_name: thanos
       architectures:
@@ -443,8 +443,8 @@ projects:
       asset_pattern: ^mongodb_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 01dfae78c737fb48761a715d779cade464a84cce7a2a70357ac4af469bade198
-        linux-arm64: f2f023d2d632c3b9cdc873558f26a8940efc197c1b36bbf96da17416a60eead6
+        linux-amd64: f69a51259b12f2644b145b05fa102e550b53a138db583fc394dcd07121549e20
+        linux-arm64: c9e98a253a2e89453520424b27a73c46c2fd23992f6ca46bc7772b4a2b2b6c9f
     packaging:
       rpm_name: mongodb_exporter
       architectures:
@@ -675,8 +675,8 @@ projects:
       asset_pattern: ^sql_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: c043f4b3723064721bd7ecaa6200a85e41790ecea057fcab48be5558dbe9ffe8
-        linux-arm64: ca36fdd5b51e0dee6f63faeadbbb439bdb514befcfb8eec6823cc7eaf27b5c43
+        linux-amd64: 5508e7631be20e258e1a30ca54352ea8dc86b23077c4b40c85411bed4d9d76f7
+        linux-arm64: 2d71e0ee19da199127c8c59010daa6df608fec42a4da8d8c7cccf85f0b1d5682
     packaging:
       rpm_name: sql_exporter
       architectures:
@@ -837,8 +837,8 @@ projects:
       asset_pattern: ^prometheus-paperless-exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 6f3335f821651a24b5e0599a1d8e304f542f9918b690e4c2eee2ed789b898276
-        linux-arm64: 596775fcb3d6e211838a64a2e6e5a219c155cb3403eb3fe4181c6e76035fac91
+        linux-amd64: 8c3441b1fcd192da596080206957ac6b9c8ff9a173bd00034e1712f6b045bd96
+        linux-arm64: d6bea7e871b8e42b1332607ea09d00896981ecf2369b4560406c8ba50d670649
     packaging:
       rpm_name: prometheus-paperless-exporter
       architectures:
