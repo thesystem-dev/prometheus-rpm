@@ -2,8 +2,8 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           restic_repo_exporter
-Version:        0.0.17
-Release:        2%{?dist}
+Version:        0.0.19
+Release:        1%{?dist}
 Summary:        Prometheus exporter for Restic repositories
 
 License:        MIT
@@ -11,10 +11,10 @@ URL:            https://github.com/Worty/restic-repo-exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha c6d32a2c16f6472bf7593d3ad2e8d7909d002565fbdf09858e694316c8f29724
+%global exporter_sha b1aaa4d9ea3a129a0234b5d642bc5806fae308d42855c20394ae001e695aa31b
 %else
 %global exporter_arch amd64
-%global exporter_sha 3a05810312dfd926b695cca73e6cf98f6dcb29e2e48c3ff4b07b380fb6fad58e
+%global exporter_sha 8a1ffc23e15bf8175a3c2d9fb2ed1b1d75b10ac49a7f9d460ba20970e73f430e
 %endif
 
 Source0: https://github.com/Worty/restic-repo-exporter/releases/download/v%{version}/restic-repo-exporter_%{version}_linux_%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -89,6 +89,9 @@ getent passwd restic_repo_exporter >/dev/null 2>&1 || useradd -r -g restic_repo_
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Aug 12 2026 James Wilson <packages@thesystem.dev> - 0.0.19-1
+- Rebase to upstream version 0.0.19
+
 * Wed Jul 29 2026 James Wilson <packages@thesystem.dev> - 0.0.17-2
 - Configure the service through /etc/restic_repo_exporter/service.conf
 
