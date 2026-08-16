@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           nginx_exporter
-Version:        1.5.1
+Version:        1.5.3
 Release:        1%{?dist}
 Summary:        Prometheus exporter for NGINX
 
@@ -11,10 +11,10 @@ URL:            https://github.com/nginxinc/nginx-prometheus-exporter
 
 %ifarch aarch64
 %global go_arch arm64
-%global go_sha 8bea88fe912c63791de1fd35c8829f89c2e18b87fdb001c9b65fc371b2ebef3c
+%global go_sha a0b1a5f5bba09483bd2e04c759c1a75fffe46ca72c0314ee2bb925d1742ff23b
 %else
 %global go_arch amd64
-%global go_sha 42ddc7ac31c70021d2a5c10414d473526490769632c1ef430b95d76dd1e3c187
+%global go_sha 3a0dd1ea6db57cd360544d0aed38df4adabcfeb31e931dc481d535c66f92641d
 %endif
 
 Source0: https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v%{version}/nginx-prometheus-exporter_%{version}_linux_%{go_arch}.tar.gz#/%{go_sha}
@@ -76,5 +76,8 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Sat Aug 15 2026 James Wilson <packages@thesystem.dev> - 1.5.3-1
+- Rebase to upstream version 1.5.3
+
 * Wed Dec 17 2025 James Wilson <packages@thesystem.dev> - 1.5.1-1
 - Initial RPM package

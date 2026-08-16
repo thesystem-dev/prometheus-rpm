@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           json_exporter
-Version:        0.7.0
+Version:        0.8.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for arbitrary JSON endpoints
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus-community/json_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 29128316acb0c2c5c4dba1b7cd72087116628d8b8e092f59444365219b65e1f8
+%global exporter_sha 69341074badc20963e4698f34d2c94b759bc278160f0bf4639b9e7ed15afd02e
 %else
 %global exporter_arch amd64
-%global exporter_sha 1a3caf1152825e54d7db557a97968d6eab8cf0c8a0995a5a20ed4c6bce64fb95
+%global exporter_sha bd25fe58f62cec131b2ecbe859358990bb07f0266439ddcdef501fdd182a4fe1
 %endif
 
 Source0: https://github.com/prometheus-community/json_exporter/releases/download/v%{version}/json_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -83,5 +83,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Sat Aug 15 2026 James Wilson <packages@thesystem.dev> - 0.8.0-1
+- Rebase to upstream version 0.8.0
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 0.7.0-1
 - Initial RPM package

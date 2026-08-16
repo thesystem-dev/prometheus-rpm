@@ -101,8 +101,8 @@ projects:
       asset_pattern: ^mysqld_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 97238be558bd1a6aa6b9a927fa21d91dc5cabe6b9e00678b5cafa2bbb3899e72
-        linux-arm64: c0ced018825d9e8c69619df4995132f7256c1bc9e947acd31978351723b72557
+        linux-amd64: 5773496e9962ca3817b3599fe4d74f218c95c1295eb2a742462df8e035fe51bd
+        linux-arm64: 837804c0a59cbe1f3ab46670dec1b4c37940c8d48062374691b27f1f37abf8dd
     packaging:
       rpm_name: mysqld_exporter
       architectures:
@@ -119,8 +119,8 @@ projects:
       asset_pattern: ^nginx-prometheus-exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux_amd64: 42ddc7ac31c70021d2a5c10414d473526490769632c1ef430b95d76dd1e3c187
-        linux_arm64: 8bea88fe912c63791de1fd35c8829f89c2e18b87fdb001c9b65fc371b2ebef3c
+        linux_amd64: 3a0dd1ea6db57cd360544d0aed38df4adabcfeb31e931dc481d535c66f92641d
+        linux_arm64: a0b1a5f5bba09483bd2e04c759c1a75fffe46ca72c0314ee2bb925d1742ff23b
     packaging:
       rpm_name: nginx_exporter
       architectures:
@@ -245,8 +245,8 @@ projects:
       asset_pattern: ^memcached_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: ec669cdce5258e48e0b3747719bb60c0f91d74a21fd4033ec259e80db6c0b0ed
-        linux-arm64: c3ff12346f47e87b2f8ba35c0ddde5f557851a5a1886b3a2776f9a23209ce0db
+        linux-amd64: 40e85262e4340a56fa7cc96722cd596d25ed76ab501459b0b42f1f8e0562d0d1
+        linux-arm64: d1abf0ef1196ff5de5cf3462eb962b4a3d6733327951ae6d81c062902b5f2a60
     packaging:
       rpm_name: memcached_exporter
       architectures:
@@ -281,8 +281,8 @@ projects:
       asset_pattern: ^bird_exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux_amd64: 1b7f7850d001f9aad4484ff4a74e68cfef9a578ed86a472b9574e4d3e2d12e20
-        linux_arm64: cfbe0e32408bee3c3707fd46cfc15fe9a5fa8b51f1dad73c594af6bfe21155d0
+        linux_amd64: 6e40fb166931055122813f68fe2b0e14a20c670b4eaace63062607bf8cf3cfef
+        linux_arm64: dbc7d8625263489734eeba74c57c94186b3ea6f0929a4113bcc943b0bc24d62f
     packaging:
       rpm_name: bird_exporter
       architectures:
@@ -515,8 +515,8 @@ projects:
       asset_pattern: ^json_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 1a3caf1152825e54d7db557a97968d6eab8cf0c8a0995a5a20ed4c6bce64fb95
-        linux-arm64: 29128316acb0c2c5c4dba1b7cd72087116628d8b8e092f59444365219b65e1f8
+        linux-amd64: bd25fe58f62cec131b2ecbe859358990bb07f0266439ddcdef501fdd182a4fe1
+        linux-arm64: 69341074badc20963e4698f34d2c94b759bc278160f0bf4639b9e7ed15afd02e
     packaging:
       rpm_name: json_exporter
       architectures:
