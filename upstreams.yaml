@@ -83,8 +83,8 @@ projects:
       asset_pattern: ^alertmanager-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 93d802cba6a8d27239d747ce117df7648d326ab67394e32247540b030e9842ba
-        linux-arm64: 50b32a346c3c29da411643dfa84990440e8fd03800380d7e664f22a863b7a0cf
+        linux-amd64: 19c75a11d8c03dc4ade7abdbddfb3a8f28c9e7b000d0849cda0cd71dffd74a03
+        linux-arm64: a96ef16598ddc58e84d28167b3352b30e3205698d76c56ef467e4504d7664da4
     packaging:
       rpm_name: alertmanager
       architectures:
@@ -675,8 +675,8 @@ projects:
       asset_pattern: ^sql_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: f960c51f24aa2ccf6a18c3770b495edea890898972b7553acb80b7a6756032a1
-        linux-arm64: d2165bd074c0f82e666f2c773f79e6bdeec0e447e5768e017b08f5ea71be8c79
+        linux-amd64: 47354fa222995a768cec7dc5d4e2b8135bf388794fa1d4a2d7de1545e3e873ab
+        linux-arm64: cf5ee912c4fd5653619e2648f307791f18634bab5127c3a9e5f5292a8c1d0972
     packaging:
       rpm_name: sql_exporter
       architectures:
