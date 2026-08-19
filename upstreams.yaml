@@ -10,8 +10,8 @@ projects:
       asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 0e8c4d46101bd025ea8265e377d2caabc57f488fc1be1c367f37db69ea41be6f
-        linux-arm64: 7cecb17a6f41d59814e1a0581a1f81f79051ad5973d1ecf39e23a9f747d6572a
+        linux-amd64: f665c6da19eb7ba399c915d30c7d9793c9b417bf8a749b504bc470678631478d
+        linux-arm64: 077f3781ab7245dc04c9a3c9b78ba120fc8e41aa0dc97489b0af67247e50ba83
     packaging:
       rpm_name: prometheus
       architectures:
@@ -173,8 +173,8 @@ projects:
       asset_pattern: ^ping_exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux_amd64: e55ab2439d2a92e079ea2ba8db75e2b0899d8b890cde46ea17d6158b8db4e675
-        linux_arm64: 9e8816e3eea465658c57b08d6e3a28ff806d13ef61a63cf19cb1726cd1c8f6ba
+        linux_amd64: b9877a3ffd4a9ea2e5d31f15464546d89c096da89f7e06e9fac6516322e92da6
+        linux_arm64: d8be633ec50859a857801fca2762ca087a2f7a62d08b4c7f0fc38f0afb3a03e2
     packaging:
       rpm_name: ping_exporter
       architectures:
@@ -281,8 +281,8 @@ projects:
       asset_pattern: ^bird_exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux_amd64: 6e40fb166931055122813f68fe2b0e14a20c670b4eaace63062607bf8cf3cfef
-        linux_arm64: dbc7d8625263489734eeba74c57c94186b3ea6f0929a4113bcc943b0bc24d62f
+        linux_amd64: f5e3c1cac6a5cbcd2773d58487e34b62792dc7f8ae29582920cdf6c1a538b0c0
+        linux_arm64: b019e469a2bf3f022a343d776d37a0822bdd3756b32a35f4e8bdd8ee2b9eebbd
     packaging:
       rpm_name: bird_exporter
       architectures:

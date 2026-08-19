@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           bird_exporter
-Version:        1.6.1
+Version:        1.6.2
 Release:        1%{?dist}
 Summary:        Prometheus exporter for BIRD routing daemon metrics
 
@@ -11,10 +11,10 @@ URL:            https://github.com/czerwonk/bird_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha dbc7d8625263489734eeba74c57c94186b3ea6f0929a4113bcc943b0bc24d62f
+%global exporter_sha b019e469a2bf3f022a343d776d37a0822bdd3756b32a35f4e8bdd8ee2b9eebbd
 %else
 %global exporter_arch amd64
-%global exporter_sha 6e40fb166931055122813f68fe2b0e14a20c670b4eaace63062607bf8cf3cfef
+%global exporter_sha f5e3c1cac6a5cbcd2773d58487e34b62792dc7f8ae29582920cdf6c1a538b0c0
 %endif
 
 Source0: https://github.com/czerwonk/bird_exporter/releases/download/v%{version}/bird_exporter_%{version}_linux_%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -75,6 +75,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Aug 19 2026 James Wilson <packages@thesystem.dev> - 1.6.2-1
+- Rebase to upstream version 1.6.2
+
 * Sat Aug 15 2026 James Wilson <packages@thesystem.dev> - 1.6.1-1
 - Rebase to upstream version 1.6.1
 
