@@ -675,8 +675,8 @@ projects:
       asset_pattern: ^sql_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 47354fa222995a768cec7dc5d4e2b8135bf388794fa1d4a2d7de1545e3e873ab
-        linux-arm64: cf5ee912c4fd5653619e2648f307791f18634bab5127c3a9e5f5292a8c1d0972
+        linux-amd64: 1a122313564a245900b25138c94edb1edb752fe0e81cbd5ee200f12d332deaa0
+        linux-arm64: 5811b494b95e5a4b780ac13d4c4f2f0f62f9a01536825d28c696ee5566464287
     packaging:
       rpm_name: sql_exporter
       architectures:
