@@ -191,8 +191,8 @@ projects:
       asset_pattern: ^statsd_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: df0c1b640384e0495b5127f3d92a012aea39add175320219b5818380421a863b
-        linux-arm64: 386f6808df1c0a8de1ddf79a1c25e13517f37a1c508b4a8bd53f3b5d02aed0df
+        linux-amd64: 5ecc9ef3f2ff3b0dc6e4b7f67a147b414ab2c296c5ec60f91424979b45e9a614
+        linux-arm64: 2a0b0028a6da4d051b612a8f8ac5ebe0eca89854dc6f77e0238cbb3c5d3b1301
     packaging:
       rpm_name: statsd_exporter
       architectures:
@@ -675,8 +675,8 @@ projects:
       asset_pattern: ^sql_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 1a122313564a245900b25138c94edb1edb752fe0e81cbd5ee200f12d332deaa0
-        linux-arm64: 5811b494b95e5a4b780ac13d4c4f2f0f62f9a01536825d28c696ee5566464287
+        linux-amd64: e7a23fb8613e4019e0166fa67da94e59882f4f9a34d953883f46f67c33e08053
+        linux-arm64: 8d016b233e90c2ecd281f33d370d6540f590abdc4ea847ed5ec0c6a9e586b2c9
     packaging:
       rpm_name: sql_exporter
       architectures:
