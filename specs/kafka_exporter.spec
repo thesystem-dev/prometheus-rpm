@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           kafka_exporter
-Version:        1.9.0
+Version:        1.10.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Kafka brokers
 
@@ -11,10 +11,10 @@ URL:            https://github.com/danielqsj/kafka_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha b6991fcb50d2dc87fde02e003dc8c1b742022ab3becf30e4bb9979b22c1d37d8
+%global exporter_sha 47c3c19eec67a511fde2afcc714f9cdc382642ffcd72a1ac4c9535d8d433fee1
 %else
 %global exporter_arch amd64
-%global exporter_sha c722518ad71c53b3988ea26ae2bd387bb596ce7a98fc639d08bf639a537699a1
+%global exporter_sha 246720dc4ecd8670801625423b7e44bbeb93115de07353cc6b4ea27e5bb7b87d
 %endif
 
 Source0: https://github.com/danielqsj/kafka_exporter/releases/download/v%{version}/kafka_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -78,5 +78,8 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Tue Sep 08 2026 James Wilson <packages@thesystem.dev> - 1.10.0-1
+- Rebase to upstream version 1.10.0
+
 * Sat Jan 03 2026 James Wilson <packages@thesystem.dev> - 1.9.0-1
 - Initial RPM package

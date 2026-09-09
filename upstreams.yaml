@@ -371,8 +371,8 @@ projects:
       asset_pattern: ^redis_exporter-v(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 25a87f849a77ad260253cbe63e8f5f86910d2ebabf55e8e5f249932f2c6f6309
-        linux-arm64: 9a0ce47d5e58ddf3bd400b8e2a71787480889d7c24064beba784467019712b49
+        linux-amd64: 4552451000b6345011bfc50d77fd3be625aa0be47ac07e98a40384038ecffaab
+        linux-arm64: 7ee124bd17733cce535b87da17e79f0346d3edb4a20759cf3bfca8b4e0d6886f
     packaging:
       rpm_name: redis_exporter
       architectures:
@@ -425,8 +425,8 @@ projects:
       asset_pattern: ^kafka_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: c722518ad71c53b3988ea26ae2bd387bb596ce7a98fc639d08bf639a537699a1
-        linux-arm64: b6991fcb50d2dc87fde02e003dc8c1b742022ab3becf30e4bb9979b22c1d37d8
+        linux-amd64: 246720dc4ecd8670801625423b7e44bbeb93115de07353cc6b4ea27e5bb7b87d
+        linux-arm64: 47c3c19eec67a511fde2afcc714f9cdc382642ffcd72a1ac4c9535d8d433fee1
     packaging:
       rpm_name: kafka_exporter
       architectures:
