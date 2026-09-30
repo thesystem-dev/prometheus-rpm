@@ -10,8 +10,8 @@ projects:
       asset_pattern: ^prometheus-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: f665c6da19eb7ba399c915d30c7d9793c9b417bf8a749b504bc470678631478d
-        linux-arm64: 077f3781ab7245dc04c9a3c9b78ba120fc8e41aa0dc97489b0af67247e50ba83
+        linux-amd64: 2a542df32eac02ee17b9d844fb2aa1de00dafa5476579ba8a3ba862e9d572ea0
+        linux-arm64: f1f90ec08e849d494ca66c611470afc50192f0355f1a61c33f2cbde02d067823
     packaging:
       rpm_name: prometheus
       architectures:
@@ -173,8 +173,8 @@ projects:
       asset_pattern: ^ping_exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux_amd64: b9877a3ffd4a9ea2e5d31f15464546d89c096da89f7e06e9fac6516322e92da6
-        linux_arm64: d8be633ec50859a857801fca2762ca087a2f7a62d08b4c7f0fc38f0afb3a03e2
+        linux_amd64: e10a2e7440c7f488d20ac512e1961e35d4e6956ee92e1f7350689fbf9d9aad10
+        linux_arm64: 282584622a999f2611cce4249f1c70181c2519aeaeb360ef0b727fee3a7f5fdb
     packaging:
       rpm_name: ping_exporter
       architectures:
@@ -281,8 +281,8 @@ projects:
       asset_pattern: ^bird_exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux_amd64: f5e3c1cac6a5cbcd2773d58487e34b62792dc7f8ae29582920cdf6c1a538b0c0
-        linux_arm64: b019e469a2bf3f022a343d776d37a0822bdd3756b32a35f4e8bdd8ee2b9eebbd
+        linux_amd64: 07c6e324fb4178c51c83a6493debcf321c88d9faed4b228aa40cec9a54e63f0f
+        linux_arm64: 5715cad286a75b53eed8aba2c4b958a869734c4111cbffc748d2a962bddd62b9
     packaging:
       rpm_name: bird_exporter
       architectures:
@@ -371,8 +371,8 @@ projects:
       asset_pattern: ^redis_exporter-v(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 028736b15004c1f5c25508235a361d80f1989c577a458cc0dc97279c5269f709
-        linux-arm64: 00ce9ba1fc0e6474e69d05e743e2b9b2ddeb89e35b23bf7c999a0667a737fd75
+        linux-amd64: 60e9819172ec1c954bad9b44ba0b15ef064e8551bd74461d0ed1a7585bb2c6ad
+        linux-arm64: 9aecfb030b173516266773e7d88256bedf414e6a552afc385cbb1ecd49f26832
     packaging:
       rpm_name: redis_exporter
       architectures:
