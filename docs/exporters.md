@@ -13,6 +13,7 @@ Auto-generated from `upstreams.yaml` by `scripts/generate_exporter_inventory.py`
 | `consul_exporter` | Prometheus Consul Exporter | [https://github.com/prometheus/consul_exporter](https://github.com/prometheus/consul_exporter) | Apache-2.0 | amd64, arm64 |
 | `elasticsearch_exporter` | Prometheus Elasticsearch Exporter | [https://github.com/prometheus-community/elasticsearch_exporter](https://github.com/prometheus-community/elasticsearch_exporter) | Apache-2.0 | amd64, arm64 |
 | `frr_exporter` | Prometheus FRR Exporter | [https://github.com/tynany/frr_exporter](https://github.com/tynany/frr_exporter) | MIT | amd64, arm64 |
+| `gitlab-ci-pipelines-exporter` | GitLab CI Pipelines Exporter | [https://github.com/mvisonneau/gitlab-ci-pipelines-exporter](https://github.com/mvisonneau/gitlab-ci-pipelines-exporter) | Apache-2.0 | amd64, arm64 |
 | `graphite_exporter` | Prometheus Graphite Exporter | [https://github.com/prometheus/graphite_exporter](https://github.com/prometheus/graphite_exporter) | Apache-2.0 | amd64, arm64 |
 | `haproxy_exporter` | Prometheus HAProxy Exporter | [https://github.com/prometheus/haproxy_exporter](https://github.com/prometheus/haproxy_exporter) | Apache-2.0 | amd64, arm64 |
 | `influxdb_exporter` | Prometheus InfluxDB Exporter | [https://github.com/prometheus/influxdb_exporter](https://github.com/prometheus/influxdb_exporter) | Apache-2.0 | amd64, arm64 |

@@ -158,6 +158,73 @@ If you place separate credential files under `/etc/restic_repo_exporter`, make t
 
 The vendor unit passes `RESTIC_REPO_PATH` as the single `--repo-path` argument and expands `RESTIC_REPO_EXPORTER_ARGS` as optional additional arguments. If `/etc/restic_repo_exporter/service.conf` is missing, the service will fail to start until configured. Restart the service after editing.
 
+## gitlab-ci-pipelines-exporter: GitLab access and configuration
+
+The service reads `/etc/gitlab-ci-pipelines-exporter/config.yml` for its GitLab URL, API token and project selection.
+
+### Configuration and credentials
+
+For a new installation, copy the upstream example to the path used by the service:
+
+```bash
+sudo install -m 0640 -o root -g gitlab-ci-pipelines-exporter /etc/gitlab-ci-pipelines-exporter/config.yml.example /etc/gitlab-ci-pipelines-exporter/config.yml
+```
+
+Edit `config.yml`: set `gitlab.url` and `gitlab.token`, then choose the projects to monitor using the examples below. The upstream example also enables optional features: remove `redis` unless using it for shared state, and review any other settings you keep. See the [upstream configuration reference](https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/blob/main/docs/configuration_syntax.md) for their meanings.
+
+Keep `config.yml` readable by the service account and inaccessible to other users; the copy command sets ownership to `root:gitlab-ci-pipelines-exporter` and mode `0640`.
+
+Use a dedicated monitoring identity with access to the required projects. Upstream documents `api` and `read_repository` token scopes; **`api` grants read and write API access**. Keep the token in the configuration file rather than command-line arguments.
+
+The upstream example sets `gitlab.health_url` to an example host. Remove that setting to use the built-in health URL (`https://gitlab.com/explore` for GitLab.com or `<gitlab.url>/-/health` for a self-hosted instance). If that endpoint is not reachable from the exporter host or does not return HTTP 200, set `gitlab.health_url` to one that does. For a private certificate authority, add its certificate to the host's system trust store.
+
+### Project selection
+
+For named projects, replace the example `projects` list and remove `wildcards`:
+
+```yaml
+projects:
+  - name: group/project
+```
+
+For all projects in a group and its subgroups, remove `projects` and replace `wildcards` with:
+
+```yaml
+wildcards:
+  - owner:
+      name: your-group
+      kind: group
+      include_subgroups: true
+```
+
+To discover projects accessible to the token, remove `projects` and replace `wildcards` with the following. Archived projects are excluded by default.
+
+```yaml
+wildcards:
+  - {}
+```
+
+Use `project_defaults` for shared collection settings and `pull` within a project or wildcard entry for individual overrides. To broaden an existing wildcard while keeping its overrides, remove its `owner` and any unwanted `search` filter.
+
+### Listener and collection
+
+The exporter listens on all interfaces on port `8080`. Its HTTP metrics endpoint has no authentication and exposes project paths, branch/tag names and pipeline information. Restrict access to trusted monitoring networks. To bind only to loopback:
+
+```yaml
+server:
+  listen_address: "127.0.0.1:8080"
+```
+
+By default, the exporter monitors pipelines on the `main` and `master` branches and on tags. Collecting more projects, jobs or test cases increases GitLab API traffic and the number of metric series. Pipeline variable collection can expose variable values in metric labels. See the [upstream metric definitions](https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/blob/main/docs/metrics.md) for collector options.
+
+Validate the configuration as the service account:
+
+```bash
+sudo -u gitlab-ci-pipelines-exporter /usr/bin/gitlab-ci-pipelines-exporter validate --config /etc/gitlab-ci-pipelines-exporter/config.yml
+```
+
+Validation checks the configuration file; it does not test GitLab API access. Initial project discovery can take time before `gcpe_projects_count` increases and pipeline metrics appear. Restart the service after configuration changes. For unit settings, use [systemd drop-ins](service-overrides.md).
+
 ## prometheus-paperless-exporter: credentials and collectors
 
 `prometheus-paperless-exporter` requires a Paperless-ngx URL before it can start and normally needs credentials to collect metrics. The vendor unit references `/etc/prometheus-paperless-exporter/service.conf` as a required service configuration file; the RPM creates the containing directory but does not install a configuration file, token, or example URL.

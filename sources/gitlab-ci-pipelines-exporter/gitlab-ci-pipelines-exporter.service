@@ -1,0 +1,32 @@
+[Unit]
+Description=GitLab CI Pipelines Exporter
+Documentation=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=gitlab-ci-pipelines-exporter
+Group=gitlab-ci-pipelines-exporter
+
+ExecStart=/usr/bin/gitlab-ci-pipelines-exporter run --config /etc/gitlab-ci-pipelines-exporter/config.yml
+
+Restart=on-failure
+RestartSec=5s
+
+# --- Hardening ---
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target
