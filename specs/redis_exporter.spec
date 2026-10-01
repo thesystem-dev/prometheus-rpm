@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           redis_exporter
-Version:        1.92.1
+Version:        1.93.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Redis metrics
 
@@ -11,10 +11,10 @@ URL:            https://github.com/oliver006/redis_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 9aecfb030b173516266773e7d88256bedf414e6a552afc385cbb1ecd49f26832
+%global exporter_sha c41f29c98ed45964f0588c8644f74b06bae703f696244536691f09ecf7b081a1
 %else
 %global exporter_arch amd64
-%global exporter_sha 60e9819172ec1c954bad9b44ba0b15ef064e8551bd74461d0ed1a7585bb2c6ad
+%global exporter_sha ed2e531fa68ca2b8604544e19d1088fe409d0592b9ab4f3093fba0783c764972
 %endif
 
 Source0: https://github.com/oliver006/redis_exporter/releases/download/v%{version}/redis_exporter-v%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -78,6 +78,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Oct 01 2026 James Wilson <packages@thesystem.dev> - 1.93.0-1
+- Rebase to upstream version 1.93.0
+
 * Wed Sep 30 2026 James Wilson <packages@thesystem.dev> - 1.92.1-1
 - Rebase to upstream version 1.92.1
 
