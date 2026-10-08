@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           smartctl_exporter
-Version:        0.14.0
+Version:        0.15.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for smartctl metrics
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus-community/smartctl_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 27353b3adca7f54dd486417412041a17260709c724ea63f5138df2612ecf4299
+%global exporter_sha 9a870fe6401748f51f5edcd73057f1c90c0b975f1f48d986eacc61443320276c
 %else
 %global exporter_arch amd64
-%global exporter_sha 875983cd27affc5a682401930e5a8eea3f06c325fe6d6a7228c5547d882685b3
+%global exporter_sha 32ff269f2ca5708e2aa8209c715192efcc32f87bd575cae50a76d391a484976e
 %endif
 
 Source0: https://github.com/prometheus-community/smartctl_exporter/releases/download/v%{version}/smartctl_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -71,5 +71,8 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/smartctl_exporter.service
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Oct 08 2026 James Wilson <packages@thesystem.dev> - 0.15.0-1
+- Rebase to upstream version 0.15.0
+
 * Thu Mar 26 2026 James Wilson <packages@thesystem.dev> - 0.14.0-1
 - Initial RPM package

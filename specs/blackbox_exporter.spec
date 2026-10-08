@@ -2,8 +2,8 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           blackbox_exporter
-Version:        0.28.0
-Release:        2%{?dist}
+Version:        0.29.0
+Release:        1%{?dist}
 Summary:        Prometheus blackbox prober
 
 License:        Apache-2.0
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/blackbox_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 63312be0983d85e5109710a7dc93df3051157ae581853fa3655d171cc1b2806e
+%global exporter_sha 743c490a2386c5b77ad13e7af30cde48651c03ffe9f61d39b99c578baa7e8e34
 %else
 %global exporter_arch amd64
-%global exporter_sha caf5d242fb1cf6d5cb678f3f799f22703d4fafea26b03dcbbd7e1f1825e06329
+%global exporter_sha 5512929259bb6164f68ebe20ce433ec43b8609e3a79c95324f5020e931488fb4
 %endif
 
 Source0: https://github.com/prometheus/blackbox_exporter/releases/download/v%{version}/blackbox_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -83,6 +83,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Oct 08 2026 James Wilson <packages@thesystem.dev> - 0.29.0-1
+- Rebase to upstream version 0.29.0
+
 * Thu Feb 26 2026 James Wilson <packages@thesystem.dev> - 0.28.0-2
 - Add ExecReload with SIGHUP support to blackbox_exporter.service
 
