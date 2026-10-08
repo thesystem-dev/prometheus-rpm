@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           pushgateway
-Version:        1.11.3
+Version:        1.11.4
 Release:        1%{?dist}
 Summary:        Prometheus push acceptor for batch and ephemeral jobs
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/pushgateway
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 727ff0098943657b44c21a029be9d9fcc4f249ec72dcb9f0a34aa66b2d5f1ecc
+%global exporter_sha 022adcb52b919a800a5deeefb19533d6f3a76decd86af424197ccd5f1448e81d
 %else
 %global exporter_arch amd64
-%global exporter_sha bb0a44dee0953df9e8cd3c082981ff50327de56d965d83bdd9b0957d83921e38
+%global exporter_sha e6d631d1f511ce386de2dcbc3bd18a7165d8117588f2aefea15e89cf794751b3
 %endif
 
 Source0: https://github.com/prometheus/pushgateway/releases/download/v%{version}/pushgateway-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -97,6 +97,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Oct 08 2026 James Wilson <packages@thesystem.dev> - 1.11.4-1
+- Rebase to upstream version 1.11.4
+
 * Mon Jun 01 2026 James Wilson <packages@thesystem.dev> - 1.11.3-1
 - Rebase to upstream version 1.11.3
 

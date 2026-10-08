@@ -227,8 +227,8 @@ projects:
       asset_pattern: ^pushgateway-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: bb0a44dee0953df9e8cd3c082981ff50327de56d965d83bdd9b0957d83921e38
-        linux-arm64: 727ff0098943657b44c21a029be9d9fcc4f249ec72dcb9f0a34aa66b2d5f1ecc
+        linux-amd64: e6d631d1f511ce386de2dcbc3bd18a7165d8117588f2aefea15e89cf794751b3
+        linux-arm64: 022adcb52b919a800a5deeefb19533d6f3a76decd86af424197ccd5f1448e81d
     packaging:
       rpm_name: pushgateway
       architectures:
