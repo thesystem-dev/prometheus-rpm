@@ -371,8 +371,8 @@ projects:
       asset_pattern: ^redis_exporter-v(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: ed2e531fa68ca2b8604544e19d1088fe409d0592b9ab4f3093fba0783c764972
-        linux-arm64: c41f29c98ed45964f0588c8644f74b06bae703f696244536691f09ecf7b081a1
+        linux-amd64: eaf433a64e6418235b25d4ec815d64759898f314d64dbb1fb074ca354f81b18b
+        linux-arm64: a0b6bd03f1d3fbbb60d74690d7553cf8ef0614d2e1a457d81fa5f72d63d2de21
     packaging:
       rpm_name: redis_exporter
       architectures:
