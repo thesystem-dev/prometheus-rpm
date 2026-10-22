@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           nats_exporter
-Version:        0.20.2
+Version:        0.20.3
 Release:        1%{?dist}
 Summary:        Prometheus exporter for NATS metrics
 
@@ -11,10 +11,10 @@ URL:            https://github.com/nats-io/prometheus-nats-exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 6858c1324550a2a4775204915b9bc036ee1000b802655389cce57e4950f9463a
+%global exporter_sha 7d82dc00a7eb1b14ea7f18ab917dcc350a45dda60ff3af877264aee7b721db58
 %else
 %global exporter_arch x86_64
-%global exporter_sha 209c87410e74eb6e9f7705735f5518a8b0459dda77acfe9db8c15021b08383af
+%global exporter_sha be2eab36ebc5f57fdd9ad1c61d4022f4fa436d6339336bea8d5b7587b879bb47
 %endif
 
 Source0: https://github.com/nats-io/prometheus-nats-exporter/releases/download/v%{version}/prometheus-nats-exporter-v%{version}-linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -75,6 +75,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Oct 22 2026 James Wilson <packages@thesystem.dev> - 0.20.3-1
+- Rebase to upstream version 0.20.3
+
 * Fri Aug 21 2026 James Wilson <packages@thesystem.dev> - 0.20.2-1
 - Rebase to upstream version 0.20.2
 

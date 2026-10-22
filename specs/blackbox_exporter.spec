@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           blackbox_exporter
-Version:        0.29.0
+Version:        0.29.1
 Release:        1%{?dist}
 Summary:        Prometheus blackbox prober
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/blackbox_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 743c490a2386c5b77ad13e7af30cde48651c03ffe9f61d39b99c578baa7e8e34
+%global exporter_sha c597b0d442c02c0f2c8f691cbc7784216c786fada28f300c7b914e1f94523834
 %else
 %global exporter_arch amd64
-%global exporter_sha 5512929259bb6164f68ebe20ce433ec43b8609e3a79c95324f5020e931488fb4
+%global exporter_sha b82b81839e6317e84fdd367f46d7ddd3b773fa09cbe2e3d5633a59171d741e76
 %endif
 
 Source0: https://github.com/prometheus/blackbox_exporter/releases/download/v%{version}/blackbox_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -83,6 +83,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Oct 22 2026 James Wilson <packages@thesystem.dev> - 0.29.1-1
+- Rebase to upstream version 0.29.1
+
 * Thu Oct 08 2026 James Wilson <packages@thesystem.dev> - 0.29.0-1
 - Rebase to upstream version 0.29.0
 

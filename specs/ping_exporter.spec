@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           ping_exporter
-Version:        1.3.0
+Version:        1.3.1
 Release:        1%{?dist}
 Summary:        Prometheus exporter for ICMP ping metrics
 
@@ -11,10 +11,10 @@ URL:            https://github.com/czerwonk/ping_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha 282584622a999f2611cce4249f1c70181c2519aeaeb360ef0b727fee3a7f5fdb
+%global exporter_sha 1dbf2bbd8bada7732578f51735d03d5a207de748ac03affe8f1be010c8ffe988
 %else
 %global exporter_arch amd64
-%global exporter_sha e10a2e7440c7f488d20ac512e1961e35d4e6956ee92e1f7350689fbf9d9aad10
+%global exporter_sha 6ed4a687a7bc54e2e3fc1f2e24d0c93b1642e57b609fb351f9fb474d923dbf0c
 %endif
 
 Source0: https://github.com/czerwonk/ping_exporter/releases/download/v%{version}/ping_exporter_%{version}_linux_%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -79,6 +79,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Oct 22 2026 James Wilson <packages@thesystem.dev> - 1.3.1-1
+- Rebase to upstream version 1.3.1
+
 * Wed Sep 30 2026 James Wilson <packages@thesystem.dev> - 1.3.0-1
 - Rebase to upstream version 1.3.0
 
