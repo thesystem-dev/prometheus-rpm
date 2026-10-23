@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           mysqld_exporter
-Version:        0.20.0
+Version:        0.21.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for MySQL
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/mysqld_exporter
 
 %ifarch aarch64
 %global go_arch arm64
-%global go_sha 837804c0a59cbe1f3ab46670dec1b4c37940c8d48062374691b27f1f37abf8dd
+%global go_sha 15e9dc9749a4cec2ddcb8195f1c4ff04ba4edc9ad6269efc4ee174aa1c7d5c07
 %else
 %global go_arch amd64
-%global go_sha 5773496e9962ca3817b3599fe4d74f218c95c1295eb2a742462df8e035fe51bd
+%global go_sha dc38d4173ab07d1e2ec8699a3957d29d31c0b9619822cc3a451771c468f704c7
 %endif
 
 Source0: https://github.com/prometheus/mysqld_exporter/releases/download/v%{version}/mysqld_exporter-%{version}.linux-%{go_arch}.tar.gz#/%{go_sha}
@@ -94,6 +94,9 @@ getent passwd mysqld_exporter >/dev/null 2>&1 || useradd -r -g mysqld_exporter -
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Oct 22 2026 James Wilson <packages@thesystem.dev> - 0.21.0-1
+- Rebase to upstream version 0.21.0
+
 * Sat Aug 15 2026 James Wilson <packages@thesystem.dev> - 0.20.0-1
 - Rebase to upstream version 0.20.0
 

@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           memcached_exporter
-Version:        0.17.0
+Version:        0.18.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Memcached metrics
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/memcached_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha d1abf0ef1196ff5de5cf3462eb962b4a3d6733327951ae6d81c062902b5f2a60
+%global exporter_sha 1dd7aa32b81d6729d8fc00a31d10d8c49e20cb2bee7d35497c04cce7634b5dd2
 %else
 %global exporter_arch amd64
-%global exporter_sha 40e85262e4340a56fa7cc96722cd596d25ed76ab501459b0b42f1f8e0562d0d1
+%global exporter_sha a8138e95dcd7ab2681b825fd77f365ce3378f99a107fb493bbdca80fc2dc92f8
 %endif
 
 Source0: https://github.com/prometheus/memcached_exporter/releases/download/v%{version}/memcached_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -77,6 +77,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Thu Oct 22 2026 James Wilson <packages@thesystem.dev> - 0.18.0-1
+- Rebase to upstream version 0.18.0
+
 * Sat Aug 15 2026 James Wilson <packages@thesystem.dev> - 0.17.0-1
 - Rebase to upstream version 0.17.0
 

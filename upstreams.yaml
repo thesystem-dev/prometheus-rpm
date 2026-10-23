@@ -101,8 +101,8 @@ projects:
       asset_pattern: ^mysqld_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 5773496e9962ca3817b3599fe4d74f218c95c1295eb2a742462df8e035fe51bd
-        linux-arm64: 837804c0a59cbe1f3ab46670dec1b4c37940c8d48062374691b27f1f37abf8dd
+        linux-amd64: dc38d4173ab07d1e2ec8699a3957d29d31c0b9619822cc3a451771c468f704c7
+        linux-arm64: 15e9dc9749a4cec2ddcb8195f1c4ff04ba4edc9ad6269efc4ee174aa1c7d5c07
     packaging:
       rpm_name: mysqld_exporter
       architectures:
@@ -245,8 +245,8 @@ projects:
       asset_pattern: ^memcached_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 40e85262e4340a56fa7cc96722cd596d25ed76ab501459b0b42f1f8e0562d0d1
-        linux-arm64: d1abf0ef1196ff5de5cf3462eb962b4a3d6733327951ae6d81c062902b5f2a60
+        linux-amd64: a8138e95dcd7ab2681b825fd77f365ce3378f99a107fb493bbdca80fc2dc92f8
+        linux-arm64: 1dd7aa32b81d6729d8fc00a31d10d8c49e20cb2bee7d35497c04cce7634b5dd2
     packaging:
       rpm_name: memcached_exporter
       architectures:
@@ -425,8 +425,8 @@ projects:
       asset_pattern: ^kafka_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 246720dc4ecd8670801625423b7e44bbeb93115de07353cc6b4ea27e5bb7b87d
-        linux-arm64: 47c3c19eec67a511fde2afcc714f9cdc382642ffcd72a1ac4c9535d8d433fee1
+        linux-amd64: 6a14dd10709d627d7be29a4b98fae8bb888761c7da54410e72bef8cdaf906e86
+        linux-arm64: 4f5f0341cd5345d863b3017eb9bc143f653c43a7b37cd2bc5a6a4b028ef61c45
     packaging:
       rpm_name: kafka_exporter
       architectures:
