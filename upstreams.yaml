@@ -389,8 +389,8 @@ projects:
       asset_pattern: ^snmp_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 026aac4e23447ed593a783eccab9089cd41d77d17c9d2a0ab84398e45a0bb93e
-        linux-arm64: a12d159a8fee527e9f7b4dfa36eec490629f8d3c1fe4bcd155a7820ae8983949
+        linux-amd64: 264d1b3be8dd1133fcbd11cbb81ab2a65f121237ab2fff198adb1cc6961ed3ae
+        linux-arm64: a854feb530c16e7e4aa5d4d96f9d44f98320c415b5048e93e152593412ffaac8
     packaging:
       rpm_name: snmp_exporter
       architectures:

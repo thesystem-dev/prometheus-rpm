@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           snmp_exporter
-Version:        0.30.1
+Version:        0.31.0
 Release:        1%{?dist}
 Summary:        Prometheus exporter for SNMP targets
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/snmp_exporter
 
 %ifarch aarch64
 %global exporter_arch arm64
-%global exporter_sha a12d159a8fee527e9f7b4dfa36eec490629f8d3c1fe4bcd155a7820ae8983949
+%global exporter_sha a854feb530c16e7e4aa5d4d96f9d44f98320c415b5048e93e152593412ffaac8
 %else
 %global exporter_arch amd64
-%global exporter_sha 026aac4e23447ed593a783eccab9089cd41d77d17c9d2a0ab84398e45a0bb93e
+%global exporter_sha 264d1b3be8dd1133fcbd11cbb81ab2a65f121237ab2fff198adb1cc6961ed3ae
 %endif
 
 Source0: https://github.com/prometheus/snmp_exporter/releases/download/v%{version}/snmp_exporter-%{version}.linux-%{exporter_arch}.tar.gz#/%{exporter_sha}
@@ -80,6 +80,9 @@ EOF
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Mon Oct 26 2026 James Wilson <packages@thesystem.dev> - 0.31.0-1
+- Rebase to upstream version 0.31.0
+
 * Thu Jan 15 2026 James Wilson <packages@thesystem.dev> - 0.30.1-1
 - Rebase to upstream version 0.30.1
 
