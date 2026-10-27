@@ -65,8 +65,8 @@ projects:
       asset_pattern: ^thanos-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 5292f95f6f18199fe90cd24a5bf8eaca51ce48812a24f8778a3b9148c8fb71e1
-        linux-arm64: a30ca307c1daf231cb7deb69708e327f722fff3b90f61a04921cdb60ed1a5d8b
+        linux-amd64: df2b4dabc86e009bcf627166ab92441563aa39c58ea3ef859eba82811eca4e6b
+        linux-arm64: f000297c891a554ed26c68158dc6a4fc659b30d4335e3ff9a476eb9f8b00a2f4
     packaging:
       rpm_name: thanos
       architectures:
