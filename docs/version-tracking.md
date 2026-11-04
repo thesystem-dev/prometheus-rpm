@@ -127,4 +127,4 @@ The helper scripts revolve around `upstreams.yaml`. When upstream releases move,
 4. Run `scripts/sync-source-checksums.py` so the recorded SHA256 values match the selected upstream assets.
 5. Rebuild `docs/exporters.md` so downstream users can see the full catalogue.
 
-Future tooling (build, sign, publish) will reuse the same metadata, so keeping it accurate prevents churn when additional scripts are introduced.
+The discovery and checksum helpers use this metadata; the build workflow reads the specs and their referenced sources. Keep both aligned when updating packages.

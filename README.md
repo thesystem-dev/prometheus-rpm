@@ -1,6 +1,8 @@
 # Prometheus RPM Build
 
-This repository provides Prometheus and exporter RPM packages for Enterprise Linux systems. The long-running [lest/prometheus-rpm](https://github.com/lest/prometheus-rpm/) project appears unmaintained, so this repository serves as an actively maintained successor that tracks upstream releases, verifies the artefacts we publish, and provides signed package repositories.
+This repository provides Prometheus and exporter RPM packages for Enterprise Linux systems. It tracks upstream releases, verifies release artefacts and publishes repositories of signed RPMs.
+
+The project started to meet our own packaging requirements during a period of limited activity in the long-running [lest/prometheus-rpm](https://github.com/lest/prometheus-rpm/) project.
 
 ---
 
@@ -8,11 +10,13 @@ This repository provides Prometheus and exporter RPM packages for Enterprise Lin
 
 ## Goals
 
-This project improves on previous Prometheus RPM packaging efforts by providing:
+This project contributes to the community's Prometheus RPM packaging efforts by providing:
 
-- **Reproducible builds** using `mock` for consistent, isolated build environments
+- **Consistent, isolated RPM builds** using `mock`; see [build guarantees](docs/build-and-stage.md#build-guarantees)
+- **Verified release artefacts** checked against pinned SHA-256 checksums before packaging
 - **Multi-EL support** for Enterprise Linux 8, 9, and 10
 - **Multi-architecture support** for x86_64 and aarch64
+- **Systemd integration** with packaged service units and local customisation through drop-in overrides
 - **Signed RPMs** with GPG signatures to ensure package integrity
 
 ## Current Status
@@ -29,7 +33,7 @@ This project improves on previous Prometheus RPM packaging efforts by providing:
 
 Configuration files are vendored from upstream projects whenever they publish them. When no upstream example exists, hardened minimal defaults are provided alongside notes documenting any intentional divergence.
 
-Publish tooling and additional documentation will be added in subsequent commits as the project matures.
+Build, signing and repository metadata helpers are implemented. Publishing remains a manual workflow; CI and container image publishing are roadmap items.
 
 ## Documentation
 
@@ -41,7 +45,7 @@ Publish tooling and additional documentation will be added in subsequent commits
 - [`docs/version-tracking.md`](docs/version-tracking.md) - explains how `upstreams.yaml` is maintained and how the helper scripts are used to track upstream releases.
 - [`docs/runtime.md`](docs/runtime.md) - describes `scripts/stage-runtime.sh`, the runtime directory layout, and how to prepare GPG material safely.
 - [`docs/build-and-stage.md`](docs/build-and-stage.md) - covers running `docker compose`, invoking `scripts/build.sh`, and staging artefacts for signing.
-- [`docs/signing.md`](docs/signing.md) - covers exporting GPG keys, running `scripts/sign-rpms.sh`, and verifying signed artefacts locally or in CI.
+- [`docs/signing.md`](docs/signing.md) - covers exporting GPG keys, running `scripts/sign-rpms.sh`, and verifying signed artefacts.
 - [`docs/publishing.md`](docs/publishing.md) - describes creating repository metadata, syncing to remote hosts, and making packages available to consumers.
 
 ## Non-Goals
@@ -65,4 +69,4 @@ This project is focused on building and distributing high-quality RPM packages f
 
 ## Contributing
 
-Bug reports, feature requests, and pull requests are welcome. The project is under active development, and community contributions help shape its direction, including support for additional exporters.
+Bug reports, feature requests and pull requests are welcome, including suggestions for additional exporters.

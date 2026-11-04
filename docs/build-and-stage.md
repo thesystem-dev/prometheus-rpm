@@ -15,6 +15,18 @@ native `$HOME/rpmbuild/results` path while the host repository sees files immedi
 Static sources are organised in per-package subdirectories under `sources/<package_name>/` to match the spec
 file `Source:` references.
 
+## Build Guarantees
+
+- **Isolated builds:** `scripts/build.sh` creates SRPMs and rebuilds them in mock roots for the requested EL release and architecture. It uses the configurations supplied by `mock-core-configs`: Rocky Linux 8 and AlmaLinux 9 and 10.
+- **Repeatable process:** a fixed repository checkout supplies the specs and local packaging files. Remote `Source0` release artefacts are pinned by SHA-256 and checked after download. The documented process can be rerun with equivalent inputs and build environments.
+- **Reproducible output:** the repository has no defined comparison procedure or recorded independent-build results establishing byte-identical RPMs or equivalent package payloads. Mock isolation and input checksums alone do not establish this guarantee. See the [Reproducible Builds definition](https://reproducible-builds.org/docs/definition/).
+
+Most packages repackage upstream release binaries. Their SRPMs contain those binaries and the packaging files, rather than the application sources needed to rebuild them.
+
+The builder uses the `almalinux:10` image tag and unversioned DNF dependencies. Mock configurations and build dependencies come from distribution repositories rather than a recorded snapshot, so these inputs can change between runs.
+
+`templates/rpmmacros` includes changelog-based timestamp controls and a fixed build host, but the normal build workflow does not pass `runtime/rpmmacros` into mock. Timestamp and build-host handling therefore follow each build root's distribution defaults.
+
 ## Prerequisites
 
 > **Note:** This workflow uses a privileged Docker container to support mock's chroot operations.
@@ -111,7 +123,7 @@ sources/
 │   ├── thanos-sidecar.service
 │   ├── thanos-store.service
 │   └── thanos.tmpfiles.conf
-└── ... (36 packages total)
+└── ...
 ```
 
 Spec files reference these files **by basename**:
@@ -147,8 +159,8 @@ docker compose -f docker/docker-compose.yml run --rm sign
 ```
 
 For verification or advanced options (force re-signing, dry-run, custom inputs),
-see [docs/signing.md](signing.md). That guide covers the verification output
-(`[OK]/[?]/[!!]`), troubleshooting, and CI patterns in detail.
+see [docs/signing.md](signing.md). That guide covers verification output
+(`[OK]/[!!]`), troubleshooting and non-interactive signing.
 
 Once RPMs are signed, create repository metadata and publish as described in [docs/publishing.md](publishing.md).
 

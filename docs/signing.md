@@ -7,10 +7,12 @@ This document describes how to sign RPMs in this repository using the Docker bui
 RPM signing cryptographically signs packages using GPG (GNU Privacy Guard). Signed RPMs provide:
 
 - **Package integrity** – verify packages haven't been tampered with.
-- **Source authentication** – confirm packages come from the expected publisher.
+- **Publisher authentication** – confirm packages were signed by the expected publisher.
 - **Trust chain** – allow users to establish trust through GPG key verification.
 
 RPM signatures are embedded in the package header and verified during installation with `rpm --checksig` or automatically by DNF when the public key is imported into the RPM database.
+
+These are RPM publisher signatures; they do not verify upstream release signatures or establish build reproducibility. This workflow signs RPMs, not repository metadata.
 
 ## 1. Requirements
 
@@ -71,7 +73,7 @@ docker compose -f docker/docker-compose.yml run --rm sign
 - Prompts for the passphrase via pinentry.
 - Signs every unsigned RPM/SRPM inside `runtime/artifacts/`.
 
-### Non-interactive mode (CI or headless systems)
+### Non-interactive mode (headless systems)
 
 ```bash
 export GPG_PASSPHRASE='your-passphrase'

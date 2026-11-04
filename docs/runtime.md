@@ -1,6 +1,6 @@
 # Runtime Preparation
 
-`scripts/stage-runtime.sh` provisions the transient `runtime/` tree used by the build/sign/publish workflow. It creates the on-disk directories, refreshes `runtime/rpmmacros` from `templates/rpmmacros`, and performs safety checks so mock, rpmsign, and other helpers see a consistent layout before the Docker-based builds run.
+`scripts/stage-runtime.sh` provisions the transient `runtime/` tree used by the build/sign/publish workflow. It creates the on-disk directories, copies `templates/rpmmacros` when `runtime/rpmmacros` is absent, and performs source basename checks before the Docker-based builds run. Existing macros are preserved unless `--force` is supplied, apart from explicitly requested key or packager updates.
 
 ## Directory Layout
 
@@ -28,8 +28,10 @@ Stage the runtime tree before running any build or signing scripts:
 ```
 
 - `--key-id` updates `%_gpg_name` in `runtime/rpmmacros` so rpmsign knows which key to use.
-- `--packager` sets the `%packager` header for subsequent spec bumps/builds.
+- `--packager` sets the identity used by `rpmdev-bumpspec` for changelog entries during version updates.
 - Re-run the command with `--force` whenever you need to regenerate the macros file (for example, after editing `templates/rpmmacros`).
+
+The signing helper reads `%_gpg_name` from this file, and the version-update workflow mounts it as `/home/builder/.rpmmacros`. The build workflow does not load it into mock's RPM configuration, so its timestamp and build-host settings do not establish reproducible builds. See [build guarantees](build-and-stage.md#build-guarantees).
 
 ## Options
 
@@ -45,7 +47,7 @@ Stage the runtime tree before running any build or signing scripts:
 --force             Overwrite runtime/rpmmacros even if it already exists
 ```
 
-Most setups can rely on the defaults; the `--runtime/--results/--repo` flags are primarily for CI systems that need to redirect paths.
+Most setups can rely on the defaults; the `--runtime/--results/--repo` flags allow alternate workspace paths. The standard Compose workflow uses the default paths.
 
 ## Source Validation
 
