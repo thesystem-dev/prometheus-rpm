@@ -304,9 +304,14 @@ validate_rpms() {
   fi
 
   local -a failed_rpms=()
+  local signatures
   for rpm in "$target_dir"/$rpm_glob; do
     [[ -f "$rpm" ]] || continue
-    if ! rpm --dbpath "$RPM_DB_DIR" -K "$rpm" >/dev/null 2>&1; then
+    # rpm -K also accepts digest-only packages, so require a signature tag.
+    if ! rpm --dbpath "$RPM_DB_DIR" -K "$rpm" >/dev/null 2>&1 ||
+       ! signatures="$(rpm --dbpath "$RPM_DB_DIR" -qp \
+         --qf '%|RSAHEADER?{1}:{}|%|DSAHEADER?{1}:{}|%|SIGGPG?{1}:{}|%|SIGPGP?{1}:{}|' \
+         "$rpm" 2>/dev/null)" || [[ -z "$signatures" ]]; then
       failed_rpms+=("$rpm")
     fi
   done
