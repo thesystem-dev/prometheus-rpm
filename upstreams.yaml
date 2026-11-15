@@ -605,7 +605,7 @@ projects:
       source_archive: true
       version_from: tag
       checksums:
-        source: cc1b1259d5e7c3fcff596aaf07e66ea707760107f2fe25685c1631687507bed7
+        source: fc3f9d82c6a941945b506d4cb1de1f74ad2a166997db97c0cd0acd5158f2bbdf
     packaging:
       rpm_name: restic_exporter
       architectures:

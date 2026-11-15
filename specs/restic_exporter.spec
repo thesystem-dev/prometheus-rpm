@@ -1,10 +1,10 @@
 %global debug_package %{nil}
 %global _missing_build_ids_terminate_build 0
-%global source_sha cc1b1259d5e7c3fcff596aaf07e66ea707760107f2fe25685c1631687507bed7
+%global source_sha fc3f9d82c6a941945b506d4cb1de1f74ad2a166997db97c0cd0acd5158f2bbdf
 
 Name:           restic_exporter
-Version:        2.1.2
-Release:        2%{?dist}
+Version:        2.2.0
+Release:        1%{?dist}
 Summary:        Prometheus exporter for Restic backup metrics
 
 License:        MIT
@@ -112,6 +112,9 @@ getent passwd restic_exporter >/dev/null 2>&1 || useradd -r -g restic_exporter -
 %license %{_licensedir}/%{name}/LICENSE
 
 %changelog
+* Sun Nov 15 2026 James Wilson <packages@thesystem.dev> - 2.2.0-1
+- Rebase to upstream version 2.2.0
+
 * Wed Jul 29 2026 James Wilson <packages@thesystem.dev> - 2.1.2-2
 - Configure the service through /etc/restic_exporter/service.conf
 
