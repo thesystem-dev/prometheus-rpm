@@ -353,8 +353,8 @@ projects:
       asset_pattern: ^postgres_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 89d4f7e7920cad48fdc3133f789556ef5253c330a9f5fdace3bdb6344c0a8b5a
-        linux-arm64: d5d86fb98bb1f26b088d1a6fda07fd6b6f035cb5d40492f75ec3bfebb5ddfe9d
+        linux-amd64: 1577b4f306c2b68f43b97f626a0f10280f562752f5abd18c7560ffa4fd35b110
+        linux-arm64: 22dcf0b71884ab35e79b437ecd454196783386c326a036a11bcb9b928c53ca5c
     packaging:
       rpm_name: postgres_exporter
       architectures:
@@ -605,7 +605,7 @@ projects:
       source_archive: true
       version_from: tag
       checksums:
-        source: fc3f9d82c6a941945b506d4cb1de1f74ad2a166997db97c0cd0acd5158f2bbdf
+        source: 27417b130f7fbfc37eef2012d98730bb27fdbc165656fb42f4d3d9cf1a610b97
     packaging:
       rpm_name: restic_exporter
       architectures:
