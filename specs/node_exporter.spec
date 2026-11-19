@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           node_exporter
-Version:        1.12.1
+Version:        1.13.0
 Release:        1%{?dist}
 Summary:        Prometheus Node Exporter
 
@@ -11,10 +11,10 @@ URL:            https://github.com/prometheus/node_exporter
 
 %ifarch aarch64
 %global arch arm64
-%global node_sha ad35b605f9954b9f1ffddf5ba054bdc5a98d790b9eae5291e1eeb83f1ecbd0e7
+%global node_sha 01f65e7ab3e1f7c04e167fbe097968609eebc9d54cbe523b71d101b830f5d54a
 %else
 %global arch amd64
-%global node_sha b51d8a76aa2a9156a55d501aca6276fae09e262259a5e4e831d2c2222f084e63
+%global node_sha f6a6c72ee04fd6537efede3900ea45385eeade513c99de60d607d4b1611f8e6e
 %endif
 
 Source0: https://github.com/prometheus/node_exporter/releases/download/v%{version}/node_exporter-%{version}.linux-%{arch}.tar.gz#/%{node_sha}
@@ -99,6 +99,9 @@ fi
 %license %{_licensedir}/%{name}/NOTICE
 
 %changelog
+* Wed Nov 18 2026 James Wilson <packages@thesystem.dev> - 1.13.0-1
+- Rebase to upstream version 1.13.0
+
 * Wed Jul 15 2026 James Wilson <packages@thesystem.dev> - 1.12.1-1
 - Rebase to upstream version 1.12.1
 

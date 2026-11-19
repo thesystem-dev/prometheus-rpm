@@ -47,8 +47,8 @@ projects:
       asset_pattern: ^node_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: b51d8a76aa2a9156a55d501aca6276fae09e262259a5e4e831d2c2222f084e63
-        linux-arm64: ad35b605f9954b9f1ffddf5ba054bdc5a98d790b9eae5291e1eeb83f1ecbd0e7
+        linux-amd64: f6a6c72ee04fd6537efede3900ea45385eeade513c99de60d607d4b1611f8e6e
+        linux-arm64: 01f65e7ab3e1f7c04e167fbe097968609eebc9d54cbe523b71d101b830f5d54a
     packaging:
       rpm_name: node_exporter
       architectures:
@@ -353,8 +353,8 @@ projects:
       asset_pattern: ^postgres_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 1577b4f306c2b68f43b97f626a0f10280f562752f5abd18c7560ffa4fd35b110
-        linux-arm64: 22dcf0b71884ab35e79b437ecd454196783386c326a036a11bcb9b928c53ca5c
+        linux-amd64: 02f316da4e9e409749d6f3b25102d3561cb408023110f3653f6514548926ff0c
+        linux-arm64: a52fb28b0ae9975b75fb7eb55458941a5960ff05b16d9375816f9c7266c89828
     packaging:
       rpm_name: postgres_exporter
       architectures:
