@@ -2,7 +2,7 @@
 %global _missing_build_ids_terminate_build 0
 
 Name:           logstash_exporter
-Version:        1.9.2
+Version:        1.9.3
 Release:        1%{?dist}
 Summary:        Prometheus exporter for Logstash metrics
 
@@ -11,10 +11,10 @@ URL:            https://github.com/kuskoman/logstash-exporter
 
 %ifarch aarch64
 %global exporter_arch linux-arm
-%global exporter_sha 2545e9446e487fdc8bb5ecb3ce3882c421ef665f02b64c635e85ad5f646f6bbd
+%global exporter_sha 1c8eed882921547a5c3a56b2e44190fa9d4fbfc0c8b175cd8b76b165da5fcc73
 %else
 %global exporter_arch linux
-%global exporter_sha 9b0d17caeb08f3f900e47cf07fd36eadcb9b0563fa72f2ae4cee7aabfe9c45cf
+%global exporter_sha 7d94899d066de1642869fbfbc72fdb732b40a3ad44ec05582ee0bf4113156489
 %endif
 
 Source0: https://github.com/kuskoman/logstash-exporter/releases/download/v%{version}/logstash-exporter-%{exporter_arch}#/%{exporter_sha}
@@ -66,6 +66,9 @@ EOF
 %{_sysusersdir}/logstash_exporter.conf
 
 %changelog
+* Fri Nov 20 2026 James Wilson <packages@thesystem.dev> - 1.9.3-1
+- Rebase to upstream version 1.9.3
+
 * Wed Oct 21 2026 James Wilson <packages@thesystem.dev> - 1.9.2-1
 - Rebase to upstream version 1.9.2
 

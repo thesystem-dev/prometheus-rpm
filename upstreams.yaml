@@ -47,8 +47,8 @@ projects:
       asset_pattern: ^node_exporter-(?P<version>[^/]+)\.linux-(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: f6a6c72ee04fd6537efede3900ea45385eeade513c99de60d607d4b1611f8e6e
-        linux-arm64: 01f65e7ab3e1f7c04e167fbe097968609eebc9d54cbe523b71d101b830f5d54a
+        linux-amd64: 5c00c5234f1ee45900b25539a5a0ab82146a098c15c16a4ec3bc855b597a6477
+        linux-arm64: 96d82b3b261803f89815b325601cbbc58f49cd8265617bfde1527211934bdd48
     packaging:
       rpm_name: node_exporter
       architectures:
@@ -621,8 +621,8 @@ projects:
       asset_pattern: ^restic-repo-exporter_(?P<version>[^_]+)_linux_(amd64|arm64)\.tar\.gz$
       version_from: tag
       checksums:
-        linux-amd64: 8a1ffc23e15bf8175a3c2d9fb2ed1b1d75b10ac49a7f9d460ba20970e73f430e
-        linux-arm64: b1aaa4d9ea3a129a0234b5d642bc5806fae308d42855c20394ae001e695aa31b
+        linux-amd64: ee75aefad9b30322fe847be24e1c10a198ccdf06d22561952621294fdb4096c6
+        linux-arm64: 6d34b05b7e1dd6a4a7644dbaf05237adc8ec95f74f891a04df56aad34fcb0970
     packaging:
       rpm_name: restic_repo_exporter
       architectures:
@@ -747,8 +747,8 @@ projects:
       asset_pattern: ^logstash-exporter-linux(?:-arm)?$
       version_from: tag
       checksums:
-        logstash-exporter-linux: 9b0d17caeb08f3f900e47cf07fd36eadcb9b0563fa72f2ae4cee7aabfe9c45cf
-        logstash-exporter-linux-arm: 2545e9446e487fdc8bb5ecb3ce3882c421ef665f02b64c635e85ad5f646f6bbd
+        logstash-exporter-linux: 7d94899d066de1642869fbfbc72fdb732b40a3ad44ec05582ee0bf4113156489
+        logstash-exporter-linux-arm: 1c8eed882921547a5c3a56b2e44190fa9d4fbfc0c8b175cd8b76b165da5fcc73
     packaging:
       rpm_name: logstash_exporter
       architectures:
